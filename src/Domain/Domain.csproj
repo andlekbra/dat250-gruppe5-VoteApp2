@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <RootNamespace>VoteApp.Domain</RootNamespace>
+    <AssemblyName>VoteApp.Domain</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Entities\Vote\" />
+  </ItemGroup>
+
+</Project>

@@ -10,6 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using VoteApp.Domain.Entities.ExtendedAttributes;
 using VoteApp.Domain.Entities.Misc;
+using VoteApp.Domain.Entities.Vote;
 
 namespace VoteApp.Infrastructure.Contexts
 {
@@ -31,6 +32,7 @@ namespace VoteApp.Infrastructure.Contexts
         public DbSet<Document> Documents { get; set; }
         public DbSet<DocumentType> DocumentTypes { get; set; }
         public DbSet<DocumentExtendedAttribute> DocumentExtendedAttributes { get; set; }
+        public DbSet<PollQuestion> PollQuestions { get; set; }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new())
         {

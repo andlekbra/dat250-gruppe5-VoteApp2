@@ -10,6 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionIt
 		Features.md = Features.md
 		LICENSE = LICENSE
 		README.md = README.md
+		WorkingWithPollTemplate.md = WorkingWithPollTemplate.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{885BB018-5B07-4038-B061-71B70188933B}"

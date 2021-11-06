@@ -11,6 +11,17 @@
     - The ref is probably there to be able to use DbSet in IDbContext
 - THe project is using caching. THis is handled in the command and query objects. We can probably remove this from our application.
 
+## Swagger
+
+Authenticate using Bearer:
+Get token by using the toekn controller and
+{
+  "email": "mukesh@blazorhero.com",
+  "password": "123Pa$$word!"
+}
+
+Add token to Bearer
+
 ## Creating the entity and add it to the DBCOntext
 - Created entity PollQuestion.cs in Domain project /Entities/Vote
     - The model inherits the contract AuditableEntity

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VoteApp.Application.Features.PollQuestions.Commands.Add;
+using VoteApp.Application.Features.PollQuestions.Queries.GetAll;
 using VoteApp.Domain.Entities.Vote;
 
 namespace VoteApp.Application.Mappings
@@ -14,6 +15,7 @@ namespace VoteApp.Application.Mappings
         public PollQuestionProfile()
         {
             CreateMap<AddPollQuestionCommand, PollQuestion>().ReverseMap();
+            CreateMap<GetAllPollQuestionsResponse, PollQuestion>().ReverseMap();
         }
     }
 }

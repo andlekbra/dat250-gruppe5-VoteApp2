@@ -5,27 +5,32 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using VoteApp.Application.Features.PollQuestions.Commands.Add;
+using VoteApp.Application.Features.PollQuestions.Queries.GetAll;
 using VoteApp.Shared.Constants.Permission;
+
 
 namespace VoteApp.Server.Controllers.v1.Vote
 {
-    public class PollQuestionController : BaseApiController<PollQuestionController>
+    public class PollQuestionsController : BaseApiController<PollQuestionsController>
     {
 
 
 
+        [Authorize(Policy = Permissions.Brands.View)]
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            var pollQuestions = await _mediator.Send(new GetAllPollQuestionsQuery());
+            return Ok(pollQuestions);
+        }
 
-        //[HttpGet]
-        //public async Task<IActionResult> GetAll(int pageNumber, int pageSize, string searchString, string orderBy = null)
-        //{
-        //    var products = await _mediator.Send(new GetAllProductsQuery(pageNumber, pageSize, searchString, orderBy));
-        //    return Ok(products);
-        //}
         [Authorize(Policy = Permissions.Brands.Create)]
         [HttpPost]
         public async Task<IActionResult> Post(AddPollQuestionCommand command)
         {
             return Ok(await _mediator.Send(command));
         }
+
+
     }
 }

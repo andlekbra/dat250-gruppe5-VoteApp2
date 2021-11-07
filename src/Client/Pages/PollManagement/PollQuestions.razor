@@ -26,7 +26,7 @@ else
                 }
                 else
                 {
-                    <MudButton DisableElevation Variant="Variant.Filled" OnClick="GetBrandsAsync" StartIcon="@Icons.Material.Filled.Refresh" IconColor="Color.Surface" Color="Color.Secondary">@_localizer["Reload"]</MudButton>
+                    <MudButton DisableElevation Variant="Variant.Filled" OnClick="GetPollQuestionsAsync" StartIcon="@Icons.Material.Filled.Refresh" IconColor="Color.Surface" Color="Color.Secondary">@_localizer["Reload"]</MudButton>
                 }
             </div>
             <MudToolBarSpacer />
@@ -36,23 +36,22 @@ else
             }
         </ToolBarContent>
         <HeaderContent>
-            <MudTh><MudTableSortLabel SortBy="new Func<GetAllPollQuestionsResponse, object>(x => x.Id)">@_localizer["Id"]</MudTableSortLabel></MudTh>
+            @*<MudTh><MudTableSortLabel SortBy="new Func<GetAllPollQuestionsResponse, object>(x => x.Id)">@_localizer["Id"]</MudTableSortLabel></MudTh>*@
             <MudTh><MudTableSortLabel SortBy="new Func<GetAllPollQuestionsResponse, object>(x => x.Title)">@_localizer["Title"]</MudTableSortLabel></MudTh>
             <MudTh><MudTableSortLabel SortBy="new Func<GetAllPollQuestionsResponse, object>(x => x.Question)">@_localizer["Question"]</MudTableSortLabel></MudTh>
             <MudTh><MudTableSortLabel SortBy="new Func<GetAllPollQuestionsResponse, object>(x => x.RedAnswer)">@_localizer["Red answer"]</MudTableSortLabel></MudTh>
-            <MudTh><MudTableSortLabel SortBy="new Func<GetAllPollQuestionsResponse, object>(x => x.RedAnswer)">@_localizer["Red answer"]</MudTableSortLabel></MudTh>
-            <MudTh Style="text-align:right">@_localizer["Actions"]</MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<GetAllPollQuestionsResponse, object>(x => x.GreenAnswer)">@_localizer["Green answer"]</MudTableSortLabel></MudTh>
+            @*<MudTh Style="text-align:right">@_localizer["Actions"]</MudTh>*@
         </HeaderContent>
         <RowTemplate>
-            <MudTd DataLabel="Id">@context.Id</MudTd>
-            <MudTd DataLabel="Name">
-                <MudHighlighter Text="@context.Name" HighlightedText="@_searchString" />
+            @*<MudTd DataLabel="Id">@context.Id</MudTd>*@
+            <MudTd DataLabel="Title">
+                <MudHighlighter Text="@context.Title" HighlightedText="@_searchString" />
             </MudTd>
-            <MudTd DataLabel="Description">
-                <MudHighlighter Text="@context.Description" HighlightedText="@_searchString" />
-            </MudTd>
-            <MudTd DataLabel="Tax">@context.Tax</MudTd>
-            <MudTd DataLabel="Actions" Style="text-align: right">
+            <MudTd DataLabel="Question">@context.Question</MudTd>
+            <MudTd DataLabel="RedAnswer">@context.RedAnswer</MudTd>
+            <MudTd DataLabel="GreenAnswer">@context.GreenAnswer</MudTd>
+            @*<MudTd DataLabel="Actions" Style="text-align: right">
                 @if (_canEditBrands || _canDeleteBrands)
                     {
                     <MudMenu Label="@_localizer["Actions"]" Variant="Variant.Filled" DisableElevation="true" EndIcon="@Icons.Filled.KeyboardArrowDown" IconColor="Color.Secondary" Direction="Direction.Left" OffsetX="true">
@@ -77,7 +76,7 @@ else
                         @_localizer["No Allowed Actions"]
                     </MudButton>
                     }
-            </MudTd>
+            </MudTd>*@
         </RowTemplate>
         <FooterContent>
             <MudSwitch @bind-Checked="@_dense" Color="Color.Secondary" Style="margin-left: 5px;">@_localizer["Dense"]</MudSwitch>

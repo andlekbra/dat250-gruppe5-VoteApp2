@@ -67,7 +67,7 @@ Add token to Bearer
 # Client - List all poll question
 - Using Brand page as guide
 - Copy Brands.Razor and change namespace/classname etc. to PollQUestions
-- 
+- Create PollQuestionManager
 
 # Program flow
 1. Http Post received by controller

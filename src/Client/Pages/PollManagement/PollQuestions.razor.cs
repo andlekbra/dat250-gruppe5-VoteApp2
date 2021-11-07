@@ -72,63 +72,50 @@ namespace VoteApp.Client.Pages.PollManagement
         }
     }
 
-    //private async Task Delete(int id)
-    //{
-    //    string deleteContent = _localizer["Delete Content"];
-    //    var parameters = new DialogParameters
-    //        {
-    //            {nameof(Shared.Dialogs.DeleteConfirmation.ContentText), string.Format(deleteContent, id)}
-    //        };
-    //    var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Small, FullWidth = true, DisableBackdropClick = true };
-    //    var dialog = _dialogService.Show<Shared.Dialogs.DeleteConfirmation>(_localizer["Delete"], parameters, options);
-    //    var result = await dialog.Result;
-    //    if (!result.Cancelled)
-    //    {
-    //        var response = await BrandManager.DeleteAsync(id);
-    //        if (response.Succeeded)
-    //        {
-    //            await Reset();
-    //            await HubConnection.SendAsync(ApplicationConstants.SignalR.SendUpdateDashboard);
-    //            _snackBar.Add(response.Messages[0], Severity.Success);
-    //        }
-    //        else
-    //        {
-    //            await Reset();
-    //            foreach (var message in response.Messages)
-    //            {
-    //                _snackBar.Add(message, Severity.Error);
-    //            }
-    //        }
-    //    }
-    //}
+        //private async Task Delete(int id)
+        //{
+        //    string deleteContent = _localizer["Delete Content"];
+        //    var parameters = new DialogParameters
+        //        {
+        //            {nameof(Shared.Dialogs.DeleteConfirmation.ContentText), string.Format(deleteContent, id)}
+        //        };
+        //    var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Small, FullWidth = true, DisableBackdropClick = true };
+        //    var dialog = _dialogService.Show<Shared.Dialogs.DeleteConfirmation>(_localizer["Delete"], parameters, options);
+        //    var result = await dialog.Result;
+        //    if (!result.Cancelled)
+        //    {
+        //        var response = await BrandManager.DeleteAsync(id);
+        //        if (response.Succeeded)
+        //        {
+        //            await Reset();
+        //            await HubConnection.SendAsync(ApplicationConstants.SignalR.SendUpdateDashboard);
+        //            _snackBar.Add(response.Messages[0], Severity.Success);
+        //        }
+        //        else
+        //        {
+        //            await Reset();
+        //            foreach (var message in response.Messages)
+        //            {
+        //                _snackBar.Add(message, Severity.Error);
+        //            }
+        //        }
+        //    }
+        //}
 
-    //private async Task InvokeModal(int id = 0)
-    //{
-    //    var parameters = new DialogParameters();
-    //    if (id != 0)
-    //    {
-    //        _pollQuestion = _pollQuestionList.FirstOrDefault(c => c.Id == id);
-    //        if (_pollQuestion != null)
-    //        {
-    //            parameters.Add(nameof(AddEditBrandModal.AddEditBrandModel), new AddEditBrandCommand
-    //            {
-    //                Id = _brand.Id,
-    //                Name = _brand.Name,
-    //                Description = _brand.Description,
-    //                Tax = _brand.Tax
-    //            });
-    //        }
-    //    }
-    //    var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Small, FullWidth = true, DisableBackdropClick = true };
-    //    var dialog = _dialogService.Show<AddEditBrandModal>(id == 0 ? _localizer["Create"] : _localizer["Edit"], parameters, options);
-    //    var result = await dialog.Result;
-    //    if (!result.Cancelled)
-    //    {
-    //        await Reset();
-    //    }
-    //}
+        private async Task InvokeModal(int id = 0)
+        {
+            var parameters = new DialogParameters();
 
-    private async Task Reset()
+            var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Small, FullWidth = true, DisableBackdropClick = true };
+            var dialog = _dialogService.Show<AddPollQuestionModal>(id == 0 ? _localizer["Create"] : _localizer["Edit"], parameters, options);
+            var result = await dialog.Result;
+            if (!result.Cancelled)
+            {
+                await Reset();
+            }
+        }
+
+        private async Task Reset()
     {
         _pollQuestion = new GetAllPollQuestionsResponse();
         await GetPollQuestionsAsync();

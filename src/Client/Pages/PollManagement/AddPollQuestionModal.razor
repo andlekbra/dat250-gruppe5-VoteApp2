@@ -1,0 +1,35 @@
+@inject Microsoft.Extensions.Localization.IStringLocalizer<AddPollQuestionModal> _localizer
+
+<EditForm Model="@AddPollQuestionCommand" OnValidSubmit="SaveAsync">
+    <FluentValidationValidator @ref="_fluentValidationValidator" />
+    <MudDialog>
+        <TitleContent>
+            @{
+                <MudText Typo="Typo.h6">
+                    <MudIcon Icon="@Icons.Material.Filled.Add" Class="mr-3 mb-n1" />
+                    @_localizer["Add Poll Question"]
+                </MudText>
+            }
+        </TitleContent>
+        <DialogContent>
+            <MudGrid>
+                <MudItem xs="12" md="6">
+                    <MudTextField T="string" For="@(() => AddPollQuestionCommand.Title)" @bind-Value="AddPollQuestionCommand.Title" Label="@_localizer["Title"]" />
+                </MudItem>
+                <MudItem xs="12" md="6">
+                    <MudTextField For="@(() => AddPollQuestionCommand.Question)" @bind-Value="AddPollQuestionCommand.Question" Label="@_localizer["Question"]" />
+                </MudItem>
+                <MudItem xs="12" md="6">
+                    <MudTextField For="@(() => AddPollQuestionCommand.RedAnswer)" @bind-Value="AddPollQuestionCommand.RedAnswer" Label="@_localizer["Red answer"]" />
+                </MudItem>
+                <MudItem xs="12" md="6">
+                    <MudTextField For="@(() => AddPollQuestionCommand.GreenAnswer)" @bind-Value="AddPollQuestionCommand.GreenAnswer" Label="@_localizer["Green answer"]" />
+                </MudItem>
+            </MudGrid>
+        </DialogContent>
+        <DialogActions>
+            <MudButton DisableElevation Variant="Variant.Filled" OnClick="Cancel">@_localizer["Cancel"]</MudButton>
+            <MudButton DisableElevation Variant="Variant.Filled" ButtonType="ButtonType.Submit" Disabled="@(!Validated)" Color="Color.Success">@_localizer["Save"]</MudButton>
+        </DialogActions>
+    </MudDialog>
+</EditForm>

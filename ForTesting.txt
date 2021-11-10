@@ -1,0 +1,12 @@
+{
+  "email": "mukesh@blazorhero.com",
+  "password": "123Pa$$word!"
+}
+
+
+{
+  "title": "From swagger",
+  "question": "Question from swagger",
+  "redAnswer": "red answer from swagger",
+  "greenAnswer": "green answer from swagger"
+}

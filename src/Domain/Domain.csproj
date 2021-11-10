@@ -6,8 +6,4 @@
     <AssemblyName>VoteApp.Domain</AssemblyName>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="Entities\Vote\" />
-  </ItemGroup>
-
 </Project>

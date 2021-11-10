@@ -16,75 +16,87 @@
 }
 else
 {
-    <MudTable Hover="true" Elevation="25" Items="_pollQuestionList" Dense="@_dense" Bordered="@_bordered" Striped="@_striped" Filter="new Func<GetAllPollQuestionsResponse, bool>(Search)" @bind-pollQuestion="_pollQuestion">
-        <ToolBarContent>
-            <div class="justify-center mud-text-align-center">
-                @if (_canCreateBrands)
-                {
-                    <MudButton DisableElevation Variant="Variant.Filled" Color="Color.Primary" OnClick="(() => InvokeModal())" StartIcon="@Icons.Material.Filled.Add" IconColor="Color.Surface">@_localizer["Create"]</MudButton>
-                    <MudButton DisableElevation Variant="Variant.Filled" OnClick="GetPollQuestionsAsync" StartIcon="@Icons.Material.Filled.Refresh" IconColor="Color.Surface" Color="Color.Secondary">@_localizer["Reload"]</MudButton>
-                }
-                else
-                {
-                    <MudButton DisableElevation Variant="Variant.Filled" OnClick="GetPollQuestionsAsync" StartIcon="@Icons.Material.Filled.Refresh" IconColor="Color.Surface" Color="Color.Secondary">@_localizer["Reload"]</MudButton>
-                }
-            </div>
-            <MudToolBarSpacer />
-            @if (_canSearchBrands)
+<MudTable Hover="true" Elevation="25" Items="_pollQuestionList" Dense="@_dense" Bordered="@_bordered" Striped="@_striped" Filter="new Func<GetAllPollQuestionsResponse, bool>(Search)" @bind-pollQuestion="_pollQuestion" OnRowClick="OnSelectedQuestion" T="GetAllPollQuestionsResponse">
+    <ToolBarContent>
+        <div class="justify-center mud-text-align-center">
+            @if (_canCreateBrands)
             {
-                <MudTextField @bind-Value="_searchString" Immediate="true" Placeholder="@_localizer["Search for Brands"]" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0 mb-3"></MudTextField>
+                <MudButton DisableElevation Variant="Variant.Filled" Color="Color.Primary" OnClick="(() => InvokeModal())" StartIcon="@Icons.Material.Filled.Add" IconColor="Color.Surface">@_localizer["Create"]</MudButton>
+                <MudButton DisableElevation Variant="Variant.Filled" OnClick="GetPollQuestionsAsync" StartIcon="@Icons.Material.Filled.Refresh" IconColor="Color.Surface" Color="Color.Secondary">@_localizer["Reload"]</MudButton>
             }
-        </ToolBarContent>
-        <HeaderContent>
-            @*<MudTh><MudTableSortLabel SortBy="new Func<GetAllPollQuestionsResponse, object>(x => x.Id)">@_localizer["Id"]</MudTableSortLabel></MudTh>*@
-            <MudTh><MudTableSortLabel SortBy="new Func<GetAllPollQuestionsResponse, object>(x => x.Title)">@_localizer["Title"]</MudTableSortLabel></MudTh>
-            <MudTh><MudTableSortLabel SortBy="new Func<GetAllPollQuestionsResponse, object>(x => x.Question)">@_localizer["Question"]</MudTableSortLabel></MudTh>
-            <MudTh><MudTableSortLabel SortBy="new Func<GetAllPollQuestionsResponse, object>(x => x.RedAnswer)">@_localizer["Red answer"]</MudTableSortLabel></MudTh>
-            <MudTh><MudTableSortLabel SortBy="new Func<GetAllPollQuestionsResponse, object>(x => x.GreenAnswer)">@_localizer["Green answer"]</MudTableSortLabel></MudTh>
-            @*<MudTh Style="text-align:right">@_localizer["Actions"]</MudTh>*@
-        </HeaderContent>
-        <RowTemplate>
-            @*<MudTd DataLabel="Id">@context.Id</MudTd>*@
-            <MudTd DataLabel="Title">
-                <MudHighlighter Text="@context.Title" HighlightedText="@_searchString" />
-            </MudTd>
-            <MudTd DataLabel="Question">@context.Question</MudTd>
-            <MudTd DataLabel="RedAnswer">@context.RedAnswer</MudTd>
-            <MudTd DataLabel="GreenAnswer">@context.GreenAnswer</MudTd>
-            @*<MudTd DataLabel="Actions" Style="text-align: right">
-                @if (_canEditBrands || _canDeleteBrands)
-                    {
-                    <MudMenu Label="@_localizer["Actions"]" Variant="Variant.Filled" DisableElevation="true" EndIcon="@Icons.Filled.KeyboardArrowDown" IconColor="Color.Secondary" Direction="Direction.Left" OffsetX="true">
-                        @if (_canEditBrands)
-                            {
-                            <MudMenuItem @onclick="@(() => InvokeModal(@context.Id))">@_localizer["Edit"]</MudMenuItem>
-                            }
-                        @if (_canDeleteBrands)
-                            {
-                            <MudMenuItem @onclick="@(() => Delete(@context.Id))">@_localizer["Delete"]</MudMenuItem>
-                            }
-                    </MudMenu>
-                    }
-                    else
-                    {
-                    <MudButton Variant="Variant.Filled"
-                               DisableElevation="true"
-                               StartIcon="@Icons.Material.Filled.DoNotTouch"
-                               IconColor="Color.Secondary"
-                               Size="Size.Small"
-                               Color="Color.Surface">
-                        @_localizer["No Allowed Actions"]
-                    </MudButton>
-                    }
-            </MudTd>*@
-        </RowTemplate>
-        <FooterContent>
-            <MudSwitch @bind-Checked="@_dense" Color="Color.Secondary" Style="margin-left: 5px;">@_localizer["Dense"]</MudSwitch>
-            <MudSwitch @bind-Checked="@_striped" Color="Color.Tertiary" Style="margin-left: 5px;">@_localizer["Striped"]</MudSwitch>
-            <MudSwitch @bind-Checked="@_bordered" Color="Color.Warning" Style="margin-left: 5px;">@_localizer["Bordered"]</MudSwitch>
-        </FooterContent>
-        <PagerContent>
-            <TablePager />
-        </PagerContent>
-    </MudTable>
+            else
+            {
+                <MudButton DisableElevation Variant="Variant.Filled" OnClick="GetPollQuestionsAsync" StartIcon="@Icons.Material.Filled.Refresh" IconColor="Color.Surface" Color="Color.Secondary">@_localizer["Reload"]</MudButton>
+            }
+        </div>
+        <MudToolBarSpacer />
+        @if (_canSearchBrands)
+        {
+            <MudTextField @bind-Value="_searchString" Immediate="true" Placeholder="@_localizer["Search for Brands"]" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0 mb-3"></MudTextField>
+        }
+    </ToolBarContent>
+    <HeaderContent>
+        <MudTh><MudTableSortLabel SortBy="new Func<GetAllPollQuestionsResponse, object>(x => x.Id)">@_localizer["Id"]</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortBy="new Func<GetAllPollQuestionsResponse, object>(x => x.Title)">@_localizer["Title"]</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortBy="new Func<GetAllPollQuestionsResponse, object>(x => x.Question)">@_localizer["Question"]</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortBy="new Func<GetAllPollQuestionsResponse, object>(x => x.RedAnswer)">@_localizer["Red answer"]</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortBy="new Func<GetAllPollQuestionsResponse, object>(x => x.GreenAnswer)">@_localizer["Green answer"]</MudTableSortLabel></MudTh>
+        @*<MudTh Style="text-align:right">@_localizer["Actions"]</MudTh>*@
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Id">@context.Id</MudTd>
+        <MudTd DataLabel="Title">
+            <MudHighlighter Text="@context.Title" HighlightedText="@_searchString" />
+        </MudTd>
+        <MudTd DataLabel="Question">@context.Question</MudTd>
+        <MudTd DataLabel="RedAnswer">@context.RedAnswer</MudTd>
+        <MudTd DataLabel="GreenAnswer">@context.GreenAnswer</MudTd>
+        <MudTd DataLabel="Actions" Style="text-align: right"><MudButton>Start new poll</MudButton></MudTd>
+    </RowTemplate>
+    <ChildRowContent>
+
+        @if (_selectedQuestion != null)
+        {
+
+
+
+
+            @if (context.Id == _selectedQuestion.Id)
+            {
+        <MudTr>
+            <td colspan="6">
+                <MudCard Elevation="0">
+                    <MudCardContent Class="pa-0">
+                        <MudTable Items="@_selectedPollResults" Context="PollResultContext" Hover="true" Breakpoint="Breakpoint.Sm" Elevation="1">
+                            <HeaderContent>
+                                <MudTh>Started</MudTh>
+                                <MudTh>Stopped</MudTh>
+                                <MudTh>Green votes</MudTh>
+                                <MudTh>Red votes</MudTh>
+                            </HeaderContent>
+                            <RowTemplate>
+                                <MudTd DataLabel="Started">@PollResultContext.Started</MudTd>
+                                <MudTd DataLabel="Stopped">@PollResultContext.Stopped</MudTd>
+                                <MudTd DataLabel="Green votes">@PollResultContext.GreenVotes</MudTd>
+                                <MudTd DataLabel="Red votes">@PollResultContext.RedVotes</MudTd>
+                            </RowTemplate>
+                        </MudTable>
+                    </MudCardContent>
+                </MudCard>
+                </td>
+        </MudTr>
+            }
+
+
+
+
+
+
+        }
+
+    </ChildRowContent>
+    <PagerContent>
+        <TablePager />
+    </PagerContent>
+</MudTable>
 }

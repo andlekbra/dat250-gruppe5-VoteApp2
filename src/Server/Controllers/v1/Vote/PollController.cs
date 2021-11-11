@@ -6,6 +6,7 @@ using VoteApp.Shared.Constants.Permission;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using VoteApp.Application.Features.Polls.Queries.GetByJoinCode;
 
 namespace VoteApp.Server.Controllers.v1.Vote
 {
@@ -20,10 +21,19 @@ namespace VoteApp.Server.Controllers.v1.Vote
 
         [Authorize(Policy = Permissions.Products.View)]
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([FromQuery] string joinCode)
         {
-            var poll = await _mediator.Send(new GetAllPollsQuery());
-            return Ok(poll);
+            if (string.IsNullOrEmpty(joinCode))
+            {
+                var poll = await _mediator.Send(new GetAllPollsQuery());
+                return Ok(poll);
+            }
+            else
+            {
+                var poll = await _mediator.Send(new GetPollByJoinCodeQuery() { JoinCode = joinCode });
+                return Ok(poll);
+            }
+
         }
 
         [Authorize(Policy = Permissions.Products.Delete)]

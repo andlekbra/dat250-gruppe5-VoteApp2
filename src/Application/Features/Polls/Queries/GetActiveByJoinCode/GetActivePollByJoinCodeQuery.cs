@@ -12,23 +12,36 @@ using Microsoft.EntityFrameworkCore;
 
 namespace VoteApp.Application.Features.Polls.Queries.GetByJoinCode
 {
-    public class GetPollByJoinCodeQuery : IRequest<Result<GetPollByJoinCodeResponse>>
+    public class GetActivePollByJoinCodeQuery : IRequest<Result<GetActivePollByJoinCodeResponse>>
     {
         public string JoinCode { get; set; }
 
+        public GetActivePollByJoinCodeQuery()
+        {
+
+        }
+
+        public GetActivePollByJoinCodeQuery(string joinCode)
+        {
+            JoinCode = joinCode;
+        }
+
     }
 
-    internal class GetPollByJoinCodeQueryHandler : IRequestHandler<GetPollByJoinCodeQuery, Result<GetPollByJoinCodeResponse>>
+    internal class GetActivePollByJoinCodeQueryHandler : IRequestHandler<GetActivePollByJoinCodeQuery, Result<GetActivePollByJoinCodeResponse>>
     {
         private readonly IUnitOfWork<int> _unitOfWork;
-        public GetPollByJoinCodeQueryHandler(IUnitOfWork<int> unitOfWork)
+        public GetActivePollByJoinCodeQueryHandler(IUnitOfWork<int> unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Result<GetPollByJoinCodeResponse>> Handle(GetPollByJoinCodeQuery query, CancellationToken cancellationToken)
+        public async Task<Result<GetActivePollByJoinCodeResponse>> Handle(GetActivePollByJoinCodeQuery query, CancellationToken cancellationToken)
         {
-            Expression<Func<Poll, GetPollByJoinCodeResponse>> expression = entity => new GetPollByJoinCodeResponse
+
+            //Todo: Check if poll is active
+
+            Expression<Func<Poll, GetActivePollByJoinCodeResponse>> expression = entity => new GetActivePollByJoinCodeResponse
             {
                 Id = entity.Id,
                 StartTime = entity.StartTime,
@@ -42,7 +55,7 @@ namespace VoteApp.Application.Features.Polls.Queries.GetByJoinCode
 
             var response = await _unitOfWork.Repository<Poll>().Entities.Select(expression).FirstOrDefaultAsync(poll => poll.JoinCode == query.JoinCode);
 
-            return Result<GetPollByJoinCodeResponse>.Success(response);
+            return Result<GetActivePollByJoinCodeResponse>.Success(response);
         }
     }
 }

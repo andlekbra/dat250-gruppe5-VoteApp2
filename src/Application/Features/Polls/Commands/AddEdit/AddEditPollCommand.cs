@@ -49,6 +49,9 @@ namespace VoteApp.Application.Features.Polls.Commands.AddEdit
             
             var poll = _mapper.Map<Poll>(command);
 
+            poll.StopTime = DateTime.MinValue;
+            poll.StartTime = DateTime.Now;
+
             await _unitOfWork.Repository<Poll>().AddAsync(poll);
             await _unitOfWork.Commit(cancellationToken);
             return await Result<int>.SuccessAsync(poll.Id, _localizer["Poll Saved"]);

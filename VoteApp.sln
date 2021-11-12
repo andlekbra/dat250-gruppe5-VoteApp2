@@ -49,7 +49,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Shared", "sr
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{161B234C-6018-4CE5-86B2-0EA95A53982D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Worker", "..\Worker\Worker.csproj", "{7DD16FA0-95C8-4833-8AD0-DDFFC56A1597}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Subscriber", "..\Worker\Subscriber.csproj", "{7DD16FA0-95C8-4833-8AD0-DDFFC56A1597}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

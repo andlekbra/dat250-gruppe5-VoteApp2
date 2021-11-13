@@ -1,0 +1,17 @@
+<button type="button" class="collapsible">Settings</button>
+<div class="content">
+  <label for="serverURL">ServerUrl</label><br>
+  <input type="text" id="serverURL" name="serverURL"><br><br>
+  <label for="pollID">pollID</label><br>
+  <input type="text" id="pollID" name="pollID"><br><br>
+  <button type="button" onclick="testConnection()">Test Connect</button>
+  <p>
+    You can use left(green) and right(red) arrow keys to vote!
+  </p>
+</div>
+<label>Votes: some numbers from websocket</label><br>
+<button type="button" onclick="voteGreen()">Vote Green</button>
+<button type="button" onclick="voteRed()">Vote Red</button>
+
+<script src="IOTDevice.js"></script>
+<link rel="stylesheet" type="text/css" href="IOTDevice.css">

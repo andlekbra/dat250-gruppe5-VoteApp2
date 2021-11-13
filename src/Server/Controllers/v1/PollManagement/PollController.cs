@@ -30,19 +30,10 @@ namespace VoteApp.Server.Controllers.v1.Vote
 
         [AllowAnonymous]
         [HttpGet]
-        [Route("active")]
-        public async Task<IActionResult> GetAllActive()
-        {
-            var activePolls = await _mediator.Send(new GetAllActivePollsQuery());
-            return Ok(activePolls);
-        }
-
-        [AllowAnonymous]
-        [HttpGet]
         [Route("active/{joinCode}")]
         public async Task<IActionResult> GetActiveByJoinCode([FromRoute] string joinCode)
         {
-            var activePoll = _mediator.Send(new GetActivePollByJoinCodeQuery(joinCode));
+            var activePoll = _mediator.Send(new GetOngoingPollByJoinCodeQuery(joinCode));
             return Ok(activePoll);
         }
 

@@ -12,23 +12,23 @@ using Microsoft.EntityFrameworkCore;
 
 namespace VoteApp.Application.Features.Polls.Queries.GetByJoinCode
 {
-    public class GetActivePollByJoinCodeQuery : IRequest<Result<GetActivePollByJoinCodeResponse>>
+    public class GetOngoingPollByJoinCodeQuery : IRequest<Result<GetOngoingPollByJoinCodeResponse>>
     {
         public string JoinCode { get; set; }
 
-        public GetActivePollByJoinCodeQuery()
+        public GetOngoingPollByJoinCodeQuery()
         {
 
         }
 
-        public GetActivePollByJoinCodeQuery(string joinCode)
+        public GetOngoingPollByJoinCodeQuery(string joinCode)
         {
             JoinCode = joinCode;
         }
 
     }
 
-    internal class GetActivePollByJoinCodeQueryHandler : IRequestHandler<GetActivePollByJoinCodeQuery, Result<GetActivePollByJoinCodeResponse>>
+    internal class GetActivePollByJoinCodeQueryHandler : IRequestHandler<GetOngoingPollByJoinCodeQuery, Result<GetOngoingPollByJoinCodeResponse>>
     {
         private readonly IUnitOfWork<int> _unitOfWork;
         public GetActivePollByJoinCodeQueryHandler(IUnitOfWork<int> unitOfWork)
@@ -36,12 +36,12 @@ namespace VoteApp.Application.Features.Polls.Queries.GetByJoinCode
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Result<GetActivePollByJoinCodeResponse>> Handle(GetActivePollByJoinCodeQuery query, CancellationToken cancellationToken)
+        public async Task<Result<GetOngoingPollByJoinCodeResponse>> Handle(GetOngoingPollByJoinCodeQuery query, CancellationToken cancellationToken)
         {
 
             //Todo: Check if poll is active
 
-            Expression<Func<Poll, GetActivePollByJoinCodeResponse>> expression = entity => new GetActivePollByJoinCodeResponse
+            Expression<Func<Poll, GetOngoingPollByJoinCodeResponse>> expression = entity => new GetOngoingPollByJoinCodeResponse
             {
                 Id = entity.Id,
                 StartTime = entity.StartTime,
@@ -55,7 +55,7 @@ namespace VoteApp.Application.Features.Polls.Queries.GetByJoinCode
 
             var response = await _unitOfWork.Repository<Poll>().Entities.Select(expression).FirstOrDefaultAsync(poll => poll.JoinCode == query.JoinCode);
 
-            return Result<GetActivePollByJoinCodeResponse>.Success(response);
+            return Result<GetOngoingPollByJoinCodeResponse>.Success(response);
         }
     }
 }

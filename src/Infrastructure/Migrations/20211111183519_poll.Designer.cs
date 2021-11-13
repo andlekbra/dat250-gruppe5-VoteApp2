@@ -10,7 +10,7 @@ using VoteApp.Infrastructure.Contexts;
 namespace VoteApp.Infrastructure.Migrations
 {
     [DbContext(typeof(BlazorHeroContext))]
-    [Migration("20211109213909_poll")]
+    [Migration("20211111183519_poll")]
     partial class poll
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -1,0 +1,26 @@
+﻿@inject Microsoft.Extensions.Localization.IStringLocalizer<AddPollModal> _localizer
+
+<EditForm Model="@AddPollCommand" OnValidSubmit="SaveAsync">
+    <FluentValidationValidator @ref="_fluentValidationValidator" />
+    <MudDialog>
+        <TitleContent>
+            @{
+                <MudText Typo="Typo.h6">
+                    <MudIcon Icon="@Icons.Material.Filled.Add" Class="mr-3 mb-n1" />
+                    @_localizer["Start Poll"]
+                </MudText>
+            }
+        </TitleContent>
+        <DialogContent>
+            <MudGrid>
+                <MudItem xs="12" md="6">
+                    <MudTextField T="string" For="@(() => AddPollCommand.JoinCode)" @bind-Value="AddPollCommand.JoinCode" Label="@_localizer["JoinCode"]" />
+                </MudItem>
+            </MudGrid>
+        </DialogContent>
+        <DialogActions>
+            <MudButton DisableElevation Variant="Variant.Filled" OnClick="Cancel">@_localizer["Cancel"]</MudButton>
+            <MudButton DisableElevation Variant="Variant.Filled" ButtonType="ButtonType.Submit" Disabled="@(!Validated)" Color="Color.Success">@_localizer["Start Poll"]</MudButton>
+        </DialogActions>
+    </MudDialog>
+</EditForm>

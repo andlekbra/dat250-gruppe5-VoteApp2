@@ -2,6 +2,7 @@
 @attribute [Authorize(Policy = Permissions.Brands.View)]
 @inject Microsoft.Extensions.Localization.IStringLocalizer<Brands> _localizer
 @using VoteApp.Application.Features.PollQuestions.Queries.GetAll
+@using VoteApp.Application.Features.Polls.Queries.GetAllPollsByQuestionId;
 
 <style>
     .mud-table-container {
@@ -64,7 +65,7 @@ else
             <td colspan="6">
                 <MudCard Elevation="0">
                     <MudCardContent Class="pa-0">
-                        <MudTable Items="@_selectedPollResults" Context="PollResultContext" Hover="true" Breakpoint="Breakpoint.Sm" Elevation="1">
+                        <MudTable Items="@_pollsForSelectedQuestion" Context="PollResultContext" Hover="true" Breakpoint="Breakpoint.Sm" Elevation="1" OnRowClick="OnSelectedPoll" T="GetAllPollsByQuestionIdResponse">
                             <HeaderContent>
                                 <MudTh>Started</MudTh>
                                 <MudTh>Stopped</MudTh>

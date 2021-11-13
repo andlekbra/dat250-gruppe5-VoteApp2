@@ -21,19 +21,29 @@ namespace VoteApp.Server.Controllers.v1.Vote
 
         [Authorize(Policy = Permissions.Products.View)]
         [HttpGet]
-        public async Task<IActionResult> GetAll([FromQuery] string joinCode)
+        public async Task<IActionResult> GetAll()
         {
-            if (string.IsNullOrEmpty(joinCode))
-            {
-                var poll = await _mediator.Send(new GetAllPollsQuery());
-                return Ok(poll);
-            }
-            else
-            {
-                var poll = await _mediator.Send(new GetPollByJoinCodeQuery() { JoinCode = joinCode });
-                return Ok(poll);
-            }
+            var poll = await _mediator.Send(new GetAllPollsQuery());
+            return Ok(poll);
 
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("active")]
+        public async Task<IActionResult> GetAllActive()
+        {
+            var activePolls = await _mediator.Send(new GetAllActivePollsQuery());
+            return Ok(activePolls);
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("active/{joinCode}")]
+        public async Task<IActionResult> GetActiveByJoinCode([FromRoute] string joinCode)
+        {
+            var activePoll = _mediator.Send(new GetActivePollByJoinCodeQuery(joinCode));
+            return Ok(activePoll);
         }
 
         [Authorize(Policy = Permissions.Products.Delete)]

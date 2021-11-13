@@ -1,0 +1,33 @@
+﻿@using VoteApp.Application.Features.PollQuestions.Queries.GetAll;
+@using VoteApp.Application.Features.Polls.Queries.GetAllPollsByQuestionId;
+@using VoteApp.Client.Infrastructure.Managers.PollManagement
+
+<MudCard>
+    <MudCardHeader>
+        <MudText Typo="Typo.h6">
+            @pollQuestion.Title;
+        </MudText>
+    </MudCardHeader>
+    <MudCardContent>
+        <MudText>@pollQuestion.Question</MudText>
+        <MudText>@poll.Started</MudText>
+
+    </MudCardContent>
+    <MudCardActions>
+        <MudButton Color="Color.Error" OnClick="StopPoll">Stop poll</MudButton>
+    </MudCardActions>
+</MudCard>
+
+@code {
+
+    //[Inject] private IPollManager pollManager { get; set; }
+
+    [Parameter] public GetAllPollQuestionsResponse pollQuestion { get; set; } = new();
+    [Parameter] public GetAllPollsByQuestionIdResponse poll { get; set; } = new();
+    [CascadingParameter] private MudDialogInstance MudDialog { get; set; }
+
+    private void StopPoll()
+    {
+        //ToDo stop poll
+    }
+}

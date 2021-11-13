@@ -1,9 +1,14 @@
 
-# Documents
+# REsources
 - [https://codewithmukesh.com/blog/onion-architecture-in-aspnet-core/](https://codewithmukesh.com/blog/onion-architecture-in-aspnet-core/)
 - [https://codewithmukesh.com/blog/specification-pattern-in-aspnet-core/](https://codewithmukesh.com/blog/specification-pattern-in-aspnet-core/)
 - [https://codewithmukesh.com/blog/repository-pattern-in-aspnet-core/](https://codewithmukesh.com/blog/repository-pattern-in-aspnet-core/)
 - [https://codewithmukesh.com/blog/repository-pattern-caching-hangfire-aspnet-core/](https://codewithmukesh.com/blog/repository-pattern-caching-hangfire-aspnet-core/)
+- [https://restfulapi.net/resource-naming/](https://restfulapi.net/resource-naming/)
+- https://hub.packtpub.com/getting-started-with-designing-restful-apis/
+    - "use the post method for controllers execution"    
+
+
 
 # Observations
 - Application project has a reference to Microsoft.EntityFramework.Core.

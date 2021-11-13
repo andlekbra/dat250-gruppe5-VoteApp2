@@ -13,17 +13,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.JSInterop;
 using VoteApp.Client.Infrastructure.Managers.PollManagement;
 using VoteApp.Application.Features.PollQuestions.Queries.GetAll;
+using VoteApp.Application.Features.Polls.Queries.GetAllPollsByQuestionId;
 
 namespace VoteApp.Client.Pages.PollManagement
 {
-    public class DummyPollResult
-    {
-        public int GreenVotes { get; set; }
-        public int RedVotes { get; set; }
-        public DateTime Started { get; set; }
-        public DateTime Stopped { get; set; }
-
-    }
     public partial class PollQuestions
     {
         [Inject] private IPollQuestionManager PollQuestionManager { get; set; }
@@ -47,7 +40,7 @@ namespace VoteApp.Client.Pages.PollManagement
 
         private GetAllPollQuestionsResponse _selectedQuestion;
 
-        private readonly List<DummyPollResult> _selectedPollResults = new();
+        private readonly List<GetAllPollsByQuestionIdResponse> _pollsForSelectedQuestion = new();
 
         protected override async Task OnInitializedAsync()
         {
@@ -67,7 +60,7 @@ namespace VoteApp.Client.Pages.PollManagement
                 await HubConnection.StartAsync();
             }
 
-            _selectedPollResults.Add(new DummyPollResult()
+            _pollsForSelectedQuestion.Add(new GetAllPollsByQuestionIdResponse()
             {
                 GreenVotes = 10,
                 RedVotes = 11,
@@ -75,7 +68,7 @@ namespace VoteApp.Client.Pages.PollManagement
                 Stopped = DateTime.Now
             });
 
-            _selectedPollResults.Add(new DummyPollResult()
+            _pollsForSelectedQuestion.Add(new GetAllPollsByQuestionIdResponse()
             {
                 GreenVotes = 15,
                 RedVotes = 9,
@@ -83,7 +76,7 @@ namespace VoteApp.Client.Pages.PollManagement
                 Stopped = DateTime.Now
             });
 
-            _selectedPollResults.Add(new DummyPollResult()
+            _pollsForSelectedQuestion.Add(new GetAllPollsByQuestionIdResponse()
             {
                 GreenVotes = 23,
                 RedVotes = 27,
@@ -177,6 +170,20 @@ namespace VoteApp.Client.Pages.PollManagement
             {
                 _selectedQuestion = pollQuestion.Item;
             }
+        }
+
+        private async void OnSelectedPoll(TableRowClickEventArgs<GetAllPollsByQuestionIdResponse> pollQuestion)
+        {
+                //var parameters = new DialogParameters();
+
+                //var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Small, FullWidth = true, DisableBackdropClick = true };
+                //var dialog = _dialogService.Show<AddPollQuestionModal>(id == 0 ? _localizer["Create"] : _localizer["Edit"], parameters, options);
+                //var result = await dialog.Result;
+                //if (!result.Cancelled)
+                //{
+                //    await Reset();
+                //}
+            
         }
     }
 }

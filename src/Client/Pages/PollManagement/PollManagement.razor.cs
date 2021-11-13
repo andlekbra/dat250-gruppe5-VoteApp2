@@ -19,8 +19,8 @@ namespace VoteApp.Client.Pages.PollManagement
 {
     public partial class PollManagement
     {
-        [Inject] private IPollQuestionManager PollQuestionManager { get; set; }
-
+        [Inject] private IPollQuestionManager   pollQuestionManager { get; set; }
+        [Inject] private IPollManager           pollManager { get; set; }
         [CascadingParameter] private HubConnection HubConnection { get; set; }
 
         private List<GetAllPollQuestionsResponse> _pollQuestionList = new();
@@ -40,7 +40,7 @@ namespace VoteApp.Client.Pages.PollManagement
 
         private GetAllPollQuestionsResponse _selectedQuestion;
 
-        private readonly List<GetPollsByQuestionIdResponse> _pollsForSelectedQuestion = new();
+        private List<GetPollsByQuestionIdResponse> _pollsForSelectedQuestion = new();
 
         protected override async Task OnInitializedAsync()
         {
@@ -59,35 +59,11 @@ namespace VoteApp.Client.Pages.PollManagement
             {
                 await HubConnection.StartAsync();
             }
-
-            _pollsForSelectedQuestion.Add(new GetPollsByQuestionIdResponse()
-            {
-                GreenVotes = 10,
-                RedVotes = 11,
-                Started = DateTime.Now,
-                Stopped = DateTime.Now
-            });
-
-            _pollsForSelectedQuestion.Add(new GetPollsByQuestionIdResponse()
-            {
-                GreenVotes = 15,
-                RedVotes = 9,
-                Started = DateTime.Now,
-                Stopped = DateTime.Now
-            });
-
-            _pollsForSelectedQuestion.Add(new GetPollsByQuestionIdResponse()
-            {
-                GreenVotes = 23,
-                RedVotes = 27,
-                Started = DateTime.Now,
-                Stopped = DateTime.Now
-            });
         }
 
         private async Task GetPollQuestionsAsync()
         {
-            var response = await PollQuestionManager.GetAllAsync();
+            var response = await pollQuestionManager.GetAllAsync();
             if (response.Succeeded)
             {
                 _pollQuestionList = response.Data.ToList();
@@ -100,36 +76,6 @@ namespace VoteApp.Client.Pages.PollManagement
                 }
             }
         }
-
-        //private async Task Delete(int id)
-        //{
-        //    string deleteContent = _localizer["Delete Content"];
-        //    var parameters = new DialogParameters
-        //        {
-        //            {nameof(Shared.Dialogs.DeleteConfirmation.ContentText), string.Format(deleteContent, id)}
-        //        };
-        //    var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Small, FullWidth = true, DisableBackdropClick = true };
-        //    var dialog = _dialogService.Show<Shared.Dialogs.DeleteConfirmation>(_localizer["Delete"], parameters, options);
-        //    var result = await dialog.Result;
-        //    if (!result.Cancelled)
-        //    {
-        //        var response = await BrandManager.DeleteAsync(id);
-        //        if (response.Succeeded)
-        //        {
-        //            await Reset();
-        //            await HubConnection.SendAsync(ApplicationConstants.SignalR.SendUpdateDashboard);
-        //            _snackBar.Add(response.Messages[0], Severity.Success);
-        //        }
-        //        else
-        //        {
-        //            await Reset();
-        //            foreach (var message in response.Messages)
-        //            {
-        //                _snackBar.Add(message, Severity.Error);
-        //            }
-        //        }
-        //    }
-        //}
 
         private async Task InvokeQuestionModal(int id = 0)
         {
@@ -180,6 +126,20 @@ namespace VoteApp.Client.Pages.PollManagement
             return false;
         }
 
+        private async void GetPollsForSelectedQuestion()
+        {
+            if (_selectedQuestion != null)
+            {
+                var result = await pollManager.GetByQuestionId(_selectedQuestion.Id);
+
+                if(result.Succeeded)
+                {
+                    _pollsForSelectedQuestion = result.Data;
+                }
+            }
+            
+        }
+
         private void OnSelectedQuestion(TableRowClickEventArgs<GetAllPollQuestionsResponse> pollQuestion)
         {
             if (_selectedQuestion == pollQuestion.Item)
@@ -189,21 +149,21 @@ namespace VoteApp.Client.Pages.PollManagement
             else
             {
                 _selectedQuestion = pollQuestion.Item;
+                GetPollsForSelectedQuestion();
             }
         }
 
         private async void OnSelectedPoll(TableRowClickEventArgs<GetPollsByQuestionIdResponse> poll)
         {
             var parameters = new DialogParameters();
-            parameters.Add(nameof(PollIInformationModal.poll),poll.Item);
+            parameters.Add(nameof(PollIInformationModal.poll), poll.Item);
             parameters.Add(nameof(PollIInformationModal.pollQuestion), _selectedQuestion);
 
             var dialog = _dialogService.Show<PollIInformationModal>("Poll management", parameters);
 
-            var result = await dialog.Result;
+            await dialog.Result;
 
             this.StateHasChanged();
-
         }
     }
 }

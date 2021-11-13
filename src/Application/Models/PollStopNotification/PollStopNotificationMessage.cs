@@ -11,7 +11,7 @@ namespace VoteApp.Application.Models.PollStopNotification
     {
         public string QuestionTitle { get; set; }
         public string Question { get; set; }
-        public string QuestionId { get; set; }
+        public int QuestionId { get; set; }
         public string GreenAnswer { get; set; }
         public string RedAnswer { get; set; }
         public VoteCount VoteCount { get; set; }

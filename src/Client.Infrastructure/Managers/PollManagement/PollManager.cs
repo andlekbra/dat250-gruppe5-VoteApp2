@@ -6,6 +6,8 @@ using System.Net.Http.Json;
 using System.Threading.Tasks;
 using VoteApp.Application.Features.Polls.Commands.Add;
 using VoteApp.Application.Features.Polls.Queries.GetAll;
+using VoteApp.Application.Features.Polls.Queries.GetAllPollsByQuestionId;
+using System;
 
 namespace VoteApp.Client.Infrastructure.Managers.PollManagement
 {
@@ -30,9 +32,15 @@ namespace VoteApp.Client.Infrastructure.Managers.PollManagement
             return await response.ToResult<List<GetAllPollsResponse>>();
         }
 
+        public async Task<IResult<List<GetPollsByQuestionIdResponse>>> GetByQuestionId(int id)
+        {
+            var response = await  _httpClient.GetAsync(String.Format(Routes.PollsEndpoints.GetByQuestionId,id));
+            return await response.ToResult<List<GetPollsByQuestionIdResponse>>();
+        }
+
         public async Task<IResult<int>> SaveAsync(AddPollCommand request)
         {
-            var response = await _httpClient.PostAsJsonAsync(Routes.PollsEndpoints.Save, request);
+            var response = await _httpClient.PostAsJsonAsync(String.Format(Routes.PollsEndpoints.Save,request.PollQuestionId), request);
             return await response.ToResult<int>();
         }
 

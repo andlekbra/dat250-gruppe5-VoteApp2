@@ -15,9 +15,6 @@ namespace VoteApp.Application.Features.Polls.Commands.Add
 {
     public partial class AddPollCommand : IRequest<Result<int>>
     {
-        public int Id { get; set; }
-        public DateTime StartTime { get; set; } = DateTime.Now;
-        public DateTime? StopTime { get; set; }
         [Required]
         public string JoinCode { get; set; }
         [Required]
@@ -39,15 +36,19 @@ namespace VoteApp.Application.Features.Polls.Commands.Add
 
         public async Task<Result<int>> Handle(AddPollCommand command, CancellationToken cancellationToken)
         {
-            if (await _unitOfWork.Repository<Poll>().Entities.Where(p => p.Id != command.Id)
-                .AnyAsync(p => p.JoinCode == command.JoinCode, cancellationToken))
+
+            if (await _unitOfWork.Repository<Poll>().Entities.Where(p => (p.StopTime == null) && (p.JoinCode == command.JoinCode)).AnyAsync())
             {
                 return await Result<int>.FailAsync(_localizer["JoinCode already exists."]);
             }
-            
-            var poll = _mapper.Map<Poll>(command);
 
-            poll.StopTime = DateTime.MinValue;
+            //todo check if pollquestion exists
+
+            var poll = new Poll();
+
+            poll.JoinCode = command.JoinCode;
+            poll.Question = await _unitOfWork.Repository<PollQuestion>().GetByIdAsync(command.PollQuestionId);
+            poll.StopTime = null;
             poll.StartTime = DateTime.Now;
 
 

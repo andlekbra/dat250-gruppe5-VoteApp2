@@ -11,35 +11,33 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using VoteApp.Domain.Entities.Vote;
 
-namespace VoteApp.Application.Features.Polls.Commands.AddEdit
+namespace VoteApp.Application.Features.Polls.Commands.Add
 {
-    public partial class AddEditPollCommand : IRequest<Result<int>>
+    public partial class AddPollCommand : IRequest<Result<int>>
     {
         public int Id { get; set; }
-        [Required]
-        public static DateTime StartTime { get { return DateTime.Now; } }
-        [Required]
-        public DateTime StopTime { get; set; }
+        public DateTime StartTime { get; set; } = DateTime.Now;
+        public DateTime? StopTime { get; set; }
         [Required]
         public string JoinCode { get; set; }
         [Required]
         public int PollQuestionId { get; set; }
     }
 
-    internal class AddEditPollCommandHandler : IRequestHandler<AddEditPollCommand, Result<int>>
+    internal class AddPollCommandHandler : IRequestHandler<AddPollCommand, Result<int>>
     {
         private readonly IMapper _mapper;
         private readonly IUnitOfWork<int> _unitOfWork;
-        private readonly IStringLocalizer<AddEditPollCommandHandler> _localizer;
+        private readonly IStringLocalizer<AddPollCommandHandler> _localizer;
 
-        public AddEditPollCommandHandler(IUnitOfWork<int> unitOfWork, IMapper mapper, IStringLocalizer<AddEditPollCommandHandler> localizer)
+        public AddPollCommandHandler(IUnitOfWork<int> unitOfWork, IMapper mapper, IStringLocalizer<AddPollCommandHandler> localizer)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _localizer = localizer;
         }
 
-        public async Task<Result<int>> Handle(AddEditPollCommand command, CancellationToken cancellationToken)
+        public async Task<Result<int>> Handle(AddPollCommand command, CancellationToken cancellationToken)
         {
             if (await _unitOfWork.Repository<Poll>().Entities.Where(p => p.Id != command.Id)
                 .AnyAsync(p => p.JoinCode == command.JoinCode, cancellationToken))

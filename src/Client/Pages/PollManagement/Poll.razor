@@ -1,0 +1,40 @@
+﻿@page "/polls"
+@attribute [Authorize(Policy = Permissions.Brands.View)]
+@inject Microsoft.Extensions.Localization.IStringLocalizer<Poll> _localizer
+@using VoteApp.Application.Features.Polls.Queries.GetAll
+
+<style>
+    .mud-table-container {
+        overflow: auto;
+    }
+</style>
+
+<HeroTitle Title="@_localizer["Poll"]" Description="@_localizer["Manage polls."]" />
+@if (!_loaded)
+{
+    <MudProgressCircular Color="Color.Primary" Indeterminate="true" />
+}
+else
+{
+    <MudTable Hover="true" Elevation="25" Items="_pollList" Dense="@_dense" Bordered="@_bordered" Striped="@_striped" T="GetAllPollsResponse">
+        <HeaderContent>
+            <MudTh><MudTableSortLabel SortBy="new Func<GetAllPollsResponse, object>(x => x.Id)">@_localizer["Id"]</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<GetAllPollsResponse, object>(x => x.StartTime)">@_localizer["StartTime"]</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<GetAllPollsResponse, object>(x => x.StopTime)">@_localizer["StopTime"]</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<GetAllPollsResponse, object>(x => x.JoinCode)">@_localizer["JoinCode"]</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<GetAllPollsResponse, object>(x => x.PollQuestionId)">@_localizer["PollQuestionId"]</MudTableSortLabel></MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd DataLabel="Id">@context.Id</MudTd>
+            <MudTd DataLabel="StartTime">@context.StartTime</MudTd>
+            <MudTd DataLabel="StopTime">@context.StopTime</MudTd>
+            <MudTd DataLabel="JoinCode">@context.JoinCode</MudTd>
+            <MudTd DataLabel="PollQuestionId">@context.PollQuestionId</MudTd>
+            <MudTd DataLabel="Actions" Style="text-align: right"><MudButton DisableElevation Variant="Variant.Filled" Color="Color.Warning" OnClick="@(() => Delete(@context.Id))">Del</MudButton></MudTd>
+
+        </RowTemplate>
+        <PagerContent>
+            <TablePager />
+        </PagerContent>
+    </MudTable>
+}

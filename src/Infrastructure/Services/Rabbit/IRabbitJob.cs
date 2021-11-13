@@ -20,7 +20,7 @@ namespace VoteApp.Application.Interfaces.Rabbit
 
     public class RabbitJob : IRabbitJob
     {
-        private readonly ILogger<RabbitJob> _logger;
+        //private readonly ILogger<RabbitJob> _logger;
         //private readonly MyDbContext _dbContext;
 
         public RabbitJob()//ILogger<RabbitJob> logger)//, MyDbContext dbContext)
@@ -49,14 +49,14 @@ namespace VoteApp.Application.Interfaces.Rabbit
         }
 
 
-        public static void TestNetQ(Object poll)
+        public async static Task TestNetQ(Object poll)
         {
 
             using (var bus = RabbitHutch.CreateBus("host=localhost"))
             {
                 var json = JsonConvert.SerializeObject(poll);
                 //var body = Encoding.UTF8.GetBytes(json);
-                bus.PubSub.Publish(json);
+                await bus.PubSub.PublishAsync(json).ConfigureAwait(false);
             }
         }
     }

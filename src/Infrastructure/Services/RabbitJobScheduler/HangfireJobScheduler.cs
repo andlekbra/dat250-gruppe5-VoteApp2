@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VoteApp.Application.Interfaces.Rabbit;
+using VoteApp.Infrastructure.Services.Rabbit;
 
 namespace VoteApp.Application.RabbitJobScheduler
 {
@@ -16,6 +17,11 @@ namespace VoteApp.Application.RabbitJobScheduler
             RecurringJob.AddOrUpdate<RabbitJob>(nameof(RabbitJob),
                 job => job.Run(JobCancellationToken.Null),
                 Cron.MinuteInterval(5), TimeZoneInfo.Local);
+
+            RecurringJob.RemoveIfExists(nameof(RabbitCloudJob));
+            RecurringJob.AddOrUpdate<RabbitCloudJob>(nameof(RabbitCloudJob),
+                job => job.Run(JobCancellationToken.Null),
+                "0 0/5 * * ?", TimeZoneInfo.Local);
 
         }
     }

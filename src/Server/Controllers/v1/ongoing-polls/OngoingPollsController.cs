@@ -1,6 +1,4 @@
-﻿
-using VoteApp.Application.Features.Polls.Commands.AddEdit;
-using VoteApp.Application.Features.Polls.Commands.Del;
+﻿using VoteApp.Application.Features.Polls.Commands.Del;
 using VoteApp.Application.Features.Polls.Queries.GetAll;
 using VoteApp.Shared.Constants.Permission;
 using Microsoft.AspNetCore.Authorization;
@@ -19,7 +17,7 @@ namespace VoteApp.Server.Controllers.v1.Vote
         [Route("{joinCode}")]
         public async Task<IActionResult> GetOngoingPollByJoinCode([FromRoute] string joinCode)
         {
-            var poll = await _mediator.Send(new GetActivePollByJoinCodeQuery(joinCode));
+            var poll = await _mediator.Send(new GetOngoingPollByJoinCodeQuery(joinCode));
             return Ok(poll);
         }
 

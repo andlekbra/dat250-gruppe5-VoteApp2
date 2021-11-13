@@ -2,7 +2,7 @@
 
 namespace VoteApp.Application.Features.Polls.Queries.GetByJoinCode
 {
-    class GetActivePollByJoinCodeResponse
+    class GetOngoingPollByJoinCodeResponse
     {
         public int Id { get; set; }
         public DateTime StartTime { get; set; }

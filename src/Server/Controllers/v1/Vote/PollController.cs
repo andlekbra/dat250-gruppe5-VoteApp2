@@ -1,5 +1,5 @@
 ﻿
-using VoteApp.Application.Features.Polls.Commands.AddEdit;
+using VoteApp.Application.Features.Polls.Commands.Add;
 using VoteApp.Application.Features.Polls.Commands.Del;
 using VoteApp.Application.Features.Polls.Queries.GetAll;
 using VoteApp.Shared.Constants.Permission;
@@ -14,7 +14,7 @@ namespace VoteApp.Server.Controllers.v1.Vote
     {
         [Authorize(Policy = Permissions.Products.Create)]
         [HttpPost]
-        public async Task<IActionResult> Post(AddEditPollCommand command)
+        public async Task<IActionResult> Post(AddPollCommand command)
         {
             return Ok(await _mediator.Send(command));
         }

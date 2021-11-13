@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
-using VoteApp.Application.Features.Polls.Commands.AddEdit;
+using VoteApp.Application.Features.Polls.Commands.Add;
+using VoteApp.Application.Features.Polls.Queries.GetAll;
 using VoteApp.Domain.Entities.Vote;
 
 namespace VoteApp.Application.Mappings
@@ -8,7 +9,9 @@ namespace VoteApp.Application.Mappings
     {
         public PollProfile()
         {
-            CreateMap<AddEditPollCommand, Poll>().ReverseMap();
+            CreateMap<AddPollCommand, Poll>().ReverseMap();
+            CreateMap<GetAllPollsResponse, Poll>().ReverseMap();
+
         }
     }
 }

@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.JSInterop;
 using VoteApp.Client.Infrastructure.Managers.PollManagement;
 using VoteApp.Application.Features.PollQuestions.Queries.GetAll;
+using VoteApp.Application.Features.Polls.Commands.Add;
 
 namespace VoteApp.Client.Pages.PollManagement
 {
@@ -138,12 +139,32 @@ namespace VoteApp.Client.Pages.PollManagement
         //    }
         //}
 
-        private async Task InvokeModal(int id = 0)
+        private async Task InvokeQuestionModal(int id = 0)
         {
             var parameters = new DialogParameters();
 
             var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Small, FullWidth = true, DisableBackdropClick = true };
             var dialog = _dialogService.Show<AddPollQuestionModal>(id == 0 ? _localizer["Create"] : _localizer["Edit"], parameters, options);
+            var result = await dialog.Result;
+            if (!result.Cancelled)
+            {
+                await Reset();
+            }
+        }
+
+        private async Task InvokePollModal(int id)
+        {
+            var parameters = new DialogParameters();
+            var pollQuestion = _pollQuestionList.FirstOrDefault(c => c.Id == id);
+            if (pollQuestion != null)
+            {
+                parameters.Add(nameof(AddPollModal.AddPollCommand), new AddPollCommand
+                {
+                    PollQuestionId = pollQuestion.Id
+                });
+            }
+            var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Small, FullWidth = true, DisableBackdropClick = true };
+            var dialog = _dialogService.Show<AddPollModal>(_localizer["Start Poll"], parameters, options);
             var result = await dialog.Result;
             if (!result.Cancelled)
             {

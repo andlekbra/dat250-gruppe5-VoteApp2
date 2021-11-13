@@ -10,7 +10,6 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using VoteApp.Shared.Constants.Permission;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.JSInterop;
 using VoteApp.Client.Infrastructure.Managers.PollManagement;
 using VoteApp.Application.Features.PollQuestions.Queries.GetAll;
 using VoteApp.Application.Features.Polls.Queries.GetAllPollsByQuestionId;
@@ -18,7 +17,7 @@ using VoteApp.Application.Features.Polls.Commands.Add;
 
 namespace VoteApp.Client.Pages.PollManagement
 {
-    public partial class PollQuestions
+    public partial class PollManagement
     {
         [Inject] private IPollQuestionManager PollQuestionManager { get; set; }
 
@@ -193,18 +192,18 @@ namespace VoteApp.Client.Pages.PollManagement
             }
         }
 
-        private async void OnSelectedPoll(TableRowClickEventArgs<GetAllPollsByQuestionIdResponse> pollQuestion)
+        private async void OnSelectedPoll(TableRowClickEventArgs<GetAllPollsByQuestionIdResponse> poll)
         {
-                //var parameters = new DialogParameters();
+            var parameters = new DialogParameters();
+            parameters.Add(nameof(PollIInformationModal.poll),poll.Item);
+            parameters.Add(nameof(PollIInformationModal.pollQuestion), _selectedQuestion);
 
-                //var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Small, FullWidth = true, DisableBackdropClick = true };
-                //var dialog = _dialogService.Show<AddPollQuestionModal>(id == 0 ? _localizer["Create"] : _localizer["Edit"], parameters, options);
-                //var result = await dialog.Result;
-                //if (!result.Cancelled)
-                //{
-                //    await Reset();
-                //}
-            
+            var dialog = _dialogService.Show<PollIInformationModal>("Poll management", parameters);
+
+            var result = await dialog.Result;
+
+            this.StateHasChanged();
+
         }
     }
 }

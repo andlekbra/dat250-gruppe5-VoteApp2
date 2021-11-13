@@ -11,7 +11,7 @@ using VoteApp.Shared.Constants.Permission;
 
 namespace VoteApp.Server.Controllers.v1.Vote
 {
-    public class PollQuestionsController : BaseApiController<PollQuestionsController>
+    public class PollManagementController : BaseApiController<PollQuestionsController>
     {
 
 

@@ -357,7 +357,7 @@ namespace VoteApp.Infrastructure.Migrations
                     b.Property<DateTime?>("LastModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("PollQuestionId")
+                    b.Property<int?>("QuestionId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("StartTime")
@@ -366,9 +366,14 @@ namespace VoteApp.Infrastructure.Migrations
                     b.Property<DateTime>("StopTime")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("VoteCountId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("PollQuestionId");
+                    b.HasIndex("QuestionId");
+
+                    b.HasIndex("VoteCountId");
 
                     b.ToTable("Poll");
                 });
@@ -395,9 +400,6 @@ namespace VoteApp.Infrastructure.Migrations
                     b.Property<DateTime?>("LastModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("OwnerId")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Question")
                         .HasColumnType("nvarchar(max)");
 
@@ -410,6 +412,24 @@ namespace VoteApp.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("PollQuestions");
+                });
+
+            modelBuilder.Entity("VoteApp.Domain.Entities.Vote.VoteCount", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("GreenVotes")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RedVotes")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("VoteCount");
                 });
 
             modelBuilder.Entity("VoteApp.Infrastructure.Models.Audit.Audit", b =>
@@ -728,11 +748,15 @@ namespace VoteApp.Infrastructure.Migrations
                 {
                     b.HasOne("VoteApp.Domain.Entities.Vote.PollQuestion", "Question")
                         .WithMany()
-                        .HasForeignKey("PollQuestionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("QuestionId");
+
+                    b.HasOne("VoteApp.Domain.Entities.Vote.VoteCount", "VoteCount")
+                        .WithMany()
+                        .HasForeignKey("VoteCountId");
 
                     b.Navigation("Question");
+
+                    b.Navigation("VoteCount");
                 });
 
             modelBuilder.Entity("VoteApp.Infrastructure.Models.Identity.BlazorHeroRoleClaim", b =>

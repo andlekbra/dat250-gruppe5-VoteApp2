@@ -35,5 +35,6 @@ namespace VoteApp.Client.Infrastructure.Managers.PollManagement
             var response = await _httpClient.PostAsJsonAsync(Routes.PollsEndpoints.Save, request);
             return await response.ToResult<int>();
         }
+
     }
 }

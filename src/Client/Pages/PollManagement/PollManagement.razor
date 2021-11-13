@@ -1,7 +1,7 @@
 ﻿@page "/poll-management"
 @attribute [Authorize(Policy = Permissions.Brands.View)]
 @inject Microsoft.Extensions.Localization.IStringLocalizer<Brands> _localizer
-@using VoteApp.Application.Features.PollQuestions.Queries.GetAll
+@using VoteApp.Application.Features.PollQuestions.Queries.GetAll;
 @using VoteApp.Application.Features.Polls.Queries.GetAllPollsByQuestionId;
 
 <style>

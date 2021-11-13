@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using VoteApp.Application.Features.PollQuestions.Commands.Add;
 using VoteApp.Application.Features.PollQuestions.Queries.GetAll;
+using VoteApp.Application.Features.Polls.Queries.GetAllPollsByQuestionId;
 using VoteApp.Shared.Constants.Permission;
 
 
@@ -18,15 +19,32 @@ namespace VoteApp.Server.Controllers.v1.Vote
 
         [Authorize(Policy = Permissions.Brands.View)]
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        [Route("poll-questions")]
+        public async Task<IActionResult> GetAllPollQuestions()
         {
             var pollQuestions = await _mediator.Send(new GetAllPollQuestionsQuery());
             return Ok(pollQuestions);
         }
 
+        [Authorize(Policy = Permissions.Brands.View)]
+        [HttpGet]
+        [Route("poll-questions/{id}/polls")]
+        public async Task<IActionResult> GetPollsFromPollQuesitonId([FromRoute] int pollQuestionId)
+        {
+            var polls = await _mediator.Send(new GetPollsByQuestionIdQuery(pollQuestionId));
+            return Ok(polls);
+        }
+
         [Authorize(Policy = Permissions.Brands.Create)]
         [HttpPost]
         public async Task<IActionResult> Post(AddPollQuestionCommand command)
+        {
+            return Ok(await _mediator.Send(command));
+        }
+
+        [Authorize(Policy = Permissions.Brands.Create)]
+        [HttpPost]
+        public async Task<IActionResult> StopPoll(AddPollQuestionCommand command)
         {
             return Ok(await _mediator.Send(command));
         }

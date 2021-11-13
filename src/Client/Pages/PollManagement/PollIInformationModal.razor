@@ -23,7 +23,7 @@
     //[Inject] private IPollManager pollManager { get; set; }
 
     [Parameter] public GetAllPollQuestionsResponse pollQuestion { get; set; } = new();
-    [Parameter] public GetAllPollsByQuestionIdResponse poll { get; set; } = new();
+    [Parameter] public GetPollsByQuestionIdResponse poll { get; set; } = new();
     [CascadingParameter] private MudDialogInstance MudDialog { get; set; }
 
     private void StopPoll()

@@ -40,7 +40,7 @@ namespace VoteApp.Client.Pages.PollManagement
 
         private GetAllPollQuestionsResponse _selectedQuestion;
 
-        private readonly List<GetAllPollsByQuestionIdResponse> _pollsForSelectedQuestion = new();
+        private readonly List<GetPollsByQuestionIdResponse> _pollsForSelectedQuestion = new();
 
         protected override async Task OnInitializedAsync()
         {
@@ -60,7 +60,7 @@ namespace VoteApp.Client.Pages.PollManagement
                 await HubConnection.StartAsync();
             }
 
-            _pollsForSelectedQuestion.Add(new GetAllPollsByQuestionIdResponse()
+            _pollsForSelectedQuestion.Add(new GetPollsByQuestionIdResponse()
             {
                 GreenVotes = 10,
                 RedVotes = 11,
@@ -68,7 +68,7 @@ namespace VoteApp.Client.Pages.PollManagement
                 Stopped = DateTime.Now
             });
 
-            _pollsForSelectedQuestion.Add(new GetAllPollsByQuestionIdResponse()
+            _pollsForSelectedQuestion.Add(new GetPollsByQuestionIdResponse()
             {
                 GreenVotes = 15,
                 RedVotes = 9,
@@ -76,7 +76,7 @@ namespace VoteApp.Client.Pages.PollManagement
                 Stopped = DateTime.Now
             });
 
-            _pollsForSelectedQuestion.Add(new GetAllPollsByQuestionIdResponse()
+            _pollsForSelectedQuestion.Add(new GetPollsByQuestionIdResponse()
             {
                 GreenVotes = 23,
                 RedVotes = 27,
@@ -192,7 +192,7 @@ namespace VoteApp.Client.Pages.PollManagement
             }
         }
 
-        private async void OnSelectedPoll(TableRowClickEventArgs<GetAllPollsByQuestionIdResponse> poll)
+        private async void OnSelectedPoll(TableRowClickEventArgs<GetPollsByQuestionIdResponse> poll)
         {
             var parameters = new DialogParameters();
             parameters.Add(nameof(PollIInformationModal.poll),poll.Item);

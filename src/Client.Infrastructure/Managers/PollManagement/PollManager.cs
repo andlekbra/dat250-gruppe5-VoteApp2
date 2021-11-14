@@ -26,15 +26,17 @@ namespace VoteApp.Client.Infrastructure.Managers.PollManagement
             return await response.ToResult<int>();
         }
 
-        public async Task<IResult<List<GetAllPollsResponse>>> GetAllAsync()
+        public async Task<IResult<List<GetPollByIdResponse>>> GetAllAsync()
         {
             var response = await _httpClient.GetAsync(Routes.PollsEndpoints.GetAll);
-            return await response.ToResult<List<GetAllPollsResponse>>();
+            return await response.ToResult<List<GetPollByIdResponse>>();
         }
 
         public async Task<IResult<List<GetPollsByQuestionIdResponse>>> GetByQuestionId(int id)
         {
-            var response = await  _httpClient.GetAsync(String.Format(Routes.PollsEndpoints.GetByQuestionId,id));
+            var staticRoute = Routes.PollsEndpoints.GetByQuestionId;
+            var route = String.Format(Routes.PollsEndpoints.GetByQuestionId, id);
+            var response = await  _httpClient.GetAsync(route);
             return await response.ToResult<List<GetPollsByQuestionIdResponse>>();
         }
 

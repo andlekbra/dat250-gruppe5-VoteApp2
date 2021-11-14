@@ -17,7 +17,7 @@
 }
 else
 {
-<MudTable Hover="true" Elevation="25" Items="_pollQuestionList" Dense="@_dense" Bordered="@_bordered" Striped="@_striped" Filter="new Func<GetAllPollQuestionsResponse, bool>(Search)" @bind-pollQuestion="_pollQuestion" OnRowClick="OnSelectedQuestion" T="GetAllPollQuestionsResponse">
+<MudTable Hover="true" Elevation="25" Items="_pollQuestionList" Dense="@_dense" Bordered="@_bordered" Striped="@_striped" Filter="new Func<GetAllPollQuestionsResponse, bool>(Search)" OnRowClick="OnSelectedQuestion" T="GetAllPollQuestionsResponse">
     <ToolBarContent>
         <div class="justify-center mud-text-align-center">
             @if (_canCreateBrands)
@@ -65,7 +65,8 @@ else
             <td colspan="6">
                 <MudCard Elevation="0">
                     <MudCardContent Class="pa-0">
-                        <MudTable Items="@_pollsForSelectedQuestion" Context="PollResultContext" Hover="true" Breakpoint="Breakpoint.Sm" Elevation="1" OnRowClick="OnSelectedPoll" T="GetPollsByQuestionIdResponse">
+                        <MudTable Items="@_pollsForSelectedQuestion" Context="PollResultContext" Hover="true" Breakpoint="Breakpoint.Sm" Elevation="1" OnRowClick="OnSelectedPoll"
+                                  T="GetPollsByQuestionIdResponse">
                             <HeaderContent>
                                 <MudTh>Started</MudTh>
                                 <MudTh>Stopped</MudTh>
@@ -74,7 +75,16 @@ else
                             </HeaderContent>
                             <RowTemplate>
                                 <MudTd DataLabel="Started">@PollResultContext.StartTime</MudTd>
-                                <MudTd DataLabel="Stopped">@PollResultContext.StopTime</MudTd>
+                                <MudTd DataLabel="Stopped">
+                                    @if(PollResultContext.StopTime != null)
+                                    {
+                                        @PollResultContext.StopTime
+                                    }
+                                    else
+                                    {
+                                        <MudButton Variant="Variant.Filled" Color="Color.Warning">Ongoing poll</MudButton>
+                                    }
+                                </MudTd>
                                 <MudTd DataLabel="Green votes">@PollResultContext.GreenVotes</MudTd>
                                 <MudTd DataLabel="Red votes">@PollResultContext.RedVotes</MudTd>
                             </RowTemplate>
@@ -84,12 +94,6 @@ else
                 </td>
         </MudTr>
             }
-
-
-
-
-
-
         }
 
     </ChildRowContent>

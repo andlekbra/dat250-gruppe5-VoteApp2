@@ -20,8 +20,8 @@ namespace VoteApp.Client.Pages.PollManagement
 
         [CascadingParameter] private HubConnection HubConnection { get; set; }
 
-        private List<GetAllPollsResponse> _pollList = new();
-        private GetAllPollsResponse _poll = new();
+        private List<GetPollByIdResponse> _pollList = new();
+        private GetPollByIdResponse _poll = new();
         private string _searchString = "";
         private bool _dense = false;
         private bool _striped = true;

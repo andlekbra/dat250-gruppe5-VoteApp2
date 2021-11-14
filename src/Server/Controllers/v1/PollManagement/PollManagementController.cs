@@ -31,9 +31,9 @@ namespace VoteApp.Server.Controllers.v1.Vote
         [Authorize(Policy = Permissions.Brands.View)]
         [HttpGet]
         [Route("poll-questions/{id}/polls")]
-        public async Task<IActionResult> GetPollsFromPollQuesitonId([FromRoute] int pollQuestionId)
+        public async Task<IActionResult> GetPollsFromPollQuesitonId([FromRoute] int id)
         {
-            var polls = await _mediator.Send(new GetPollsByQuestionIdQuery(pollQuestionId));
+            var polls = await _mediator.Send(new GetPollsByQuestionIdQuery(id));
             return Ok(polls);
         }
 

@@ -24,7 +24,7 @@ namespace VoteApp.Client.Pages.PollManagement
         [CascadingParameter] private HubConnection HubConnection { get; set; }
 
         private List<GetAllPollQuestionsResponse> _pollQuestionList = new();
-        private GetAllPollQuestionsResponse _pollQuestion = new();
+        //private GetAllPollQuestionsResponse _pollQuestion = new();
         private string _searchString = "";
         private bool _dense = false;
         private bool _striped = true;
@@ -112,7 +112,6 @@ namespace VoteApp.Client.Pages.PollManagement
 
         private async Task Reset()
         {
-            _pollQuestion = new GetAllPollQuestionsResponse();
             await GetPollQuestionsAsync();
         }
 
@@ -137,6 +136,8 @@ namespace VoteApp.Client.Pages.PollManagement
                     _pollsForSelectedQuestion = result.Data;
                 }
             }
+
+            this.StateHasChanged();
             
         }
 
@@ -145,6 +146,7 @@ namespace VoteApp.Client.Pages.PollManagement
             if (_selectedQuestion == pollQuestion.Item)
             {
                 _selectedQuestion = null;
+                _pollsForSelectedQuestion = null;
             }
             else
             {

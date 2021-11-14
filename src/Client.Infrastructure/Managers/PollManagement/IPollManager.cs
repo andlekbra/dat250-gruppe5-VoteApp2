@@ -9,7 +9,7 @@ namespace VoteApp.Client.Infrastructure.Managers.PollManagement
 {
     public interface IPollManager : IManager
     {
-        Task<IResult<List<GetAllPollsResponse>>> GetAllAsync();
+        Task<IResult<List<GetPollByIdResponse>>> GetAllAsync();
 
         Task<IResult<List<GetPollsByQuestionIdResponse>>> GetByQuestionId(int id);
 

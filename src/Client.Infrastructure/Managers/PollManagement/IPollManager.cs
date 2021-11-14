@@ -1,4 +1,5 @@
 ﻿using VoteApp.Application.Features.Polls.Queries.GetAll;
+using VoteApp.Application.Features.Polls.Queries.GetById;
 using VoteApp.Application.Features.Polls.Commands.Add;
 using VoteApp.Shared.Wrapper;
 using System.Collections.Generic;
@@ -9,7 +10,9 @@ namespace VoteApp.Client.Infrastructure.Managers.PollManagement
 {
     public interface IPollManager : IManager
     {
-        Task<IResult<List<GetPollByIdResponse>>> GetAllAsync();
+        Task<IResult<List<GetAllPollsResponse>>> GetAllAsync();
+
+        Task<IResult<GetPollByIdResponse>> GetByIdAsync(int Id);
 
         Task<IResult<List<GetPollsByQuestionIdResponse>>> GetByQuestionId(int id);
 

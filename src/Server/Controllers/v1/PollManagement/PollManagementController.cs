@@ -9,6 +9,7 @@ using VoteApp.Application.Features.PollQuestions.Queries.GetAll;
 using VoteApp.Application.Features.Polls.Commands.Add;
 using VoteApp.Application.Features.Polls.Commands.Stop;
 using VoteApp.Application.Features.Polls.Queries.GetAllPollsByQuestionId;
+using VoteApp.Application.Features.Polls.Queries.GetById;
 using VoteApp.Shared.Constants.Permission;
 
 
@@ -51,6 +52,18 @@ namespace VoteApp.Server.Controllers.v1.Vote
         public async Task<IActionResult> CreatePoll([FromBody]AddPollCommand command)
         {
             return Ok(await _mediator.Send(command));
+        }
+
+        [Authorize(Policy = Permissions.Brands.Create)]
+        [HttpGet]
+        [Route("polls/{id}")]
+        public async Task<IActionResult> GetPollById([FromRoute] int id)
+        {
+            var query = new GetPollByIdQuery()
+            {
+                Id = id
+            };
+            return Ok(await _mediator.Send(query));
         }
 
         [Authorize(Policy = Permissions.Brands.Create)]

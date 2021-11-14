@@ -158,8 +158,7 @@ namespace VoteApp.Client.Pages.PollManagement
         private async void OnSelectedPoll(TableRowClickEventArgs<GetPollsByQuestionIdResponse> poll)
         {
             var parameters = new DialogParameters();
-            parameters.Add(nameof(PollIInformationModal.poll), poll.Item);
-            parameters.Add(nameof(PollIInformationModal.pollQuestion), _selectedQuestion);
+            parameters.Add(nameof(PollIInformationModal.PollId), poll.Item.Id);
 
             var dialog = _dialogService.Show<PollIInformationModal>("Poll management", parameters);
 

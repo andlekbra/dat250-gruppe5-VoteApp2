@@ -39,17 +39,22 @@ namespace VoteApp.Application.Features.Polls.Commands.Add
                 return await Result<int>.FailAsync(_localizer["JoinCode already exists."]);
             }
 
+            var question = await _unitOfWork.Repository<PollQuestion>().GetByIdAsync(command.PollQuestionId);
+
+            if (question == null)
+            {
+                return await Result<int>.FailAsync(_localizer["Question does not exist"]);
+            }
+
             //todo check if pollquestion exists
 
             var poll = new Poll();
 
             poll.JoinCode = command.JoinCode;
-            poll.Question = await _unitOfWork.Repository<PollQuestion>().GetByIdAsync(command.PollQuestionId);
+            poll.Question = question;
             poll.StopTime = null;
             poll.StartTime = DateTime.Now;
             poll.VoteCount = new VoteCount();
-
-
 
             await _unitOfWork.Repository<Poll>().AddAsync(poll);
             await _unitOfWork.Commit(cancellationToken);

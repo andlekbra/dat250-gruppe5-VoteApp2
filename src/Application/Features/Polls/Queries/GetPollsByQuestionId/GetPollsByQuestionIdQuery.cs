@@ -56,7 +56,7 @@ namespace VoteApp.Application.Features.Polls.Queries.GetAllPollsByQuestionId
 
                 var response = await _unitOfWork.Repository<Poll>().Entities.Where(poll => poll.Question.Id == query.PollQuestionId).ToListAsync();
 
-                var mappedResponse = _mapper.Map<GetPollsByQuestionIdResponse>(response);
+                var mappedResponse = _mapper.Map<List<GetPollsByQuestionIdResponse>>(response);
 
                 return await Result<List<GetPollsByQuestionIdResponse>>.SuccessAsync(mappedResponse);
             }

@@ -11,7 +11,7 @@ namespace VoteApp.Application.Mappings
         public PollProfile()
         {
             CreateMap<AddPollCommand, Poll>().ReverseMap();
-            CreateMap<GetPollByIdResponse, Poll>().ReverseMap();
+            CreateMap<GetAllPollsResponse, Poll>().ReverseMap();
             CreateMap<GetPollsByQuestionIdResponse, Poll>().ReverseMap();
 
 

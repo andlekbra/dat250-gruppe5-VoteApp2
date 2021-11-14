@@ -9,6 +9,7 @@ using VoteApp.Application.Features.Polls.Queries.GetAll;
 using VoteApp.Application.Features.Polls.Queries.GetAllPollsByQuestionId;
 using System;
 using VoteApp.Application.Features.Polls.Queries.GetById;
+using VoteApp.Application.Features.Polls.Queries.GetByJoinCode;
 
 namespace VoteApp.Client.Infrastructure.Managers.PollManagement
 {
@@ -43,15 +44,22 @@ namespace VoteApp.Client.Infrastructure.Managers.PollManagement
         {
             var staticRoute = Routes.PollsEndpoints.GetByQuestionId;
             var route = String.Format(Routes.PollsEndpoints.GetByQuestionId, id);
-            var response = await  _httpClient.GetAsync(route);
+            var response = await _httpClient.GetAsync(route);
             return await response.ToResult<List<GetPollsByQuestionIdResponse>>();
         }
 
         public async Task<IResult<int>> SaveAsync(AddPollCommand request)
         {
-            var response = await _httpClient.PostAsJsonAsync(String.Format(Routes.PollsEndpoints.Save,request.PollQuestionId), request);
+            var response = await _httpClient.PostAsJsonAsync(String.Format(Routes.PollsEndpoints.Save, request.PollQuestionId), request);
             return await response.ToResult<int>();
         }
 
+
+
+        public async Task<IResult<GetOngoingPollByJoinCodeResponse>> GetOngoingPollByJoinCode(string Joincode)
+        {
+            var response = await _httpClient.GetAsync(String.Format(Routes.PollsEndpoints.GetByJoinCode, Joincode));
+            return await response.ToResult<GetOngoingPollByJoinCodeResponse>();
+        }
     }
 }

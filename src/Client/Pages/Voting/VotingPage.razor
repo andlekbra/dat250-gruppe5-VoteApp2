@@ -1,0 +1,24 @@
+﻿@page("/voting/{joincode}")
+@using VoteApp.Client.Infrastructure.Managers.PollManagement;
+@using VoteApp.Application.Features.Polls.Queries.GetByJoinCode;
+
+@if (ongoingPoll != null)
+{
+    <h3>VotingPage</h3>
+}
+
+
+
+@code {
+    [Parameter] public string JoinCode { get; set; }
+    [Inject] public IPollManager PollManager { get; set; }
+
+    private readonly GetOngoingPollByJoinCodeResponse ongoingPoll;
+
+    protected override Task OnInitializedAsync()
+    {
+        ongoingPoll = await PollManager.GetOngoingPollByJoinCode(JoinCode);
+        return base.OnInitializedAsync();
+    }
+
+}

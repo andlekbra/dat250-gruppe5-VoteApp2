@@ -45,6 +45,7 @@ namespace VoteApp.Application.Features.PollQuestions.Commands.Add
             await _unitOfWork.Repository<PollQuestion>().AddAsync(pollQuestion);
             await _unitOfWork.Commit(cancellationToken);
             //await _unitOfWork.CommitAndRemoveCache(cancellationToken, ApplicationConstants.Cache.GetAllBrandsCacheKey);
+
             return await Result<int>.SuccessAsync(pollQuestion.Id, _localizer["Poll question Saved"]);
         }
     }

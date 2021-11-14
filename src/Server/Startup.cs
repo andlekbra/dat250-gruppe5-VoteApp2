@@ -14,6 +14,8 @@ using System.IO;
 using VoteApp.Server.Filters;
 using VoteApp.Server.Managers.Preferences;
 using Microsoft.Extensions.Localization;
+using VoteApp.Application.Interfaces.Rabbit;
+using VoteApp.Application.RabbitJobScheduler;
 
 namespace VoteApp.Server
 {
@@ -65,6 +67,18 @@ namespace VoteApp.Server
                 config.ReportApiVersions = true;
             });
             services.AddLazyCache();
+
+
+
+            //Test av rabbitmq/hangfire
+            services.AddScoped<IRabbitJob, RabbitJob>();
+
+            
+            services.AddOptions();
+            services.Configure<RabbitMqConfiguration>(_configuration.GetSection("RabbitMq"));
+            services.AddTransient<IRabbitJob, RabbitJob>();
+            
+
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IStringLocalizer<Startup> localizer)
@@ -89,6 +103,9 @@ namespace VoteApp.Server
                 DashboardTitle = localizer["BlazorHero Jobs"],
                 Authorization = new[] { new HangfireAuthorizationFilter() }
             });
+
+            HangfireJobScheduler.ScheduleReccuringJobs();
+
             app.UseEndpoints();
             app.ConfigureSwagger();
             app.Initialize(_configuration);

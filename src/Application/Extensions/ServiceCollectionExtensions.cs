@@ -11,6 +11,8 @@ using VoteApp.Application.Features.ExtendedAttributes.Queries.GetAllByEntityId;
 using VoteApp.Application.Features.ExtendedAttributes.Queries.GetById;
 using VoteApp.Domain.Contracts;
 using VoteApp.Shared.Wrapper;
+using VoteApp.Application.Interfaces.Services;
+using VoteApp.Application.Interfaces.Services.Mocks;
 
 namespace VoteApp.Application.Extensions
 {
@@ -22,6 +24,8 @@ namespace VoteApp.Application.Extensions
             //services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
             services.AddMediatR(Assembly.GetExecutingAssembly());
             //services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+            services.AddTransient<IPollStartNotificationService, PollStartNotificationMock>();
+            services.AddTransient<IPollStopNotificationService, PollStopNotificationMock>();
         }
 
         public static void AddExtendedAttributesHandlers(this IServiceCollection services)

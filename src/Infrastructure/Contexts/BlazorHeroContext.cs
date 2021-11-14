@@ -34,7 +34,8 @@ namespace VoteApp.Infrastructure.Contexts
         public DbSet<DocumentExtendedAttribute> DocumentExtendedAttributes { get; set; }
         public DbSet<PollQuestion> PollQuestions { get; set; }
         public DbSet<Poll> Poll { get; set; }
-   
+        public DbSet<VoteCount> VoteCount { get; set; }
+
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new())
         {
             foreach (var entry in ChangeTracker.Entries<IAuditableEntity>().ToList())

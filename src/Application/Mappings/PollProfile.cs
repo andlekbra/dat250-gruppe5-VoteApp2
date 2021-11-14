@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using VoteApp.Application.Features.Polls.Commands.Add;
 using VoteApp.Application.Features.Polls.Queries.GetAll;
+using VoteApp.Application.Features.Polls.Queries.GetAllPollsByQuestionId;
 using VoteApp.Domain.Entities.Vote;
 
 namespace VoteApp.Application.Mappings
@@ -11,6 +12,8 @@ namespace VoteApp.Application.Mappings
         {
             CreateMap<AddPollCommand, Poll>().ReverseMap();
             CreateMap<GetAllPollsResponse, Poll>().ReverseMap();
+            CreateMap<GetPollsByQuestionIdResponse, Poll>().ReverseMap();
+
 
         }
     }

@@ -23,15 +23,12 @@ namespace VoteApp.Application.Features.Polls.Commands.Add
 
     internal class AddPollCommandHandler : IRequestHandler<AddPollCommand, Result<int>>
     {
-        private readonly IMapper _mapper;
         private readonly IUnitOfWork<int> _unitOfWork;
         private readonly IStringLocalizer<AddPollCommandHandler> _localizer;
 
-        public AddPollCommandHandler(IUnitOfWork<int> unitOfWork, IMapper mapper, IStringLocalizer<AddPollCommandHandler> localizer)
+        public AddPollCommandHandler(IUnitOfWork<int> unitOfWork)
         {
             _unitOfWork = unitOfWork;
-            _mapper = mapper;
-            _localizer = localizer;
         }
 
         public async Task<Result<int>> Handle(AddPollCommand command, CancellationToken cancellationToken)
@@ -42,20 +39,26 @@ namespace VoteApp.Application.Features.Polls.Commands.Add
                 return await Result<int>.FailAsync(_localizer["JoinCode already exists."]);
             }
 
+            var question = await _unitOfWork.Repository<PollQuestion>().GetByIdAsync(command.PollQuestionId);
+
+            if (question == null)
+            {
+                return await Result<int>.FailAsync(_localizer["Question does not exist"]);
+            }
+
             //todo check if pollquestion exists
 
             var poll = new Poll();
 
             poll.JoinCode = command.JoinCode;
-            poll.Question = await _unitOfWork.Repository<PollQuestion>().GetByIdAsync(command.PollQuestionId);
+            poll.Question = question;
             poll.StopTime = null;
             poll.StartTime = DateTime.Now;
-
-
+            poll.VoteCount = new VoteCount();
 
             await _unitOfWork.Repository<Poll>().AddAsync(poll);
             await _unitOfWork.Commit(cancellationToken);
-            return await Result<int>.SuccessAsync(poll.Id, _localizer["Poll Saved"]);
+            return await Result<int>.SuccessAsync(poll.Id, "Poll Saved");
             
         }
     }

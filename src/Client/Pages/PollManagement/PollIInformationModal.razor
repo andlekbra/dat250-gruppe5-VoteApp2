@@ -1,33 +1,53 @@
-﻿@using VoteApp.Application.Features.PollQuestions.Queries.GetAll;
-@using VoteApp.Application.Features.Polls.Queries.GetAllPollsByQuestionId;
+﻿@using VoteApp.Application.Features.Polls.Queries.GetById;
 @using VoteApp.Client.Infrastructure.Managers.PollManagement
 
-<MudCard>
-    <MudCardHeader>
-        <MudText Typo="Typo.h6">
-            @pollQuestion.Title;
-        </MudText>
-    </MudCardHeader>
-    <MudCardContent>
-        <MudText>@pollQuestion.Question</MudText>
-        <MudText>@poll.Started</MudText>
+@if (selectedPoll != null)
+{
+    <MudCard>
+        <MudCardHeader>
+            <MudText>@selectedPoll.QuestionTitle</MudText>
+            <MudText>Join code: @selectedPoll.JoinCode</MudText>          
+        </MudCardHeader>
+        <MudCardContent>
+            <MudText>@selectedPoll.Question</MudText>
+            <table>
+                <tr>
+                    <td>@selectedPoll.RedAnswer</td>
+                    <td>@selectedPoll.VoteCount.RedVotes</td>
+                </tr>
+                <tr>
+                    <td>@selectedPoll.GreenAnswer</td>
+                    <td>@selectedPoll.VoteCount.GreenVotes</td>
+                </tr>
+            </table>
+        </MudCardContent>
+        <MudCardActions>
+            <MudButton Color="Color.Error" OnClick="StopPoll">Stop poll</MudButton>
+        </MudCardActions>
+    </MudCard>
+}
 
-    </MudCardContent>
-    <MudCardActions>
-        <MudButton Color="Color.Error" OnClick="StopPoll">Stop poll</MudButton>
-    </MudCardActions>
-</MudCard>
 
 @code {
 
-    //[Inject] private IPollManager pollManager { get; set; }
+    [Inject] private IPollManager pollManager { get; set; }
 
-    [Parameter] public GetAllPollQuestionsResponse pollQuestion { get; set; } = new();
-    [Parameter] public GetAllPollsByQuestionIdResponse poll { get; set; } = new();
+    [Parameter] public int PollId { get; set; }
     [CascadingParameter] private MudDialogInstance MudDialog { get; set; }
+
+    private GetPollByIdResponse selectedPoll;
 
     private void StopPoll()
     {
         //ToDo stop poll
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        var result = await pollManager.GetByIdAsync(PollId);
+
+        selectedPoll = result.Data;
+
     }
 }

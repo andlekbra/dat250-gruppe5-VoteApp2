@@ -1,20 +1,3 @@
-var request = new XMLHttpRequest();
-request.open("GET", "https://ghibliapi.herokuapp.com/films", true);
-request.onload = function () {
-  // Begin accessing JSON data here
-  var data = JSON.parse(this.response);
-  if (request.status >= 200 && request.status < 400) {
-    data.forEach((movie) => {
-      //console.log(movie)
-    });
-  } else {
-    const errorMessage = document.createElement("marquee");
-    errorMessage.textContent = `Gah, it's not working!`;
-    app.appendChild(errorMessage);
-  }
-};
-request.send();
-
 var coll = document.getElementsByClassName("collapsible");
 var i;
 
@@ -38,26 +21,22 @@ function testConnection() {
   console.log("Testing: " + serverURL + " , " + pollID);
   //TODO do some test
 
-  if (socket) {
-    socket.onclose = function () {}; // disable onclose handler first
-    socket.close();
-    socket = null;
-  }
-  try {
-    socket = new WebSocket("ws://" + serverURL + "/Polls/" + pollID + "/live");
-    //TODO FIX URL
+  var request = new XMLHttpRequest();
 
-    socket.addEventListener("open", function (event) {
-      socket.send("Websocket Connected");
-    });
+  // Begin accessing JSON data here
+  var data = JSON.parse(this.response);
 
-    socket.addEventListener("message", function (event) {
-      console.log("Message from server ", event.data);
-      //TODO show voteCount
-    });
-  } catch (ex) {
-    console.log("Websocket Failed");
-  }
+  request.open("GET", serverURL + "/api/v1/OngoingPolls/" + pollID, true);
+  request.onload = function () {
+    if (request.status >= 200 && request.status < 400) {
+      console.log(request.data);
+    } else {
+      const errorMessage = document.createElement("marquee");
+      errorMessage.textContent = `Gah, it's not working!`;
+      app.appendChild(errorMessage);
+    }
+  };
+  request.send();
 }
 
 function voteGreen() {

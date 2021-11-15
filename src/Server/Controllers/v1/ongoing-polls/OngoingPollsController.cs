@@ -10,7 +10,7 @@ using VoteApp.Application.Features.Polls.Commands.Vote;
 
 namespace VoteApp.Server.Controllers.v1.Vote
 {
-    public class OngoingPollsController : BaseApiController<PollController>
+    public class OngoingPollsController : BaseApiController<OngoingPollsController>
     {
         [AllowAnonymous]
         [HttpGet]
@@ -31,9 +31,6 @@ namespace VoteApp.Server.Controllers.v1.Vote
                 JoinCode = joincode,
                 VoteCount = voteCount
             };
-
-
-
             return Ok(await _mediator.Send(command));
         }
     }

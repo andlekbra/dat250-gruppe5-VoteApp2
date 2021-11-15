@@ -1,20 +1,3 @@
-var request = new XMLHttpRequest();
-request.open("GET", "https://ghibliapi.herokuapp.com/films", true);
-request.onload = function () {
-  // Begin accessing JSON data here
-  var data = JSON.parse(this.response);
-  if (request.status >= 200 && request.status < 400) {
-    data.forEach((movie) => {
-      //console.log(movie)
-    });
-  } else {
-    const errorMessage = document.createElement("marquee");
-    errorMessage.textContent = `Gah, it's not working!`;
-    app.appendChild(errorMessage);
-  }
-};
-request.send();
-
 var coll = document.getElementsByClassName("collapsible");
 var i;
 
@@ -36,38 +19,88 @@ function testConnection() {
   serverURL = document.getElementById("serverURL").value;
   pollID = document.getElementById("pollID").value;
   console.log("Testing: " + serverURL + " , " + pollID);
-  //TODO do some test
 
-  if (socket) {
-    socket.onclose = function () {}; // disable onclose handler first
-    socket.close();
-    socket = null;
-  }
-  try {
-    socket = new WebSocket("ws://" + serverURL + "/Polls/" + pollID + "/live");
-    //TODO FIX URL
+  var request = new XMLHttpRequest();
 
-    socket.addEventListener("open", function (event) {
-      socket.send("Websocket Connected");
-    });
+  let requestURL = serverURL + "/api/v1/OngoingPolls/" + pollID;
+  console.log(requestURL);
+  request.open("GET", requestURL, true);
 
-    socket.addEventListener("message", function (event) {
-      console.log("Message from server ", event.data);
-      //TODO show voteCount
-    });
-  } catch (ex) {
-    console.log("Websocket Failed");
-  }
+  request.onload = async function () {
+    //console.log(request);
+    if (request.status >= 200 && request.status < 400) {
+      let ongoingPoll = await JSON.parse(request.response);
+
+      console.log(ongoingPoll.data);
+      document.getElementById("titleText").textContent =
+        ongoingPoll.data.questionTitle;
+
+      document.getElementById("QuestionText").textContent =
+        ongoingPoll.data.question;
+
+      document.getElementById("voteGreen").textContent =
+        ongoingPoll.data.greenAnswer;
+      document.getElementById("voteRed").textContent =
+        ongoingPoll.data.redAnswer;
+    } else {
+      const errorMessage = document.createElement("marquee");
+      errorMessage.textContent = `Gah, it's not working!`;
+      app.appendChild(errorMessage);
+    }
+  };
+  request.send();
 }
 
 function voteGreen() {
   console.log("voted green");
+
   //TODO
+  serverURL = document.getElementById("serverURL").value;
+  pollID = document.getElementById("pollID").value;
+  console.log("Testing: " + serverURL + " , " + pollID);
+
+  var request = new XMLHttpRequest();
+
+  let requestURL = serverURL + "/api/v1/OngoingPolls/" + pollID + "/votecounts";
+  console.log(requestURL);
+  request.open("POST", requestURL, true);
+  request.setRequestHeader("Content-Type", "application/json");
+  var data = JSON.stringify({
+    id: 0,
+    createdBy: "empty",
+    createdOn: "2021-11-15T20:34:44.735Z",
+    lastModifiedBy: "string",
+    lastModifiedOn: "2021-11-15T20:34:44.735Z",
+    redVotes: 0, //Only this matters
+    greenVotes: 1, //Only this matters
+  });
+  request.send(data);
 }
 
 function voteRed() {
   //TODO
   console.log("voted red");
+
+  serverURL = document.getElementById("serverURL").value;
+  pollID = document.getElementById("pollID").value;
+  console.log("Testing: " + serverURL + " , " + pollID);
+
+  var request = new XMLHttpRequest();
+
+  let requestURL = serverURL + "/api/v1/OngoingPolls/" + pollID + "/votecounts";
+  console.log(requestURL);
+  request.open("POST", requestURL, true);
+  request.setRequestHeader("Content-Type", "application/json");
+  var data = JSON.stringify({
+    id: 0,
+    createdBy: "empty",
+    createdOn: "2021-11-15T20:34:44.735Z",
+    lastModifiedBy: "string",
+    lastModifiedOn: "2021-11-15T20:34:44.735Z",
+    redVotes: 1, //Only this matters
+    greenVotes: 0, //Only this matters
+  });
+  request.send(data);
 }
 
 document.body.addEventListener("keydown", function (e) {

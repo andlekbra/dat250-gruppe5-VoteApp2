@@ -26,16 +26,20 @@
         type="text"
         id="serverURL"
         name="serverURL"
-        value="https://localhost:44398/"
+        value="https://localhost:44398"
       /><br /><br />
       <label for="pollID">pollID</label><br />
       <input type="text" id="pollID" name="pollID" value="test" /><br /><br />
       <button type="button" onclick="testConnection()">Test Connect</button>
       <p>You can use left(green) and right(red) arrow keys to vote!</p>
     </div>
-    <label style="color: azure">Votes: some numbers from websocket</label><br />
-    <button type="button" onclick="voteGreen()">Vote Green</button>
-    <button type="button" onclick="voteRed()">Vote Red</button>
+    <label style="color: azure" id="titleText"></label><br />
+
+    <label style="color: azure" id="QuestionText"></label><br />
+    <button id="voteGreen" type="button" onclick="voteGreen()">
+      Vote Green
+    </button>
+    <button id="voteRed" type="button" onclick="voteRed()">Vote Red</button>
 
     <script src="IOTDevice.js"></script>
   </body>

@@ -83,7 +83,15 @@ namespace VoteApp.Server
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IStringLocalizer<Startup> localizer)
         {
-            app.UseCors();
+            // CORS - Allow calling the API from WebBrowsers
+            app.UseCors(x => x
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials()
+                //.WithOrigins("https://localhost:44351")); // Allow only this origin can also have multiple origins seperated with comma
+                .SetIsOriginAllowed(origin => true));// Allow any origin  
+
+
             app.UseExceptionHandling(env);
             app.UseHttpsRedirection();
             app.UseMiddleware<ErrorHandlerMiddleware>();

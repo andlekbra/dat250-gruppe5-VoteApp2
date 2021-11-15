@@ -19,17 +19,29 @@ function testConnection() {
   serverURL = document.getElementById("serverURL").value;
   pollID = document.getElementById("pollID").value;
   console.log("Testing: " + serverURL + " , " + pollID);
-  //TODO do some test
 
   var request = new XMLHttpRequest();
 
-  // Begin accessing JSON data here
-  var data = JSON.parse(this.response);
+  let requestURL = serverURL + "/api/v1/OngoingPolls/" + pollID;
+  console.log(requestURL);
+  request.open("GET", requestURL, true);
 
-  request.open("GET", serverURL + "/api/v1/OngoingPolls/" + pollID, true);
-  request.onload = function () {
+  request.onload = async function () {
+    //console.log(request);
     if (request.status >= 200 && request.status < 400) {
-      console.log(request.data);
+      let ongoingPoll = await JSON.parse(request.response);
+
+      console.log(ongoingPoll.data);
+      document.getElementById("titleText").textContent =
+        ongoingPoll.data.questionTitle;
+
+      document.getElementById("QuestionText").textContent =
+        ongoingPoll.data.question;
+
+      document.getElementById("voteGreen").textContent =
+        ongoingPoll.data.greenAnswer;
+      document.getElementById("voteRed").textContent =
+        ongoingPoll.data.redAnswer;
     } else {
       const errorMessage = document.createElement("marquee");
       errorMessage.textContent = `Gah, it's not working!`;
@@ -41,12 +53,54 @@ function testConnection() {
 
 function voteGreen() {
   console.log("voted green");
+
   //TODO
+  serverURL = document.getElementById("serverURL").value;
+  pollID = document.getElementById("pollID").value;
+  console.log("Testing: " + serverURL + " , " + pollID);
+
+  var request = new XMLHttpRequest();
+
+  let requestURL = serverURL + "/api/v1/OngoingPolls/" + pollID + "/votecounts";
+  console.log(requestURL);
+  request.open("POST", requestURL, true);
+  request.setRequestHeader("Content-Type", "application/json");
+  var data = JSON.stringify({
+    id: 0,
+    createdBy: "empty",
+    createdOn: "2021-11-15T20:34:44.735Z",
+    lastModifiedBy: "string",
+    lastModifiedOn: "2021-11-15T20:34:44.735Z",
+    redVotes: 0, //Only this matters
+    greenVotes: 1, //Only this matters
+  });
+  request.send(data);
 }
 
 function voteRed() {
   //TODO
   console.log("voted red");
+
+  serverURL = document.getElementById("serverURL").value;
+  pollID = document.getElementById("pollID").value;
+  console.log("Testing: " + serverURL + " , " + pollID);
+
+  var request = new XMLHttpRequest();
+
+  let requestURL = serverURL + "/api/v1/OngoingPolls/" + pollID + "/votecounts";
+  console.log(requestURL);
+  request.open("POST", requestURL, true);
+  request.setRequestHeader("Content-Type", "application/json");
+  var data = JSON.stringify({
+    id: 0,
+    createdBy: "empty",
+    createdOn: "2021-11-15T20:34:44.735Z",
+    lastModifiedBy: "string",
+    lastModifiedOn: "2021-11-15T20:34:44.735Z",
+    redVotes: 1, //Only this matters
+    greenVotes: 0, //Only this matters
+  });
+  request.send(data);
 }
 
 document.body.addEventListener("keydown", function (e) {

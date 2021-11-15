@@ -1,24 +1,62 @@
-﻿@page("/voting/{joincode}")
+﻿@page "/voting/{joincode}"
+
 @using VoteApp.Client.Infrastructure.Managers.PollManagement;
 @using VoteApp.Application.Features.Polls.Queries.GetByJoinCode;
 
-@if (ongoingPoll != null)
-{
-    <h3>VotingPage</h3>
-}
 
-
-
-@code {
-    [Parameter] public string JoinCode { get; set; }
-    [Inject] public IPollManager PollManager { get; set; }
-
-    private readonly GetOngoingPollByJoinCodeResponse ongoingPoll;
-
-    protected override Task OnInitializedAsync()
+<MudContainer>
+    @if (ongoingPoll is not null)
     {
-        ongoingPoll = await PollManager.GetOngoingPollByJoinCode(JoinCode);
-        return base.OnInitializedAsync();
+        <MudGrid Justify="Justify.Center">
+            <MudItem xs="6">
+                <MudPaper Severity="Severity.Info">
+                    <MudGrid>
+                        <MudItem xs="12">
+                            <MudText Align="Align.Center" Typo="Typo.h2">@ongoingPoll.QuestionTitle</MudText>
+                            <MudText Align="Align.Center" Typo="Typo.h5" Class="smaller">@ongoingPoll.Question</MudText>
+                        </MudItem>
+                        <MudItem xs="6">
+                            <MudButton Variant="Variant.Filled" FullWidth="true" Size="Size.Large" OnClick="OnRedVote">@ongoingPoll.RedAnswer</MudButton>
+                        </MudItem>
+                        <MudItem xs="6">
+                            <MudButton Variant="Variant.Filled" FullWidth="true" Size="Size.Large" OnClick="OnGreenVote">@ongoingPoll.GreenAnswer</MudButton>
+                        </MudItem>
+                    </MudGrid>
+                </MudPaper>
+            </MudItem>
+        </MudGrid>
     }
+</MudContainer>
 
-}
+
+    @code {
+        [Parameter] public string JoinCode { get; set; }
+        [Inject] public IPollManager PollManager { get; set; }
+        [Inject] public NavigationManager NavManager { get; set; }
+
+        private GetOngoingPollByJoinCodeResponse ongoingPoll;
+
+        protected override async Task OnInitializedAsync()
+        {
+            ongoingPoll = (await PollManager.GetOngoingPollByJoinCode(JoinCode)).Data;
+
+        }
+
+        private void OnGreenVote()
+        {
+            PollManager.VoteOnPollByJoinCode(JoinCode, 1, 0);
+            redirectToHomePage();
+        }
+
+        private void OnRedVote()
+        {
+            PollManager.VoteOnPollByJoinCode(JoinCode, 1, 0);
+            redirectToHomePage();
+        }
+
+        private void redirectToHomePage()
+        {
+            NavManager.NavigateTo("/");
+        }
+
+    }

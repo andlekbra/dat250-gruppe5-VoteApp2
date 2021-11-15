@@ -10,6 +10,7 @@ using VoteApp.Application.Features.Polls.Queries.GetAllPollsByQuestionId;
 using System;
 using VoteApp.Application.Features.Polls.Queries.GetById;
 using VoteApp.Application.Features.Polls.Queries.GetByJoinCode;
+using VoteApp.Domain.Entities.Vote;
 
 namespace VoteApp.Client.Infrastructure.Managers.PollManagement
 {
@@ -61,5 +62,17 @@ namespace VoteApp.Client.Infrastructure.Managers.PollManagement
             var response = await _httpClient.GetAsync(String.Format(Routes.PollsEndpoints.GetByJoinCode, Joincode));
             return await response.ToResult<GetOngoingPollByJoinCodeResponse>();
         }
+
+        public async Task<IResult<int>> VoteOnPollByJoinCode(string Joincode, int GreenVotes, int RedVotes)
+        {
+            var votecount = new VoteCount()
+            {
+                GreenVotes = GreenVotes,
+                RedVotes = RedVotes
+            };
+            var response = await _httpClient.PostAsJsonAsync(String.Format(Routes.PollsEndpoints.VoteByJoinCode, Joincode),votecount);
+            return await response.ToResult<int>();
+        }
+
     }
 }

@@ -39,26 +39,19 @@ namespace VoteApp.Application.Features.Polls.Queries.GetAllPollsByQuestionId
                     return await Result<List<GetPollsByQuestionIdResponse>>.FailAsync("Poll question does not exist");
                 }
 
-                //Expression<Func<Poll, GetPollsByQuestionIdResponse>> expression = entity => new GetPollsByQuestionIdResponse
-                //{
-                //    Id = entity.Id,
-                //    StartTime = entity.StartTime,
-                //    JoinCode = entity.JoinCode,
-                //    QuestionId = entity.Question.Id,
-                //    QuestionTitle = entity.Question.Title,
-                //    Question = entity.Question.Question,
-                //    GreenAnswer = entity.Question.GreenAnswer,
-                //    RedAnswer = entity.Question.RedAnswer,
-                //    GreenVotes = entity.VoteCount.GreenVotes,
-                //    RedVotes = entity.VoteCount.RedVotes,
-                //    StopTime = entity.StopTime,
-                //};
+                Expression<Func<Poll, GetPollsByQuestionIdResponse>> expression = entity => new GetPollsByQuestionIdResponse
+                {
+                    Id = entity.Id,
+                    StartTime = entity.StartTime,
+                    JoinCode = entity.JoinCode,
+                    GreenVotes = entity.VoteCount.GreenVotes,
+                    RedVotes = entity.VoteCount.RedVotes,
+                    StopTime = entity.StopTime,
+                };
 
-                var response = await _unitOfWork.Repository<Poll>().Entities.Where(poll => poll.Question.Id == query.PollQuestionId).ToListAsync();
+                var response = await _unitOfWork.Repository<Poll>().Entities.Where(poll => poll.Question.Id == query.PollQuestionId).Select(expression).ToListAsync();
 
-                var mappedResponse = _mapper.Map<List<GetPollsByQuestionIdResponse>>(response);
-
-                return await Result<List<GetPollsByQuestionIdResponse>>.SuccessAsync(mappedResponse);
+                return await Result<List<GetPollsByQuestionIdResponse>>.SuccessAsync(response);
             }
         }
 

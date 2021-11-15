@@ -70,8 +70,8 @@ else
                             <HeaderContent>
                                 <MudTh>Started</MudTh>
                                 <MudTh>Stopped</MudTh>
-                                <MudTh>Green votes</MudTh>
                                 <MudTh>Red votes</MudTh>
+                                <MudTh>Green votes</MudTh>
                             </HeaderContent>
                             <RowTemplate>
                                 <MudTd DataLabel="Started">@PollResultContext.StartTime</MudTd>
@@ -85,8 +85,8 @@ else
                                         <MudButton Variant="Variant.Filled" Color="Color.Warning">Ongoing poll</MudButton>
                                     }
                                 </MudTd>
-                                <MudTd DataLabel="Green votes">@PollResultContext.GreenVotes</MudTd>
                                 <MudTd DataLabel="Red votes">@PollResultContext.RedVotes</MudTd>
+                                <MudTd DataLabel="Green votes">@PollResultContext.GreenVotes</MudTd>
                             </RowTemplate>
                         </MudTable>
                     </MudCardContent>

@@ -35,6 +35,7 @@ namespace VoteApp.Application.Features.Polls.Commands.Stop
         public AddPollCommandHandler(IUnitOfWork<int> unitOfWork, IPollStopNotificationService pollStopNotificationService)
         {
             _unitOfWork = unitOfWork;
+            _pollStopNotificationService = pollStopNotificationService;
         }
 
         public async Task<Result<int>> Handle(StopPollCommand command, CancellationToken cancellationToken)

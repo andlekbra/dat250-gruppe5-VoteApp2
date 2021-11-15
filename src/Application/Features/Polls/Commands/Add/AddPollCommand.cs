@@ -10,6 +10,8 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using System;
 using VoteApp.Domain.Entities.Vote;
+using VoteApp.Application.Models.PollStartNotification;
+using VoteApp.Application.Interfaces.Services;
 
 namespace VoteApp.Application.Features.Polls.Commands.Add
 {
@@ -25,10 +27,13 @@ namespace VoteApp.Application.Features.Polls.Commands.Add
     {
         private readonly IUnitOfWork<int> _unitOfWork;
         private readonly IStringLocalizer<AddPollCommandHandler> _localizer;
+        private readonly IPollStartNotificationService _pollStartNotificationService;   
 
-        public AddPollCommandHandler(IUnitOfWork<int> unitOfWork)
+
+        public AddPollCommandHandler(IUnitOfWork<int> unitOfWork, IPollStartNotificationService pollStartNotificationService)
         {
             _unitOfWork = unitOfWork;
+            _pollStartNotificationService = pollStartNotificationService;
         }
 
         public async Task<Result<int>> Handle(AddPollCommand command, CancellationToken cancellationToken)
@@ -57,6 +62,12 @@ namespace VoteApp.Application.Features.Polls.Commands.Add
             poll.VoteCount = new VoteCount();
 
 
+            _pollStartNotificationService.Notify(new PollStartNotificationMessage()
+            {
+
+                JoinCode = poll.JoinCode,
+                Question = poll.Question.Title
+            });
 
             await _unitOfWork.Repository<Poll>().AddAsync(poll);
             await _unitOfWork.Commit(cancellationToken);

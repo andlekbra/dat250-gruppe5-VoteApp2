@@ -1,42 +1,21 @@
 @page "/home"
 @page "/"
-@inject Microsoft.Extensions.Localization.IStringLocalizer<Home> _localizer
-@using VoteApp.Client.Infrastructure.Managers.PollManagement;
 
-<MudContainer>
-    <MudGrid Justify="Justify.Center">
-        <MudItem xs="12">
-            <MudText Align="Align.Center" Typo="Typo.h2">VoteApp</MudText>
-            <MudText Align="Align.Center" Typo="Typo.h5" Class="smaller">DAT250 Group 5</MudText>
-        </MudItem>
-        <MudPaper Elevation="1">
-            <MudItem xs="8">
-                <MudTextField @bind-Value="joincode" Label="Join code" Variant="Variant.Filled"></MudTextField>
+<MudGrid Justify="Justify.Center">
+    <MudItem xs="12">
+        <MudText Align="Align.Center" Typo="Typo.h2">VoteApp</MudText>
+        <MudText Align="Align.Center" Typo="Typo.h5" Class="smaller">DAT250 Group 5</MudText>
+    </MudItem>
+</MudGrid>
+
+<AuthorizeView>
+    <NotAuthorized>
+        <MudGrid Justify="Justify.Center">
+            <MudItem xs="12">
+                <MudText Align="Align.Center" Typo="Typo.h2">VoteApp</MudText>
+                <MudText Align="Align.Center" Typo="Typo.h5" Class="smaller">DAT250 Group 5</MudText>
+                <VoteApp.Client.Pages.Voting.VotingPage></VoteApp.Client.Pages.Voting.VotingPage>
             </MudItem>
-            <MudItem xs="4">
-                <MudButton Variant="Variant.Filled" OnClick="joinPoll">Join Poll</MudButton>
-            </MudItem>
-        </MudPaper>
-    </MudGrid>
-</MudContainer>
-
-@code{
-    private string joincode;
-
-    [Inject] public IPollManager PollManager { get; set; }
-    [Inject] public NavigationManager NavigationManager { get; set; }
-
-    private void joinPoll()
-    {
-        var poll = PollManager.GetOngoingPollByJoinCode(joincode);
-
-        if (poll is null)
-        {
-            _snackBar.Add("There is no ongoing poll with that join code");
-        }
-        else
-        {
-            NavigationManager.NavigateTo("voting/" + joincode);
-        }
-    }
-}
+        </MudGrid>
+    </NotAuthorized>
+</AuthorizeView>

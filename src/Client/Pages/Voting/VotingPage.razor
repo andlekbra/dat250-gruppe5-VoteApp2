@@ -1,13 +1,17 @@
-﻿@page "/voting/{joincode}"
-
+﻿@page "/voting"
+@attribute [AllowAnonymous]
 @using VoteApp.Client.Infrastructure.Managers.PollManagement;
 @using VoteApp.Application.Features.Polls.Queries.GetByJoinCode;
 
-
 <MudContainer>
-    @if (ongoingPoll is not null)
-    {
-        <MudGrid Justify="Justify.Center">
+    <MudGrid Justify="Justify.Center">
+        <MudItem xs="12">
+            <MudText Align="Align.Center" Typo="Typo.h2">VoteApp</MudText>
+            <MudText Align="Align.Center" Typo="Typo.h5" Class="smaller">DAT250 Group 5</MudText>
+        </MudItem>
+        @if (ongoingPoll is not null)
+        {
+
             <MudItem xs="6">
                 <MudPaper Severity="Severity.Info">
                     <MudGrid>
@@ -24,39 +28,83 @@
                     </MudGrid>
                 </MudPaper>
             </MudItem>
-        </MudGrid>
-    }
+
+        }
+        else
+        {
+
+
+            <MudPaper Elevation="1">
+                <MudItem xs="8">
+                    <MudTextField @bind-Value="joincode" Label="Join code" Variant="Variant.Filled"></MudTextField>
+                </MudItem>
+                <MudItem xs="4">
+                    <MudButton Variant="Variant.Filled" OnClick="joinPoll">Join Poll</MudButton>
+                </MudItem>
+            </MudPaper>
+
+
+        }
+    </MudGrid>
 </MudContainer>
 
 
-    @code {
-        [Parameter] public string JoinCode { get; set; }
-        [Inject] public IPollManager PollManager { get; set; }
-        [Inject] public NavigationManager NavManager { get; set; }
+@code {
+    [Inject] public IPollManager PollManager { get; set; }
+    [Inject] public NavigationManager NavManager { get; set; }
 
-        private GetOngoingPollByJoinCodeResponse ongoingPoll;
+    private string joincode;
 
-        protected override async Task OnInitializedAsync()
+    private GetOngoingPollByJoinCodeResponse ongoingPoll;
+
+    private async void OnGreenVote()
+    {
+        var result = await PollManager.VoteOnPollByJoinCode(ongoingPoll.JoinCode, 1, 0);
+        if (result.Succeeded)
         {
-            ongoingPoll = (await PollManager.GetOngoingPollByJoinCode(JoinCode)).Data;
-
+            _snackBar.Add("Vote for " + ongoingPoll.GreenAnswer + " received! Thank you for voting!", Severity.Success);
         }
-
-        private void OnGreenVote()
+        else
         {
-            PollManager.VoteOnPollByJoinCode(JoinCode, 1, 0);
-            redirectToHomePage();
+            _snackBar.Add("Something went wrong. YOur vote was not registered");
         }
+        ongoingPoll = null;
+        StateHasChanged();
+    }
 
-        private void OnRedVote()
+    private async void OnRedVote()
+    {
+        var result = await PollManager.VoteOnPollByJoinCode(ongoingPoll.JoinCode, 0, 1);
+        if (result.Succeeded)
         {
-            PollManager.VoteOnPollByJoinCode(JoinCode,0, 1);
-            redirectToHomePage();
+            _snackBar.Add("Vote for " + ongoingPoll.RedAnswer + " received! Thank you for voting!",Severity.Success);
         }
-
-        private void redirectToHomePage()
+        else
         {
-            NavManager.NavigateTo("/");
+            _snackBar.Add("Something went wrong. YOur vote was not registered");
         }
+        ongoingPoll = null;
+        StateHasChanged();
 
     }
+
+    private async void joinPoll()
+    {
+        if (string.IsNullOrEmpty(joincode))
+        {
+            _snackBar.Add("Join code cannot be empty", Severity.Error);
+        }
+        else
+        {
+            ongoingPoll = (await PollManager.GetOngoingPollByJoinCode(joincode)).Data;
+            if (ongoingPoll == null)
+            {
+                _snackBar.Add("Poll with joincode " + joincode + " does not exist",Severity.Error);
+            }
+            StateHasChanged();
+        }
+
+        joincode = "";
+
+    }
+}

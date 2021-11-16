@@ -18,7 +18,7 @@ namespace VoteApp.Infrastructure.Services.Rabbit
 
         public async void Notify(PollStartNotificationMessage message)
         {
-            using (var bus = RabbitHutch.CreateBus("amqps://cfuzuohh:a3WPbqQLs1R9xqyvHVvXBH3nYOwyC61r@hawk.rmq.cloudamqp.com/cfuzuohh"))
+            using (var bus = RabbitHutch.CreateBus("amqps://cfuzuohh:ECv7Ll8eRfRzcJK9ITYbCtm97Yo3gXPP@hawk.rmq.cloudamqp.com/cfuzuohh"))
             {
                 var json = JsonConvert.SerializeObject(message);
                 await bus.PubSub.PublishAsync(json).ConfigureAwait(false);
@@ -28,7 +28,7 @@ namespace VoteApp.Infrastructure.Services.Rabbit
 
         public async void Notify(PollStopNotificationMessage message)
         {
-            using (var bus = RabbitHutch.CreateBus("amqps://cfuzuohh:a3WPbqQLs1R9xqyvHVvXBH3nYOwyC61r@hawk.rmq.cloudamqp.com/cfuzuohh"))
+            using (var bus = RabbitHutch.CreateBus("amqps://cfuzuohh:ECv7Ll8eRfRzcJK9ITYbCtm97Yo3gXPP@hawk.rmq.cloudamqp.com/cfuzuohh"))
             {
                 var json = JsonConvert.SerializeObject(message);
                 await bus.PubSub.PublishAsync(json).ConfigureAwait(false);

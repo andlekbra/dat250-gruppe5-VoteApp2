@@ -20,7 +20,7 @@ namespace VoteApp.Server.Controllers.v1.Vote
 
 
 
-        [Authorize(Policy = Permissions.Brands.View)]
+        [Authorize]
         [HttpGet]
         [Route("poll-questions")]
         public async Task<IActionResult> GetAllPollQuestions()
@@ -29,7 +29,7 @@ namespace VoteApp.Server.Controllers.v1.Vote
             return Ok(pollQuestions);
         }
 
-        [Authorize(Policy = Permissions.Brands.View)]
+        [Authorize]
         [HttpGet]
         [Route("poll-questions/{id}/polls")]
         public async Task<IActionResult> GetPollsFromPollQuesitonId([FromRoute] int id)
@@ -38,7 +38,7 @@ namespace VoteApp.Server.Controllers.v1.Vote
             return Ok(polls);
         }
 
-        [Authorize(Policy = Permissions.Brands.Create)]
+        [Authorize]
         [HttpPost]
         [Route("poll-questions")]
         public async Task<IActionResult> Post(AddPollQuestionCommand command)
@@ -46,7 +46,7 @@ namespace VoteApp.Server.Controllers.v1.Vote
             return Ok(await _mediator.Send(command));
         }
 
-        [Authorize(Policy = Permissions.Brands.Create)]
+        [Authorize]
         [HttpPost]
         [Route("polls")]
         public async Task<IActionResult> CreatePoll([FromBody]AddPollCommand command)
@@ -54,7 +54,7 @@ namespace VoteApp.Server.Controllers.v1.Vote
             return Ok(await _mediator.Send(command));
         }
 
-        [Authorize(Policy = Permissions.Brands.Create)]
+        [Authorize]
         [HttpGet]
         [Route("polls/{id}")]
         public async Task<IActionResult> GetPollById([FromRoute] int id)
@@ -66,7 +66,7 @@ namespace VoteApp.Server.Controllers.v1.Vote
             return Ok(await _mediator.Send(query));
         }
 
-        [Authorize(Policy = Permissions.Brands.Create)]
+        [Authorize]
         [HttpPost]
         [Route("polls/{id}/stop")]
         public async Task<IActionResult> StopPoll([FromRoute] int id)

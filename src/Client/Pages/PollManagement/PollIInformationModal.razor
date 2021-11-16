@@ -39,7 +39,7 @@
 
     private void StopPoll()
     {
-        //ToDo stop poll
+        pollManager.StopAsync(PollId);
     }
 
     protected override async Task OnInitializedAsync()

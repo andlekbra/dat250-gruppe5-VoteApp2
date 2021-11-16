@@ -26,7 +26,7 @@ namespace VoteApp.Application.Features.Polls.Commands.Add
     internal class AddPollCommandHandler : IRequestHandler<AddPollCommand, Result<int>>
     {
         private readonly IUnitOfWork<int> _unitOfWork;
-        private readonly IStringLocalizer<AddPollCommandHandler> _localizer;
+        
         private readonly IPollStartNotificationService _pollStartNotificationService;   
 
 
@@ -41,14 +41,14 @@ namespace VoteApp.Application.Features.Polls.Commands.Add
 
             if (await _unitOfWork.Repository<Poll>().Entities.Where(p => (p.StopTime == null) && (p.JoinCode == command.JoinCode)).AnyAsync())
             {
-                return await Result<int>.FailAsync(_localizer["JoinCode already exists."]);
+                return await Result<int>.FailAsync("JoinCode already exists.");
             }
 
             var question = await _unitOfWork.Repository<PollQuestion>().GetByIdAsync(command.PollQuestionId);
 
             if (question == null)
             {
-                return await Result<int>.FailAsync(_localizer["Question does not exist"]);
+                return await Result<int>.FailAsync("Question does not exist");
             }
 
             //todo check if pollquestion exists

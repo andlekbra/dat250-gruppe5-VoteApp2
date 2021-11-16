@@ -4,8 +4,6 @@ using VoteApp.Application.Models.PollStartNotification;
 
 namespace VoteApp.Application.Interfaces.Services.Mocks
 {
-
-    
     class PollStartNotificationMock : IPollStartNotificationService
     {
         
@@ -18,7 +16,6 @@ namespace VoteApp.Application.Interfaces.Services.Mocks
                 var json = JsonConvert.SerializeObject(message);
                 await bus.PubSub.PublishAsync(json).ConfigureAwait(false);
             }
-            
         }
     }
     

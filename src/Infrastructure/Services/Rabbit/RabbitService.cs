@@ -12,7 +12,7 @@ using VoteApp.Application.Models.PollStopNotification;
 namespace VoteApp.Infrastructure.Services.Rabbit
 {
 
-    /*
+    
     internal class RabbitService : IPollStartNotificationService, IPollStopNotificationService
     {
 
@@ -36,5 +36,5 @@ namespace VoteApp.Infrastructure.Services.Rabbit
             }
         }
     }
-    */
+   
 }

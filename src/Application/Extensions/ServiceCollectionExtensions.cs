@@ -24,8 +24,6 @@ namespace VoteApp.Application.Extensions
             //services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
             services.AddMediatR(Assembly.GetExecutingAssembly());
             //services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
-            services.AddTransient<IPollStartNotificationService, PollStartNotificationMock>();
-            services.AddTransient<IPollStopNotificationService, PollStopNotificationMock>();
         }
 
         public static void AddExtendedAttributesHandlers(this IServiceCollection services)

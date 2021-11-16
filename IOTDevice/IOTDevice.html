@@ -26,25 +26,39 @@
         type="text"
         id="serverURL"
         name="serverURL"
-        value="localhost:44398"
+        value="voteapp.azurewebsites.net"
       /><br /><br />
       <label for="pollID">pollID</label><br />
-      <input type="text" id="pollID" name="pollID" value="test" /><br /><br />
+      <input type="text" id="pollID" name="pollID" value="Fermat" /><br /><br />
       <button type="button" onclick="testConnection()">Test Connect</button>
       <p>You can use left(green) and right(red) arrow keys to vote!</p>
     </div>
-    <label style="color: azure" id="titleText"></label><br />
 
-    <label style="color: azure" id="QuestionText"></label><br />
-    <button id="voteGreen" type="button" onclick="voteGreen()">
-      Vote Green
-    </button>
-    <button id="voteRed" type="button" onclick="voteRed()">Vote Red</button>
-    <br />
-    <label style="color: rgb(0, 255, 64)" id="greenVotes"></label>
-    <label>-|-</label>
-    <label style="color: rgb(255, 0, 0)" id="redVotes"></label>
+    <div id="outer" style="background-color: #535353">
+      <div id="inner" style="background-color: #535353">
+        <h3 style="color: azure" id="titleText"></h3>
+        <br />
 
+        <h2 style="color: azure" id="QuestionText"></h2>
+        <br />
+        <button
+          class="button"
+          id="voteGreen"
+          type="button"
+          onclick="voteGreen()"
+        >
+          Vote Green
+        </button>
+
+        <button class="button" id="voteRed" type="button" onclick="voteRed()">
+          Vote Red
+        </button>
+        <br />
+        <label style="color: rgb(0, 255, 64)" id="greenVotes"></label>
+        <label>-|-</label>
+        <label style="color: rgb(255, 0, 0)" id="redVotes"></label>
+      </div>
+    </div>
     <script src="IOTDevice.js"></script>
   </body>
 </html>

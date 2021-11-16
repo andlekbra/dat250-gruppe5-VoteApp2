@@ -29,3 +29,28 @@
 body {
   background-color: #444444;
 }
+
+#outer {
+  background-color: green; /* for visualization purposes */
+  text-align: center;
+}
+#inner {
+  background-color: red; /* for visualization purposes */
+  display: inline-block;
+}
+h1,
+h3,
+h4 {
+  font-weight: bold;
+}
+
+.button {
+  background-color: #a3a3a3; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}

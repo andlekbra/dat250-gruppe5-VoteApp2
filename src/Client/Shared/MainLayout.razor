@@ -9,19 +9,28 @@
     <NotAuthorized>
         <MudAppBar Elevation="4" Color="Color.Primary">
             <MudAppBarSpacer />
-            <LanguageSelector />
+
+            <MudButton Variant="Variant.Filled" Color="Color.Warning" OnClick="GoToVoting">Go to voting!</MudButton>
+
             <MudTooltip Text="@localizer["Toggle Dark Mode"]">
                 <MudIconButton Icon="@Icons.Material.Filled.Brightness4" Color="Color.Inherit" OnClick="@((e) => DarkMode())" />
             </MudTooltip>
-        </MudAppBar>
+            <MudTooltip Text="@localizer["Go to login"]">
+                <MudIconButton Icon="@Icons.Material.Outlined.Person" Color="Color.Inherit" OnClick="GoToLogin" />
+            </MudTooltip>
 
-        <MudContainer MaxWidth="MaxWidth.Small" Class="d-flex align-center" Style="height: 100vh;">
-            <MudPaper Elevation="25" Class="pa-8" Style="width: 500px;">
-                <CascadingValue Value="hubConnection">
-                    @Body
-                </CascadingValue>
-            </MudPaper>
-        </MudContainer>
+
+
+        </MudAppBar>
+        <MudMainContent>
+            <MudContainer MaxWidth="MaxWidth.Small" Class="d-flex align-center" Style="height: 100vh;">
+                <MudPaper Elevation="25" Class="pa-8" Style="width: 500px;">
+                    <CascadingValue Value="hubConnection">
+                        @Body
+                    </CascadingValue>
+                </MudPaper>
+            </MudContainer>
+        </MudMainContent>
     </NotAuthorized>
     <Authorized>
         @(LoadDataAsync())

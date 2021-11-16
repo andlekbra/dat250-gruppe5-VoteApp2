@@ -172,6 +172,16 @@ namespace VoteApp.Client.Shared
             //_ = hubConnection.DisposeAsync();
         }
 
+        private void GoToLogin()
+        {
+            _navigationManager.NavigateTo("/login");
+        }
+
+        private void GoToVoting()
+        {
+            _navigationManager.NavigateTo("/voting");
+        }
+
         private HubConnection hubConnection;
         public bool IsConnected => hubConnection.State == HubConnectionState.Connected;
     }

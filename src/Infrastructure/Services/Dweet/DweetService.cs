@@ -15,7 +15,7 @@ namespace VoteApp.Infrastructure.Services.Dweet
 	/// <summary>
 	/// Taken from https://github.com/TobiasRoeddiger/DweetSharp
 	/// </summary>
-	class DweetService : IPollStartNotificationService, IPollStopNotificationService
+	public class DweetService : IPollStartNotificationService, IPollStopNotificationService
 	{
 		private static DweetSharpHttpClient _dweetIOClient = new DweetSharpHttpClient();
 

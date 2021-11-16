@@ -1,4 +1,6 @@
-﻿using System;
+﻿using EasyNetQ;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,8 +11,13 @@ namespace VoteApp.Application.Interfaces.Services.Mocks
 {
     class PollStartNotificationMock : IPollStartNotificationService
     {
-        public void Notify(PollStartNotificationMessage message)
+        public async void Notify(PollStartNotificationMessage message)
         {
+            using( var bus = RabbitHutch.CreateBus("host=localhost"))
+            {
+                var json = JsonConvert.SerializeObject(message);
+                await bus.PubSub.PublishAsync(json).ConfigureAwait(false);
+            }
             
         }
     }

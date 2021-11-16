@@ -74,6 +74,7 @@ namespace VoteApp.Client.Pages.PollManagement
                 {
                     _snackBar.Add(message, Severity.Error);
                 }
+                _pollQuestionList = new();
             }
         }
 
@@ -135,8 +136,15 @@ namespace VoteApp.Client.Pages.PollManagement
                 {
                     _pollsForSelectedQuestion = result.Data;
                 }
+				else
+				{
+                    _pollsForSelectedQuestion = new();
+                }
+            } else
+			{
+                _pollsForSelectedQuestion = new();
             }
-
+           
             this.StateHasChanged();
             
         }
@@ -146,7 +154,7 @@ namespace VoteApp.Client.Pages.PollManagement
             if (_selectedQuestion == pollQuestion.Item)
             {
                 _selectedQuestion = null;
-                _pollsForSelectedQuestion = null;
+                _pollsForSelectedQuestion = new ();
             }
             else
             {

@@ -22,7 +22,7 @@ function testConnection() {
 
   var request = new XMLHttpRequest();
 
-  let requestURL = serverURL + "/api/v1/OngoingPolls/" + pollID;
+  let requestURL = "https://" + serverURL + "/api/v1/OngoingPolls/" + pollID;
   console.log(requestURL);
   request.open("GET", requestURL, true);
 
@@ -49,6 +49,32 @@ function testConnection() {
     }
   };
   request.send();
+
+  if (socket) {
+    socket.onclose = function () {}; // disable onclose handler first
+    socket.close();
+    socket = null;
+  }
+  ///api/v1/OngoingPolls/
+  try {
+    socket = new WebSocket(
+      "wss://" + serverURL + "/api/v1/OngoingPolls/" + pollID + "/live"
+    );
+    //TODO FIX URL
+
+    socket.addEventListener("open", function (event) {
+      socket.send("Websocket Connected");
+    });
+
+    socket.addEventListener("message", function (event) {
+      console.log("Message from server ", event.data);
+      //TODO show voteCount
+    });
+    //socket.send();
+  } catch (ex) {
+    console.log(ex);
+    console.log("Websocket Failed");
+  }
 }
 
 function voteGreen() {
@@ -61,7 +87,8 @@ function voteGreen() {
 
   var request = new XMLHttpRequest();
 
-  let requestURL = serverURL + "/api/v1/OngoingPolls/" + pollID + "/votecounts";
+  let requestURL =
+    "https://" + serverURL + "/api/v1/OngoingPolls/" + pollID + "/votecounts";
   console.log(requestURL);
   request.open("POST", requestURL, true);
   request.setRequestHeader("Content-Type", "application/json");
@@ -87,7 +114,8 @@ function voteRed() {
 
   var request = new XMLHttpRequest();
 
-  let requestURL = serverURL + "/api/v1/OngoingPolls/" + pollID + "/votecounts";
+  let requestURL =
+    "https://" + serverURL + "/api/v1/OngoingPolls/" + pollID + "/votecounts";
   console.log(requestURL);
   request.open("POST", requestURL, true);
   request.setRequestHeader("Content-Type", "application/json");
@@ -125,5 +153,4 @@ document.body.addEventListener("keydown", function (e) {
   e.preventDefault(); // prevent the default action (scroll / move caret)
 });
 
-//Fails to compile below this
 let socket;

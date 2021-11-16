@@ -14,6 +14,8 @@ using System.IO;
 using VoteApp.Server.Filters;
 using VoteApp.Server.Managers.Preferences;
 using Microsoft.Extensions.Localization;
+using VoteApp.Application.Interfaces.Services;
+using VoteApp.Infrastructure.Services.Rabbit;
 
 namespace VoteApp.Server
 {
@@ -65,6 +67,8 @@ namespace VoteApp.Server
                 config.ReportApiVersions = true;
             });
             services.AddLazyCache();
+            services.AddTransient<IPollStartNotificationService, RabbitService>();
+            services.AddTransient<IPollStopNotificationService, RabbitService>();
 
         }
 

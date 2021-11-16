@@ -17,9 +17,9 @@ namespace VoteApp.Application.Features.Polls.Commands.Vote
     public class VoteOnPollCommand : IRequest<Result<int>>
     {
         public string JoinCode { get; set; }
-        public VoteCount VoteCount { get; set; }
+        public Domain.Entities.Vote.VoteCount VoteCount { get; set; }
 
-        public VoteOnPollCommand(string JoinCode, VoteCount voteCount)
+        public VoteOnPollCommand(string JoinCode, Domain.Entities.Vote.VoteCount voteCount)
 		{
             this.JoinCode = JoinCode;
             this.VoteCount = voteCount;
@@ -60,14 +60,14 @@ namespace VoteApp.Application.Features.Polls.Commands.Vote
                 return await Result<int>.FailAsync("JoinCode does not exist");
             }
 
-            var voteCount = await _unitOfWork.Repository<VoteCount>().GetByIdAsync(poll.VoteCount.Id);
+            var voteCount = await _unitOfWork.Repository<Domain.Entities.Vote.VoteCount>().GetByIdAsync(poll.VoteCount.Id);
 
             voteCount.RedVotes += command.VoteCount.RedVotes;
             voteCount.GreenVotes += command.VoteCount.GreenVotes;
 
 
 
-            await _unitOfWork.Repository<VoteCount>().UpdateAsync(voteCount);
+            await _unitOfWork.Repository<Domain.Entities.Vote.VoteCount>().UpdateAsync(voteCount);
             await _unitOfWork.Commit(cancellationToken);
             return await Result<int>.SuccessAsync(command.VoteCount.Id, "VoteCount Saved");
 

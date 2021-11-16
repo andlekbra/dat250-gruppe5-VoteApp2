@@ -49,32 +49,27 @@ function testConnection() {
     }
   };
   request.send();
+  getVotes();
+}
 
-  if (socket) {
-    socket.onclose = function () {}; // disable onclose handler first
-    socket.close();
-    socket = null;
-  }
-  ///api/v1/OngoingPolls/
-  try {
-    socket = new WebSocket(
-      "wss://" + serverURL + "/api/v1/OngoingPolls/" + pollID + "/live"
-    );
-    //TODO FIX URL
+function getVotes() {
+  let request = new XMLHttpRequest();
 
-    socket.addEventListener("open", function (event) {
-      socket.send("Websocket Connected");
-    });
+  let requestURL =
+    "https://" + serverURL + "/api/v1/OngoingPolls/" + pollID + "/live";
 
-    socket.addEventListener("message", function (event) {
-      console.log("Message from server ", event.data);
-      //TODO show voteCount
-    });
-    //socket.send();
-  } catch (ex) {
-    console.log(ex);
-    console.log("Websocket Failed");
-  }
+  request.open("GET", requestURL, true);
+
+  request.onload = async function () {
+    console.log("Message from server ", request.response);
+    //TODO show voteCount
+    let jdata = JSON.parse(request.response);
+
+    document.getElementById("redVotes").textContent = jdata.Red;
+    document.getElementById("greenVotes").textContent = jdata.Green;
+  };
+
+  request.send();
 }
 
 function voteGreen() {
@@ -88,7 +83,7 @@ function voteGreen() {
   var request = new XMLHttpRequest();
 
   let requestURL =
-    "https://" + serverURL + "/api/v1/OngoingPolls/" + pollID + "/votecounts";
+    "https://" + serverURL + "/api/v1/OngoingPolls/" + pollID + "/votecount";
   console.log(requestURL);
   request.open("POST", requestURL, true);
   request.setRequestHeader("Content-Type", "application/json");
@@ -115,7 +110,7 @@ function voteRed() {
   var request = new XMLHttpRequest();
 
   let requestURL =
-    "https://" + serverURL + "/api/v1/OngoingPolls/" + pollID + "/votecounts";
+    "https://" + serverURL + "/api/v1/OngoingPolls/" + pollID + "/votecount";
   console.log(requestURL);
   request.open("POST", requestURL, true);
   request.setRequestHeader("Content-Type", "application/json");
@@ -153,4 +148,13 @@ document.body.addEventListener("keydown", function (e) {
   e.preventDefault(); // prevent the default action (scroll / move caret)
 });
 
-let socket;
+const delay = (ms) => new Promise((res) => setTimeout(res, ms));
+
+async function getUpdates() {
+  while (true) {
+    getVotes();
+    await delay(1000);
+  }
+}
+
+getUpdates();

@@ -54,7 +54,7 @@ namespace VoteApp.Application.Features.Polls.Commands.Add
             poll.Question = question;
             poll.StopTime = null;
             poll.StartTime = DateTime.Now;
-            poll.VoteCount = new VoteCount();
+            poll.VoteCount = new Domain.Entities.Vote.VoteCount();
 
             await _unitOfWork.Repository<Poll>().AddAsync(poll);
             await _unitOfWork.Commit(cancellationToken);

@@ -8,6 +8,7 @@ namespace VoteApp.Application.Interfaces.Services
 {
     internal interface IRabbitService
     {
-        Task SendAsync();
+        //
+
     }
 }

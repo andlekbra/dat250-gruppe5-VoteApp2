@@ -11,30 +11,31 @@ using VoteApp.Application.Models.PollStopNotification;
 
 namespace VoteApp.Infrastructure.Services.Rabbit
 {
-
-
-    public class RabbitService : IPollStartNotificationService, IPollStopNotificationService
+    internal class RabbitService : IPollStartNotificationService, IPollStopNotificationService
     {
-
-        public async void Notify(PollStartNotificationMessage message)
-        {
-            using (var bus = RabbitHutch.CreateBus("amqps://cfuzuohh:a3WPbqQLs1R9xqyvHVvXBH3nYOwyC61r@hawk.rmq.cloudamqp.com/cfuzuohh"))
-            {
-                var json = JsonConvert.SerializeObject(message);
-                await bus.PubSub.PublishAsync(json).ConfigureAwait(false);
-            }
-
-        }
-
         public async void Notify(PollStopNotificationMessage message)
         {
-            using (var bus = RabbitHutch.CreateBus("amqps://cfuzuohh:a3WPbqQLs1R9xqyvHVvXBH3nYOwyC61r@hawk.rmq.cloudamqp.com/cfuzuohh"))
+            if (message is null)
             {
-                var json = JsonConvert.SerializeObject(message);
+                throw new ArgumentNullException(nameof(message));
+            }
+            await SendMessage(message).ConfigureAwait(false);
+        }
+        public async void Notify(PollStartNotificationMessage message)
+        {
+            if (message is null)
+            {
+                throw new ArgumentNullException(nameof(message));
+            }
+            await SendMessage(message).ConfigureAwait(false);
+        }
+        public async static Task SendMessage(Object poll)
+        {
+            using (var bus = RabbitHutch.CreateBus("host=localhost"))
+            {
+                var json = JsonConvert.SerializeObject(poll);
                 await bus.PubSub.PublishAsync(json).ConfigureAwait(false);
-
             }
         }
     }
-
 }

@@ -15,17 +15,25 @@ namespace VoteApp.Infrastructure.Services.Rabbit
     
     internal class RabbitService : IPollStartNotificationService, IPollStopNotificationService
     {
-
-        
         public async void Notify(PollStopNotificationMessage message)
         {
-            await TestNetQ(message);
+
+            if (message is null)
+            {
+                throw new ArgumentNullException(nameof(message));
+            }
+            await SendMessage(message).ConfigureAwait(false);
         }
         public async void Notify(PollStartNotificationMessage message)
         {
-            await TestNetQ(message);
+
+            if (message is null)
+            {
+                throw new ArgumentNullException(nameof(message));
+            }
+            await SendMessage(message);
         }
-        public async static Task TestNetQ(Object poll)
+        public async static Task SendMessage(Object poll)
         {
 
             using (var bus = RabbitHutch.CreateBus("host=localhost"))

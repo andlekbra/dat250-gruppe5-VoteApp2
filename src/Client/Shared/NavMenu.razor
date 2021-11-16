@@ -3,15 +3,8 @@
 <UserCard />
 <MudNavMenu>
     <MudNavLink Href="/" Match="NavLinkMatch.All" Icon="@Icons.Material.Outlined.Home">@_localizer["Home"]</MudNavLink>
-    @if (_canViewHangfire)
-    {
-        <MudNavLink Href="/jobs" Target="_blank" Icon="@Icons.Material.Outlined.Work">
-            @_localizer["Hangfire"]
-        </MudNavLink>
-    }
-    <MudNavLink Href="https://codewithmukesh.com/blog/blazor-hero-quick-start-guide/" Target="_blank" Icon="@Icons.Material.Outlined.ReadMore">
-        @_localizer["Quick Start Guide"]
-    </MudNavLink>
+
+
     <MudNavLink Href="/swagger/index.html" Target="_blank" Icon="@Icons.Material.Outlined.LiveHelp">
         @_localizer["Swagger"]
     </MudNavLink>
@@ -19,7 +12,9 @@
     <MudNavLink Href="https://dweet.io/get/latest/dweet/for/FeedbackAppDat250" Target="_blank" Icon="@Icons.Material.Outlined.ChatBubble">
         @_localizer["Dweet.io"]
     </MudNavLink>
+
     <MudListSubheader Class="mt-2 mb-n2">@_localizer["Personal"]</MudListSubheader>
+
     @if (_canViewDashboards)
     {
         <MudNavLink Href="/dashboard" Icon="@Icons.Material.Outlined.Dashboard">
@@ -34,22 +29,6 @@
         <MudNavLink Href="/audit-trails" Icon="@Icons.Material.Outlined.Security">
             @_localizer["Audit Trails"]
         </MudNavLink>
-    }
-    @if (_canViewDocuments || _canViewDocumentTypes)
-    {
-        <MudListSubheader Class="mt-2 mb-n2">@_localizer["Document Management"]</MudListSubheader>
-        @if (_canViewDocuments)
-        {
-            <MudNavLink Href="/document-store" Icon="@Icons.Material.Outlined.AttachFile">
-                @_localizer["Document Store"]
-            </MudNavLink>
-        }
-        @if (_canViewDocumentTypes)
-        {
-            <MudNavLink Href="/document-types" Icon="@Icons.Material.Outlined.FileCopy">
-                @_localizer["Document Types"]
-            </MudNavLink>
-        }
     }
 
     @if (_canViewUsers || _canViewRoles)
@@ -66,32 +45,12 @@
             <MudNavLink Href="/identity/roles" Icon="@Icons.Material.Outlined.Person">@_localizer["Roles"]</MudNavLink>
         }
     }
-    @if (_canViewChat)
-    {
-        <MudListSubheader Class="mt-2 mb-n2">@_localizer["Communication"]</MudListSubheader>
-        <MudNavLink Href="/chat" Icon="@Icons.Material.Outlined.Chat">
-            @_localizer["Chat"]
-        </MudNavLink>
-    }
-    @if (_canViewProducts || _canViewBrands)
-    {
-        <MudListSubheader Class="mt-2 mb-n2">@_localizer["Catalog Management"]</MudListSubheader>
-        @if (_canViewProducts)
-        {
-            <MudNavLink Href="/catalog/products" Icon="@Icons.Material.Outlined.CallToAction">
-                @_localizer["Products"]
-            </MudNavLink>
-        }
-        @if (_canViewBrands)
-        {
-            <MudNavLink Href="/catalog/brands" Icon="@Icons.Material.Outlined.CallToAction">
-                @_localizer["Brands"]
-            </MudNavLink>
-        }
-
-    }
+    <MudListSubheader Class="mt-2 mb-n2">@_localizer["Polls"]</MudListSubheader>
     <MudNavLink Href="/poll-management" Icon="@Icons.Material.Outlined.QuestionAnswer">
         @_localizer["Poll Management"]
+    </MudNavLink>
+    <MudNavLink Href="/voting" Icon="@Icons.Material.Outlined.WhereToVote">
+        @_localizer["Voting"]
     </MudNavLink>
 </MudNavMenu>
 

@@ -1,6 +1,5 @@
 @inject Microsoft.Extensions.Localization.IStringLocalizer<NavMenu> _localizer
 @using System.Security.Claims
-
 <UserCard />
 <MudNavMenu>
     <MudNavLink Href="/" Match="NavLinkMatch.All" Icon="@Icons.Material.Outlined.Home">@_localizer["Home"]</MudNavLink>
@@ -15,6 +14,10 @@
     </MudNavLink>
     <MudNavLink Href="/swagger/index.html" Target="_blank" Icon="@Icons.Material.Outlined.LiveHelp">
         @_localizer["Swagger"]
+    </MudNavLink>
+
+    <MudNavLink Href="https://dweet.io/get/latest/dweet/for/FeedbackAppDat250" Target="_blank" Icon="@Icons.Material.Outlined.ChatBubble">
+        @_localizer["Dweet.io"]
     </MudNavLink>
     <MudListSubheader Class="mt-2 mb-n2">@_localizer["Personal"]</MudListSubheader>
     @if (_canViewDashboards)

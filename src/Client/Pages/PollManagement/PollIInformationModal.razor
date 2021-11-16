@@ -1,5 +1,6 @@
 ﻿@using VoteApp.Application.Features.Polls.Queries.GetById;
-@using VoteApp.Client.Infrastructure.Managers.PollManagement
+@using VoteApp.Client.Infrastructure.Managers.PollManagement;
+@using VoteApp.Application.Features.Polls.Commands.Stop;
 
 @if (selectedPoll != null)
 {
@@ -33,18 +34,19 @@
     [Inject] private IPollManager pollManager { get; set; }
 
     [Parameter] public int PollId { get; set; }
+    [Parameter] public StopPollCommand StopPollCommand { get; set; } = new();
+
     [CascadingParameter] private MudDialogInstance MudDialog { get; set; }
 
     private GetPollByIdResponse selectedPoll;
 
-    private void StopPoll()
+    private async Task StopPoll()
     {
-        //ToDo stop poll
+        await pollManager.StopPoll(PollId);
     }
 
     protected override async Task OnInitializedAsync()
     {
-
         var result = await pollManager.GetByIdAsync(PollId);
 
         selectedPoll = result.Data;

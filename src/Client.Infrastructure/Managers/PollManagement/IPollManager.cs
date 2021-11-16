@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using VoteApp.Application.Features.Polls.Queries.GetAllPollsByQuestionId;
 using VoteApp.Application.Features.Polls.Queries.GetByJoinCode;
+using VoteApp.Application.Features.Polls.Commands.Stop;
 
 namespace VoteApp.Client.Infrastructure.Managers.PollManagement
 {
@@ -20,7 +21,7 @@ namespace VoteApp.Client.Infrastructure.Managers.PollManagement
         Task<IResult<GetOngoingPollByJoinCodeResponse>> GetOngoingPollByJoinCode(string Joincode);
 
         Task<IResult<int>> SaveAsync(AddPollCommand request);
-
+        Task<IResult<int>> StopPoll(int id);
         Task<IResult<int>> DeleteAsync(int id);
         Task<IResult<int>> VoteOnPollByJoinCode(string Joincode, int GreenVotes, int RedVotes);
     }

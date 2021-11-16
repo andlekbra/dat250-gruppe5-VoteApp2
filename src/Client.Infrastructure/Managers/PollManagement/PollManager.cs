@@ -11,6 +11,7 @@ using System;
 using VoteApp.Application.Features.Polls.Queries.GetById;
 using VoteApp.Application.Features.Polls.Queries.GetByJoinCode;
 using VoteApp.Domain.Entities.Vote;
+using VoteApp.Application.Features.Polls.Commands.Stop;
 
 namespace VoteApp.Client.Infrastructure.Managers.PollManagement
 {
@@ -71,6 +72,13 @@ namespace VoteApp.Client.Infrastructure.Managers.PollManagement
                 RedVotes = RedVotes
             };
             var response = await _httpClient.PostAsJsonAsync(String.Format(Routes.PollsEndpoints.VoteByJoinCode, Joincode),votecount);
+            return await response.ToResult<int>();
+        }
+
+        public async Task<IResult<int>> StopPoll(int id)
+        {
+            var poll = new StopPollCommand(id);
+            var response = await _httpClient.PostAsJsonAsync(String.Format(Routes.PollsEndpoints.Stop, id), poll);
             return await response.ToResult<int>();
         }
 

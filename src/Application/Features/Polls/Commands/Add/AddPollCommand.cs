@@ -41,7 +41,7 @@ namespace VoteApp.Application.Features.Polls.Commands.Add
 
             if (await _unitOfWork.Repository<Poll>().Entities.Where(p => (p.StopTime == null) && (p.JoinCode == command.JoinCode)).AnyAsync())
             {
-                return await Result<int>.FailAsync(_localizer["JoinCode already exists."]);
+                return await Result<int>.FailAsync("JoinCode already exists.");
             }
 
             var question = await _unitOfWork.Repository<PollQuestion>().GetByIdAsync(command.PollQuestionId);

@@ -66,6 +66,8 @@ namespace VoteApp.Server
             });
             services.AddLazyCache();
 
+            services.AddRabbitService();
+
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IStringLocalizer<Startup> localizer)

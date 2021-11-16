@@ -12,6 +12,7 @@ using VoteApp.Infrastructure.Services.Storage;
 using VoteApp.Application.Serialization.Options;
 using VoteApp.Infrastructure.Services.Storage.Provider;
 using VoteApp.Application.Serialization.Serializers;
+using VoteApp.Application.Interfaces.Services;
 
 namespace VoteApp.Infrastructure.Extensions
 {
@@ -20,6 +21,13 @@ namespace VoteApp.Infrastructure.Extensions
         public static void AddInfrastructureMappings(this IServiceCollection services)
         {
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
+        }
+        public static void AddRabbitService(this IServiceCollection services)
+        {
+            
+            services.AddTransient<IPollStartNotificationService, Services.Rabbit.RabbitService>();
+            services.AddTransient<IPollStopNotificationService, Services.Rabbit.RabbitService>();
+
         }
 
         public static IServiceCollection AddRepositories(this IServiceCollection services)

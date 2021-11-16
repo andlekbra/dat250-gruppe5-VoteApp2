@@ -11,6 +11,7 @@ using VoteApp.Shared.Wrapper;
 using Microsoft.EntityFrameworkCore;
 using VoteApp.Application.Interfaces.Services;
 using VoteApp.Application.Models.PollStopNotification;
+using Microsoft.EntityFrameworkCore;
 
 namespace VoteApp.Application.Features.Polls.Commands.Stop
 {
@@ -40,7 +41,7 @@ namespace VoteApp.Application.Features.Polls.Commands.Stop
 
         public async Task<Result<int>> Handle(StopPollCommand command, CancellationToken cancellationToken)
         {
-            var poll = await _unitOfWork.Repository<Poll>().Entities.FirstAsync(poll => poll.Id == command.PollId);
+            var poll = await _unitOfWork.Repository<Poll>().Entities.Include(p => p.VoteCount).Include(p => p.Question).FirstAsync(poll => poll.Id == command.PollId);
 
             if (poll == null)
             {

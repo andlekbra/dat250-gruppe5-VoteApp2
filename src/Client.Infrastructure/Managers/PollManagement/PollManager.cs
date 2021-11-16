@@ -11,6 +11,7 @@ using System;
 using VoteApp.Application.Features.Polls.Queries.GetById;
 using VoteApp.Application.Features.Polls.Queries.GetByJoinCode;
 using VoteApp.Domain.Entities.Vote;
+using VoteApp.Application.Features.Polls.Commands.Stop;
 
 namespace VoteApp.Client.Infrastructure.Managers.PollManagement
 {
@@ -74,5 +75,10 @@ namespace VoteApp.Client.Infrastructure.Managers.PollManagement
             return await response.ToResult<int>();
         }
 
+        public async Task<IResult<int>> StopAsync(int id)
+        {
+            var response = await _httpClient.PostAsJsonAsync(String.Format(Routes.PollsEndpoints.StopPoll,id), new object());
+            return await response.ToResult<int>();
+        }
     }
 }

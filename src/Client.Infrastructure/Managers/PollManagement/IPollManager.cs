@@ -22,6 +22,7 @@ namespace VoteApp.Client.Infrastructure.Managers.PollManagement
         Task<IResult<int>> SaveAsync(AddPollCommand request);
 
         Task<IResult<int>> DeleteAsync(int id);
+        Task<IResult<int>> StopAsync(int id);
         Task<IResult<int>> VoteOnPollByJoinCode(string Joincode, int GreenVotes, int RedVotes);
     }
 }

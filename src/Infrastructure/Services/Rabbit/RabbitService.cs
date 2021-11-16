@@ -23,6 +23,7 @@ namespace VoteApp.Infrastructure.Services.Rabbit
         }
         public async void Notify(PollStartNotificationMessage message)
         {
+
             if (message is null)
             {
                 throw new ArgumentNullException(nameof(message));
@@ -31,8 +32,9 @@ namespace VoteApp.Infrastructure.Services.Rabbit
         }
         public async static Task SendMessage(Object poll)
         {
-            using (var bus = RabbitHutch.CreateBus("host=localhost"))
-            {
+
+            using (var bus = RabbitHutch.CreateBus("amqps://cfuzuohh:ECv7Ll8eRfRzcJK9ITYbCtm97Yo3gXPP@hawk.rmq.cloudamqp.com/cfuzuohh"))
+          {
                 var json = JsonConvert.SerializeObject(poll);
                 await bus.PubSub.PublishAsync(json).ConfigureAwait(false);
             }

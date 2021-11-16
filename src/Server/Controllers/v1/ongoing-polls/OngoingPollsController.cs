@@ -23,7 +23,7 @@ namespace VoteApp.Server.Controllers.v1.Vote
 
         [AllowAnonymous]
         [HttpPost]
-        [Route("{joincode}/votecounts")]
+        [Route("{joincode}/votecount")]
         public async Task<IActionResult> VoteOnPoll([FromRoute] string joincode, [FromBody] VoteCount voteCount)
         {
             var command = new VoteOnPollCommand()

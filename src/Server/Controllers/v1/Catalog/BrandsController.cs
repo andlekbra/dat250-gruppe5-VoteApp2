@@ -10,6 +10,7 @@ using VoteApp.Application.Features.Brands.Queries.Export;
 
 namespace VoteApp.Server.Controllers.v1.Catalog
 {
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class BrandsController : BaseApiController<BrandsController>
     {
         /// <summary>

@@ -12,6 +12,7 @@ namespace VoteApp.Server.Controllers.Communication
     [Authorize(Policy = Permissions.Communication.Chat)]
     [Route("api/[controller]")]
     [ApiController]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class ChatsController : ControllerBase
     {
         private readonly ICurrentUserService _currentUserService;

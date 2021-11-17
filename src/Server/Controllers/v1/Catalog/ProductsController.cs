@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace VoteApp.Server.Controllers.v1.Catalog
 {
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class ProductsController : BaseApiController<ProductsController>
     {
         /// <summary>

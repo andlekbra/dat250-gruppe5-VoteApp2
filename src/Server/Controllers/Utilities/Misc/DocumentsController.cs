@@ -11,6 +11,7 @@ namespace VoteApp.Server.Controllers.Utilities.Misc
 {
     [Route("api/[controller]")]
     [ApiController]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class DocumentsController : BaseApiController<DocumentsController>
     {
         /// <summary>

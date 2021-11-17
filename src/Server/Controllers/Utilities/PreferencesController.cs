@@ -8,6 +8,7 @@ namespace VoteApp.Server.Controllers.Utilities
 {
     [Route("api/[controller]")]
     [ApiController]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class PreferencesController : ControllerBase
     {
         private readonly ServerPreferenceManager _serverPreferenceManager;

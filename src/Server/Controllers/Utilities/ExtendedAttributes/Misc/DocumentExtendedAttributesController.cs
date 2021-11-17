@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace VoteApp.Server.Controllers.Utilities.ExtendedAttributes.Misc
 {
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class DocumentExtendedAttributesController : ExtendedAttributesController<int, int, Document, DocumentExtendedAttribute>
     {
         [Authorize(Policy = Permissions.DocumentExtendedAttributes.View)]

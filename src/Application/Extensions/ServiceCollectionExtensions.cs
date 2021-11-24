@@ -11,8 +11,6 @@ using VoteApp.Application.Features.ExtendedAttributes.Queries.GetAllByEntityId;
 using VoteApp.Application.Features.ExtendedAttributes.Queries.GetById;
 using VoteApp.Domain.Contracts;
 using VoteApp.Shared.Wrapper;
-using VoteApp.Application.Interfaces.Services;
-using VoteApp.Application.Interfaces.Services.Mocks;
 
 namespace VoteApp.Application.Extensions
 {

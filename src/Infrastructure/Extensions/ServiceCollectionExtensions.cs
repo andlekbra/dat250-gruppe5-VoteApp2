@@ -12,6 +12,7 @@ using VoteApp.Infrastructure.Services.Storage;
 using VoteApp.Application.Serialization.Options;
 using VoteApp.Infrastructure.Services.Storage.Provider;
 using VoteApp.Application.Serialization.Serializers;
+using MediatR;
 
 namespace VoteApp.Infrastructure.Extensions
 {
@@ -20,6 +21,7 @@ namespace VoteApp.Infrastructure.Extensions
         public static void AddInfrastructureMappings(this IServiceCollection services)
         {
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
+            services.AddMediatR(Assembly.GetExecutingAssembly());
         }
 
         public static IServiceCollection AddRepositories(this IServiceCollection services)

@@ -1,35 +1,29 @@
 ﻿using EasyNetQ;
+using MediatR;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
-using VoteApp.Application.Interfaces.Services;
-using VoteApp.Application.Models.PollStartNotification;
-using VoteApp.Application.Models.PollStopNotification;
+using VoteApp.Application.Notifications;
 
 namespace VoteApp.Infrastructure.Services.Rabbit
 {
-    internal class RabbitService : IPollStartNotificationService, IPollStopNotificationService
+    internal class RabbitService : INotificationHandler<PollStartedNotification>, INotificationHandler<PollStoppedNotification>
     {
-        public async void Notify(PollStopNotificationMessage message)
-        {
-            if (message is null)
-            {
-                throw new ArgumentNullException(nameof(message));
-            }
-            await SendMessage(message).ConfigureAwait(false);
-        }
-        public async void Notify(PollStartNotificationMessage message)
-        {
 
-            if (message is null)
-            {
-                throw new ArgumentNullException(nameof(message));
-            }
-            await SendMessage(message).ConfigureAwait(false);
+        public Task Handle(PollStartedNotification notification, CancellationToken cancellationToken)
+        {
+            return SendMessage(notification);
         }
+
+        public Task Handle(PollStoppedNotification notification, CancellationToken cancellationToken)
+        {
+            return SendMessage(notification);
+        }
+       
         public async static Task SendMessage(Object poll)
         {
 
@@ -39,5 +33,7 @@ namespace VoteApp.Infrastructure.Services.Rabbit
                 await bus.PubSub.PublishAsync(json).ConfigureAwait(false);
             }
         }
+
+
     }
 }

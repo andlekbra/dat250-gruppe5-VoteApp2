@@ -1,13 +1,13 @@
-﻿using System;
+﻿using MediatR;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
-using VoteApp.Application.Interfaces.Services;
-using VoteApp.Application.Models.PollStartNotification;
-using VoteApp.Application.Models.PollStopNotification;
+using VoteApp.Application.Notifications;
 
 namespace VoteApp.Infrastructure.Services.Dweet
 {
@@ -15,7 +15,7 @@ namespace VoteApp.Infrastructure.Services.Dweet
 	/// <summary>
 	/// Taken from https://github.com/TobiasRoeddiger/DweetSharp
 	/// </summary>
-	public class DweetService : IPollStartNotificationService, IPollStopNotificationService
+	public class DweetService : INotificationHandler<PollStartedNotification>, INotificationHandler<PollStoppedNotification>
 	{
 		private static DweetSharpHttpClient _dweetIOClient = new DweetSharpHttpClient();
 
@@ -24,18 +24,15 @@ namespace VoteApp.Infrastructure.Services.Dweet
 		/// </summary>
 		private const string dweetThing = "FeedbackAppDat250";
 
-		public void Notify(PollStartNotificationMessage message)
+		public Task Handle(PollStartedNotification notification, CancellationToken cancellationToken)
 		{
-			_ = DweetFor(dweetThing, JsonSerializer.Serialize(message));
-
-
+			return DweetFor(dweetThing, JsonSerializer.Serialize(notification));
 		}
 
-		public void Notify(PollStopNotificationMessage message)
+		public Task Handle(PollStoppedNotification notification, CancellationToken cancellationToken)
 		{
-			_ = DweetFor(dweetThing, JsonSerializer.Serialize(message));
+			return DweetFor(dweetThing, JsonSerializer.Serialize(notification));
 		}
-
 
 		public static async Task<bool> DweetFor(string thing, string JSONcontent, string key = null)
 		{
@@ -47,7 +44,7 @@ namespace VoteApp.Infrastructure.Services.Dweet
 			return await _dweetIOClient.POSTWithDidSucceedReturned(uri, JSONcontent);
 		}
 
-		public class DweetSharpHttpClient
+        public class DweetSharpHttpClient
 		{
 			private HttpClient _httpClient;
 

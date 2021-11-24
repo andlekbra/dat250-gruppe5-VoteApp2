@@ -10,8 +10,8 @@ using VoteApp.Domain.Entities.Vote;
 using VoteApp.Shared.Wrapper;
 using Microsoft.EntityFrameworkCore;
 using VoteApp.Application.Interfaces.Services;
-using VoteApp.Application.Models.PollStopNotification;
 using Microsoft.EntityFrameworkCore;
+using VoteApp.Application.Notifications;
 
 namespace VoteApp.Application.Features.Polls.Commands.Stop
 {
@@ -31,12 +31,12 @@ namespace VoteApp.Application.Features.Polls.Commands.Stop
     internal class AddPollCommandHandler : IRequestHandler<StopPollCommand, Result<int>>
     {
         private readonly IUnitOfWork<int> _unitOfWork;
-        private readonly IPollStopNotificationService _pollStopNotificationService;
+        private readonly IPublisher _publisher;
 
-        public AddPollCommandHandler(IUnitOfWork<int> unitOfWork, IPollStopNotificationService pollStopNotificationService)
+        public AddPollCommandHandler(IUnitOfWork<int> unitOfWork, IPublisher publisher)
         {
             _unitOfWork = unitOfWork;
-            _pollStopNotificationService = pollStopNotificationService;
+            _publisher = publisher;
         }
 
         public async Task<Result<int>> Handle(StopPollCommand command, CancellationToken cancellationToken)
@@ -59,7 +59,7 @@ namespace VoteApp.Application.Features.Polls.Commands.Stop
             await _unitOfWork.Commit(cancellationToken);
 
 
-            _pollStopNotificationService.Notify(new PollStopNotificationMessage()
+            _ = _publisher.Publish(new PollStoppedNotification()
             {
                 GreenAnswer = poll.Question.GreenAnswer,
                 RedAnswer = poll.Question.RedAnswer,

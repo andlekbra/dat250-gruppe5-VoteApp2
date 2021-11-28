@@ -1,14 +1,11 @@
 ﻿using VoteApp.Domain.Contracts;
 using Microsoft.AspNetCore.Identity;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using VoteApp.Application.Interfaces.Chat;
-using VoteApp.Application.Models.Chat;
 
 namespace VoteApp.Infrastructure.Models.Identity
 {
-    public class BlazorHeroUser : IdentityUser<string>, IChatUser, IAuditableEntity<string>
+    public class BlazorHeroUser : IdentityUser<string>, IAuditableEntity<string>
     {
         public string FirstName { get; set; }
 
@@ -30,13 +27,10 @@ namespace VoteApp.Infrastructure.Models.Identity
         public bool IsActive { get; set; }
         public string RefreshToken { get; set; }
         public DateTime RefreshTokenExpiryTime { get; set; }
-        public virtual ICollection<ChatHistory<BlazorHeroUser>> ChatHistoryFromUsers { get; set; }
-        public virtual ICollection<ChatHistory<BlazorHeroUser>> ChatHistoryToUsers { get; set; }
 
         public BlazorHeroUser()
         {
-            ChatHistoryFromUsers = new HashSet<ChatHistory<BlazorHeroUser>>();
-            ChatHistoryToUsers = new HashSet<ChatHistory<BlazorHeroUser>>();
+
         }
     }
 }

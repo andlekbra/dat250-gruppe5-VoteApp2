@@ -31,7 +31,6 @@ namespace VoteApp.Infrastructure.Services.Identity
         private readonly RoleManager<BlazorHeroRole> _roleManager;
         private readonly IMailService _mailService;
         private readonly IStringLocalizer<UserService> _localizer;
-        private readonly IExcelService _excelService;
         private readonly ICurrentUserService _currentUserService;
         private readonly IMapper _mapper;
 
@@ -41,7 +40,6 @@ namespace VoteApp.Infrastructure.Services.Identity
             RoleManager<BlazorHeroRole> roleManager,
             IMailService mailService,
             IStringLocalizer<UserService> localizer,
-            IExcelService excelService,
             ICurrentUserService currentUserService)
         {
             _userManager = userManager;
@@ -49,7 +47,6 @@ namespace VoteApp.Infrastructure.Services.Identity
             _roleManager = roleManager;
             _mailService = mailService;
             _localizer = localizer;
-            _excelService = excelService;
             _currentUserService = currentUserService;
         }
 
@@ -273,33 +270,6 @@ namespace VoteApp.Infrastructure.Services.Identity
         {
             var count = await _userManager.Users.CountAsync();
             return count;
-        }
-
-        public async Task<string> ExportToExcelAsync(string searchString = "")
-        {
-            var userSpec = new UserFilterSpecification(searchString);
-            var users = await _userManager.Users
-                .Specify(userSpec)
-                .OrderByDescending(a => a.CreatedOn)
-                .ToListAsync();
-            var result = await _excelService.ExportAsync(users, sheetName: _localizer["Users"],
-                mappers: new Dictionary<string, Func<BlazorHeroUser, object>>
-                {
-                    { _localizer["Id"], item => item.Id },
-                    { _localizer["FirstName"], item => item.FirstName },
-                    { _localizer["LastName"], item => item.LastName },
-                    { _localizer["UserName"], item => item.UserName },
-                    { _localizer["Email"], item => item.Email },
-                    { _localizer["EmailConfirmed"], item => item.EmailConfirmed },
-                    { _localizer["PhoneNumber"], item => item.PhoneNumber },
-                    { _localizer["PhoneNumberConfirmed"], item => item.PhoneNumberConfirmed },
-                    { _localizer["IsActive"], item => item.IsActive },
-                    { _localizer["CreatedOn (Local)"], item => DateTime.SpecifyKind(item.CreatedOn, DateTimeKind.Utc).ToLocalTime().ToString("G", CultureInfo.CurrentCulture) },
-                    { _localizer["CreatedOn (UTC)"], item => item.CreatedOn.ToString("G", CultureInfo.CurrentCulture) },
-                    { _localizer["ProfilePictureDataUrl"], item => item.ProfilePictureDataUrl },
-                });
-
-            return result;
         }
     }
 }

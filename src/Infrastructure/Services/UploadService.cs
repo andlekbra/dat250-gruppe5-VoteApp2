@@ -7,6 +7,10 @@ namespace VoteApp.Infrastructure.Services
 {
     public class UploadService : IUploadService
     {
+        public UploadService()
+        {
+
+        }
         public string UploadAsync(UploadRequest request)
         {
             if (request.Data == null) return string.Empty;

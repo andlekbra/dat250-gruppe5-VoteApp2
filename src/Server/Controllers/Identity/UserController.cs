@@ -130,18 +130,5 @@ namespace VoteApp.Server.Controllers.Identity
         {
             return Ok(await _userService.ResetPasswordAsync(request));
         }
-
-        /// <summary>
-        /// Export to Excel
-        /// </summary>
-        /// <param name="searchString"></param>
-        /// <returns>Status 200 OK</returns>
-        [Authorize(Policy = Permissions.Users.Export)]
-        [HttpGet("export")]
-        public async Task<IActionResult> Export(string searchString = "")
-        {
-            var data = await _userService.ExportToExcelAsync(searchString);
-            return Ok(data);
-        }
     }
 }

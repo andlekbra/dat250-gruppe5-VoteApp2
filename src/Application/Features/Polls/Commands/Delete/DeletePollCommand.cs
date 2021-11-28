@@ -1,5 +1,4 @@
 ﻿using VoteApp.Application.Interfaces.Repositories;
-using VoteApp.Domain.Entities.Catalog;
 using VoteApp.Shared.Wrapper;
 using MediatR;
 using System.Threading;

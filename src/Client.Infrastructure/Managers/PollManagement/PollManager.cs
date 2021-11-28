@@ -10,7 +10,7 @@ using VoteApp.Application.Features.Polls.Queries.GetAllPollsByQuestionId;
 using System;
 using VoteApp.Application.Features.Polls.Queries.GetById;
 using VoteApp.Application.Features.Polls.Queries.GetByJoinCode;
-using VoteApp.Domain.Entities.Vote;
+using VoteApp.Domain.Entities;
 using VoteApp.Application.Features.Polls.Commands.Stop;
 
 namespace VoteApp.Client.Infrastructure.Managers.PollManagement

@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using VoteApp.Application.Interfaces.Repositories;
-using VoteApp.Domain.Entities.Vote;
+using VoteApp.Domain.Entities;
 using VoteApp.Shared.Wrapper;
 using Microsoft.EntityFrameworkCore;
 

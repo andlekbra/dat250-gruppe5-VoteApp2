@@ -11,7 +11,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using System.IO;
-using VoteApp.Server.Filters;
 using VoteApp.Server.Managers.Preferences;
 using Microsoft.Extensions.Localization;
 
@@ -81,20 +80,16 @@ namespace VoteApp.Server
             app.UseMiddleware<ErrorHandlerMiddleware>();
             app.UseBlazorFrameworkFiles();
             app.UseStaticFiles();
-            app.UseStaticFiles(new StaticFileOptions
-            {
-                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"Files")),
-                RequestPath = new PathString("/Files")
-            });
+            //app.UseStaticFiles(new StaticFileOptions
+            //{
+            //    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"Files")),
+            //    RequestPath = new PathString("/Files")
+            //});
             //app.UseRequestLocalizationByCulture();
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
-            app.UseHangfireDashboard("/jobs", new DashboardOptions
-            {
-                DashboardTitle = localizer["BlazorHero Jobs"],
-                Authorization = new[] { new HangfireAuthorizationFilter() }
-            });
+            
 
            
             app.UseEndpoints();

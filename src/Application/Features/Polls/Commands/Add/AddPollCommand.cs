@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using System;
-using VoteApp.Domain.Entities.Vote;
+using VoteApp.Domain.Entities;
 using VoteApp.Application.Notifications;
 
 namespace VoteApp.Application.Features.Polls.Commands.Add
@@ -54,7 +54,7 @@ namespace VoteApp.Application.Features.Polls.Commands.Add
                 Question = question,
                 StopTime = null,
                 StartTime = DateTime.Now,
-                VoteCount = new Domain.Entities.Vote.VoteCount()
+                VoteCount = new VoteCount()
 
             };
 

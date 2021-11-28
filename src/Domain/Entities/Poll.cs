@@ -1,7 +1,7 @@
 ﻿using VoteApp.Domain.Contracts;
 using System;
 
-namespace VoteApp.Domain.Entities.Vote
+namespace VoteApp.Domain.Entities
 {
     public class Poll : AuditableEntity<int>
     {

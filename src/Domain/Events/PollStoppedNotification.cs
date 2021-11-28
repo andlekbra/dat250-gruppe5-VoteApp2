@@ -1,5 +1,5 @@
 ﻿using System;
-using VoteApp.Domain.Entities.Vote;
+using VoteApp.Domain.Entities;
 
 namespace VoteApp.Application.Notifications
 {

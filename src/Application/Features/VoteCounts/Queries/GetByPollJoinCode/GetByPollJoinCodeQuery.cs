@@ -9,16 +9,16 @@ using System.Threading.Tasks;
 using VoteApp.Application.Interfaces.Repositories;
 using VoteApp.Shared.Wrapper;
 using Microsoft.EntityFrameworkCore;
-using VoteApp.Domain.Entities.Vote;
+using VoteApp.Domain.Entities;
 
-namespace VoteApp.Application.Features.VoteCount.Queries.GetByPollJoinCode
+namespace VoteApp.Application.Features.VoteCounts.Queries.GetByPollJoinCode
 {
-	public class GetByPollJoinCodeQuery: IRequest<Result<Domain.Entities.Vote.VoteCount>>
+	public class GetByPollJoinCodeQuery: IRequest<Result<VoteCount>>
 	{
 
         public string JoinCode { get; set; }
 
-        internal class GetByPollJoinCodeQueryHandler : IRequestHandler<GetByPollJoinCodeQuery, Result<Domain.Entities.Vote.VoteCount>>
+        internal class GetByPollJoinCodeQueryHandler : IRequestHandler<GetByPollJoinCodeQuery, Result<VoteCount>>
             {
                 private readonly IUnitOfWork<int> _unitOfWork;
                 private readonly IMapper _mapper;
@@ -49,11 +49,11 @@ namespace VoteApp.Application.Features.VoteCount.Queries.GetByPollJoinCode
                     return await Result<GetPollByIdResponse>.SuccessAsync(response);
                 }*/
 
-			public async Task<Result<Domain.Entities.Vote.VoteCount>> Handle(GetByPollJoinCodeQuery query, CancellationToken cancellationToken)
+			public async Task<Result<VoteCount>> Handle(GetByPollJoinCodeQuery query, CancellationToken cancellationToken)
 			{
                 var response = await _unitOfWork.Repository<Poll>().Entities.Include(p => p.VoteCount).Where(p => p.JoinCode == query.JoinCode).Select(p => p.VoteCount).FirstOrDefaultAsync();
 
-                return await Result<Domain.Entities.Vote.VoteCount>.SuccessAsync(response);
+                return await Result<VoteCount>.SuccessAsync(response);
 			}
 		}
 

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using VoteApp.Domain.Contracts;
 
-namespace VoteApp.Domain.Entities.Vote
+namespace VoteApp.Domain.Entities
 {
     public class VoteCount : AuditableEntity<int>
     {

@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using VoteApp.Application.Interfaces.Repositories;
-using VoteApp.Domain.Entities.Vote;
+using VoteApp.Domain.Entities;
 using VoteApp.Shared.Wrapper;
 using Microsoft.EntityFrameworkCore;
 using VoteApp.Application.Interfaces.Services;

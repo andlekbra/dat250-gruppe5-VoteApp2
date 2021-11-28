@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using VoteApp.Application.Interfaces.Repositories;
 using VoteApp.Shared.Constants.Application;
 using VoteApp.Shared.Wrapper;
-using VoteApp.Domain.Entities.Vote;
+using VoteApp.Domain.Entities;
 
 namespace VoteApp.Application.Features.PollQuestions.Commands.Add
 {

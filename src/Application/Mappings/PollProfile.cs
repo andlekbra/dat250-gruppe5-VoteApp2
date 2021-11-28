@@ -2,7 +2,7 @@
 using VoteApp.Application.Features.Polls.Commands.Add;
 using VoteApp.Application.Features.Polls.Queries.GetAll;
 using VoteApp.Application.Features.Polls.Queries.GetAllPollsByQuestionId;
-using VoteApp.Domain.Entities.Vote;
+using VoteApp.Domain.Entities;
 
 namespace VoteApp.Application.Mappings
 {

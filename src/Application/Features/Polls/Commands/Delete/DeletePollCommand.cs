@@ -4,7 +4,7 @@ using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Localization;
-using VoteApp.Domain.Entities.Vote;
+using VoteApp.Domain.Entities;
 
 namespace VoteApp.Application.Features.Polls.Commands.Del
 {

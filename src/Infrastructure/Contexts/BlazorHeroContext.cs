@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using VoteApp.Domain.Entities.Vote;
+using VoteApp.Domain.Entities;
 
 namespace VoteApp.Infrastructure.Contexts
 {

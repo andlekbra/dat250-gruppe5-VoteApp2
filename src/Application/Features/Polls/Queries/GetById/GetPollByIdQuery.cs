@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,6 @@ using System.Threading.Tasks;
 using VoteApp.Application.Interfaces.Repositories;
 using VoteApp.Domain.Entities;
 using VoteApp.Shared.Wrapper;
-using Microsoft.EntityFrameworkCore;
 
 namespace VoteApp.Application.Features.Polls.Queries.GetById
 {

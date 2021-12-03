@@ -5,10 +5,10 @@ using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Linq;
-using Microsoft.EntityFrameworkCore;
 using System;
 using VoteApp.Domain.Entities;
 using VoteApp.Application.Notifications;
+using Microsoft.EntityFrameworkCore;
 
 namespace VoteApp.Application.Features.Polls.Commands.Add
 {
@@ -36,7 +36,7 @@ namespace VoteApp.Application.Features.Polls.Commands.Add
         public async Task<Result<int>> Handle(AddPollCommand command, CancellationToken cancellationToken)
         {
 
-            if (await _unitOfWork.Repository<Poll>().Entities.Where(p => (p.StopTime == null) && (p.JoinCode == command.JoinCode)).AnyAsync())
+            if (await _unitOfWork.Repository<Poll>().Entities.Where(p => (p.StopTime == null) && (p.JoinCode == command.JoinCode)).AnyAsync(cancellationToken))
             {
                 return await Result<int>.FailAsync("JoinCode already exists.");
             }
@@ -55,15 +55,14 @@ namespace VoteApp.Application.Features.Polls.Commands.Add
                 StopTime = null,
                 StartTime = DateTime.Now,
                 VoteCount = new VoteCount()
-
             };
 
-            await _unitOfWork.Repository<Poll>().AddAsync(poll);
+            var newPoll = await _unitOfWork.Repository<Poll>().AddAsync(poll);
             await _unitOfWork.Commit(cancellationToken);
 
-            await _publisher.Publish(new PollStartedNotification { JoinCode = poll.JoinCode, Question = poll.Question.Question });
+            await _publisher.Publish(new PollStartedNotification { PollId = newPoll.Id });
 
-            return await Result<int>.SuccessAsync(poll.Id, "Poll Saved");
+            return await Result<int>.SuccessAsync(newPoll.Id, "Poll Saved");
 
         }
     }

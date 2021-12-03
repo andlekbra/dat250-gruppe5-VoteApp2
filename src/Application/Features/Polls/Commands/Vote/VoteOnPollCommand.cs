@@ -4,10 +4,9 @@ using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Linq;
-using Microsoft.EntityFrameworkCore;
 using System;
 using VoteApp.Domain.Entities;
-
+using Microsoft.EntityFrameworkCore;
 
 namespace VoteApp.Application.Features.Polls.Commands.Vote
 {

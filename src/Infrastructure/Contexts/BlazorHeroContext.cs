@@ -26,33 +26,6 @@ namespace VoteApp.Infrastructure.Contexts
         public DbSet<Poll> Poll { get; set; }
         public DbSet<VoteCount> VoteCount { get; set; }
 
-        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new())
-        {
-            foreach (var entry in ChangeTracker.Entries<IAuditableEntity>().ToList())
-            {
-                switch (entry.State)
-                {
-                    case EntityState.Added:
-                        entry.Entity.CreatedOn = _dateTimeService.NowUtc;
-                        entry.Entity.CreatedBy = _currentUserService.UserId;
-                        break;
-
-                    case EntityState.Modified:
-                        entry.Entity.LastModifiedOn = _dateTimeService.NowUtc;
-                        entry.Entity.LastModifiedBy = _currentUserService.UserId;
-                        break;
-                }
-            }
-            if (_currentUserService.UserId == null)
-            {
-                return await base.SaveChangesAsync(cancellationToken);
-            }
-            else
-            {
-                return await base.SaveChangesAsync(_currentUserService.UserId, cancellationToken);
-            }
-        }
-
         protected override void OnModelCreating(ModelBuilder builder)
         {
             foreach (var property in builder.Model.GetEntityTypes()

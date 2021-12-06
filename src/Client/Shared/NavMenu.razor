@@ -15,21 +15,9 @@
 
     <MudListSubheader Class="mt-2 mb-n2">@_localizer["Personal"]</MudListSubheader>
 
-    @if (_canViewDashboards)
-    {
-        <MudNavLink Href="/dashboard" Icon="@Icons.Material.Outlined.Dashboard">
-            @_localizer["Dashboard"]
-        </MudNavLink>
-    }
     <MudNavLink Href="/account" Icon="@Icons.Material.Outlined.SupervisorAccount">
         @_localizer["Account"]
     </MudNavLink>
-    @if (_canViewAuditTrails)
-    {
-        <MudNavLink Href="/audit-trails" Icon="@Icons.Material.Outlined.Security">
-            @_localizer["Audit Trails"]
-        </MudNavLink>
-    }
 
     @if (_canViewUsers || _canViewRoles)
     {

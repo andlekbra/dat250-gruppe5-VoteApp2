@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using VoteApp.Application.Features.PollQuestions.Commands.Add;
 using VoteApp.Application.Features.PollQuestions.Queries.GetAll;
-using VoteApp.Domain.Entities.Vote;
+using VoteApp.Domain.Entities;
 
 namespace VoteApp.Application.Mappings
 {

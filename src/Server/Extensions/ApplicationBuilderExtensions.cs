@@ -48,21 +48,21 @@ namespace VoteApp.Server.Extensions
                 endpoints.MapHub<SignalRHub>(ApplicationConstants.SignalR.HubUrl);
             });
 
-        internal static IApplicationBuilder UseRequestLocalizationByCulture(this IApplicationBuilder app)
-        {
-            var supportedCultures = LocalizationConstants.SupportedLanguages.Select(l => new CultureInfo(l.Code)).ToArray();
-            app.UseRequestLocalization(options =>
-            {
-                options.SupportedUICultures = supportedCultures;
-                options.SupportedCultures = supportedCultures;
-                options.DefaultRequestCulture = new RequestCulture(supportedCultures.First());
-                options.ApplyCurrentCultureToResponseHeaders = true;
-            });
+        //internal static IApplicationBuilder UseRequestLocalizationByCulture(this IApplicationBuilder app)
+        //{
+        //    var supportedCultures = LocalizationConstants.SupportedLanguages.Select(l => new CultureInfo(l.Code)).ToArray();
+        //    app.UseRequestLocalization(options =>
+        //    {
+        //        options.SupportedUICultures = supportedCultures;
+        //        options.SupportedCultures = supportedCultures;
+        //        options.DefaultRequestCulture = new RequestCulture(supportedCultures.First());
+        //        options.ApplyCurrentCultureToResponseHeaders = true;
+        //    });
 
-            app.UseMiddleware<RequestCultureMiddleware>();
+        //    app.UseMiddleware<RequestCultureMiddleware>();
 
-            return app;
-        }
+        //    return app;
+        //}
 
         internal static IApplicationBuilder Initialize(this IApplicationBuilder app, Microsoft.Extensions.Configuration.IConfiguration _configuration)
         {

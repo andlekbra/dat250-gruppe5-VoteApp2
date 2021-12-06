@@ -1,16 +1,11 @@
 ﻿using MediatR;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using VoteApp.Application.Interfaces.Repositories;
-using VoteApp.Domain.Entities.Vote;
+using VoteApp.Domain.Entities;
 using VoteApp.Shared.Wrapper;
-using Microsoft.EntityFrameworkCore;
-using VoteApp.Application.Interfaces.Services;
-using VoteApp.Application.Models.PollStopNotification;
+using VoteApp.Application.Notifications;
 using Microsoft.EntityFrameworkCore;
 
 namespace VoteApp.Application.Features.Polls.Commands.Stop
@@ -31,12 +26,12 @@ namespace VoteApp.Application.Features.Polls.Commands.Stop
     internal class AddPollCommandHandler : IRequestHandler<StopPollCommand, Result<int>>
     {
         private readonly IUnitOfWork<int> _unitOfWork;
-        private readonly IPollStopNotificationService _pollStopNotificationService;
+        private readonly IPublisher _publisher;
 
-        public AddPollCommandHandler(IUnitOfWork<int> unitOfWork, IPollStopNotificationService pollStopNotificationService)
+        public AddPollCommandHandler(IUnitOfWork<int> unitOfWork, IPublisher publisher)
         {
             _unitOfWork = unitOfWork;
-            _pollStopNotificationService = pollStopNotificationService;
+            _publisher = publisher;
         }
 
         public async Task<Result<int>> Handle(StopPollCommand command, CancellationToken cancellationToken)
@@ -47,6 +42,7 @@ namespace VoteApp.Application.Features.Polls.Commands.Stop
             {
                 return await Result<int>.FailAsync("No poll with that id");
             }
+
             if (poll.StopTime != null)
             {
                 return await Result<int>.FailAsync("Poll with id" + command.PollId + " is not ongoing");
@@ -59,16 +55,9 @@ namespace VoteApp.Application.Features.Polls.Commands.Stop
             await _unitOfWork.Commit(cancellationToken);
 
 
-            _pollStopNotificationService.Notify(new PollStopNotificationMessage()
+            _ = _publisher.Publish(new PollStoppedNotification()
             {
-                GreenAnswer = poll.Question.GreenAnswer,
-                RedAnswer = poll.Question.RedAnswer,
-                Question = poll.Question.Question,
-                QuestionId = poll.Question.Id,
-                QuestionTitle = poll.Question.Title,
-                StartTime = poll.StartTime,
-                StopTime = (DateTime)poll.StopTime,
-                VoteCount = poll.VoteCount
+                PollId = poll.Id
             });
 
 

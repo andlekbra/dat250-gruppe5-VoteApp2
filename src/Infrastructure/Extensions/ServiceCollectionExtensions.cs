@@ -12,6 +12,10 @@ using VoteApp.Infrastructure.Services.Storage;
 using VoteApp.Application.Serialization.Options;
 using VoteApp.Infrastructure.Services.Storage.Provider;
 using VoteApp.Application.Serialization.Serializers;
+using MediatR;
+using VoteApp.Infrastructure.Services.Dweet;
+using VoteApp.Application.Interfaces.Services;
+using VoteApp.Infrastructure.Services.Rabbit;
 
 namespace VoteApp.Infrastructure.Extensions
 {
@@ -20,23 +24,16 @@ namespace VoteApp.Infrastructure.Extensions
         public static void AddInfrastructureMappings(this IServiceCollection services)
         {
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
+            services.AddMediatR(Assembly.GetExecutingAssembly());
+            services.AddSingleton<IDweetService, DweetService>();
+            services.AddSingleton<IMessageService, RabbitService>();
         }
 
         public static IServiceCollection AddRepositories(this IServiceCollection services)
         {
             return services
                 .AddTransient(typeof(IRepositoryAsync<,>), typeof(RepositoryAsync<,>))
-                .AddTransient<IProductRepository, ProductRepository>()
-                .AddTransient<IBrandRepository, BrandRepository>()
-                .AddTransient<IDocumentRepository, DocumentRepository>()
-                .AddTransient<IDocumentTypeRepository, DocumentTypeRepository>()
                 .AddTransient(typeof(IUnitOfWork<>), typeof(UnitOfWork<>));
-        }
-
-        public static IServiceCollection AddExtendedAttributesUnitOfWork(this IServiceCollection services)
-        {
-            return services
-                .AddTransient(typeof(IExtendedAttributeUnitOfWork<,,>), typeof(ExtendedAttributeUnitOfWork<,,>));
         }
 
         public static IServiceCollection AddServerStorage(this IServiceCollection services)

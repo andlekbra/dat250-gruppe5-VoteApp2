@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using VoteApp.Application.Interfaces.Repositories;
-using VoteApp.Domain.Entities.Vote;
+using VoteApp.Domain.Entities;
 using VoteApp.Shared.Wrapper;
 
 namespace VoteApp.Application.Features.PollQuestions.Queries.GetAll

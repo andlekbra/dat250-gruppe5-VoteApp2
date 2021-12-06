@@ -1,8 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using VoteApp.Application.Features.PollQuestions.Commands.Add;
 using VoteApp.Application.Features.PollQuestions.Queries.GetAll;
@@ -10,7 +7,6 @@ using VoteApp.Application.Features.Polls.Commands.Add;
 using VoteApp.Application.Features.Polls.Commands.Stop;
 using VoteApp.Application.Features.Polls.Queries.GetAllPollsByQuestionId;
 using VoteApp.Application.Features.Polls.Queries.GetById;
-using VoteApp.Shared.Constants.Permission;
 
 
 namespace VoteApp.Server.Controllers.v1.Vote
@@ -34,7 +30,7 @@ namespace VoteApp.Server.Controllers.v1.Vote
         [Route("poll-questions/{id}/polls")]
         public async Task<IActionResult> GetPollsFromPollQuesitonId([FromRoute] int id)
         {
-            var polls = await _mediator.Send(new GetPollsByQuestionIdQuery(id));
+            var polls = await _mediator.Send(new GetPollsByQuestionIdQuery() { PollQuestionId = id });
             return Ok(polls);
         }
 

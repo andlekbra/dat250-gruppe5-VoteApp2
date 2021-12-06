@@ -1,16 +1,12 @@
 ﻿using VoteApp.Application.Interfaces.Services;
-using VoteApp.Application.Models.Chat;
 using VoteApp.Infrastructure.Models.Identity;
 using VoteApp.Domain.Contracts;
-using VoteApp.Domain.Entities.Catalog;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using VoteApp.Domain.Entities.ExtendedAttributes;
-using VoteApp.Domain.Entities.Misc;
-using VoteApp.Domain.Entities.Vote;
+using VoteApp.Domain.Entities;
 
 namespace VoteApp.Infrastructure.Contexts
 {
@@ -26,42 +22,9 @@ namespace VoteApp.Infrastructure.Contexts
             _dateTimeService = dateTimeService;
         }
 
-        public DbSet<ChatHistory<BlazorHeroUser>> ChatHistories { get; set; }
-        public DbSet<Product> Products { get; set; }
-        public DbSet<Brand> Brands { get; set; }
-        public DbSet<Document> Documents { get; set; }
-        public DbSet<DocumentType> DocumentTypes { get; set; }
-        public DbSet<DocumentExtendedAttribute> DocumentExtendedAttributes { get; set; }
         public DbSet<PollQuestion> PollQuestions { get; set; }
         public DbSet<Poll> Poll { get; set; }
         public DbSet<VoteCount> VoteCount { get; set; }
-
-        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new())
-        {
-            foreach (var entry in ChangeTracker.Entries<IAuditableEntity>().ToList())
-            {
-                switch (entry.State)
-                {
-                    case EntityState.Added:
-                        entry.Entity.CreatedOn = _dateTimeService.NowUtc;
-                        entry.Entity.CreatedBy = _currentUserService.UserId;
-                        break;
-
-                    case EntityState.Modified:
-                        entry.Entity.LastModifiedOn = _dateTimeService.NowUtc;
-                        entry.Entity.LastModifiedBy = _currentUserService.UserId;
-                        break;
-                }
-            }
-            if (_currentUserService.UserId == null)
-            {
-                return await base.SaveChangesAsync(cancellationToken);
-            }
-            else
-            {
-                return await base.SaveChangesAsync(_currentUserService.UserId, cancellationToken);
-            }
-        }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -72,20 +35,7 @@ namespace VoteApp.Infrastructure.Contexts
                 property.SetColumnType("decimal(18,2)");
             }
             base.OnModelCreating(builder);
-            builder.Entity<ChatHistory<BlazorHeroUser>>(entity =>
-            {
-                entity.ToTable("ChatHistory");
-
-                entity.HasOne(d => d.FromUser)
-                    .WithMany(p => p.ChatHistoryFromUsers)
-                    .HasForeignKey(d => d.FromUserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull);
-
-                entity.HasOne(d => d.ToUser)
-                    .WithMany(p => p.ChatHistoryToUsers)
-                    .HasForeignKey(d => d.ToUserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull);
-            });
+            
             builder.Entity<BlazorHeroUser>(entity =>
             {
                 entity.ToTable(name: "Users", "Identity");

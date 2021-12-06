@@ -1,8 +1,6 @@
-﻿using VoteApp.Application.Models.Chat;
-using VoteApp.Shared.Constants.Application;
+﻿using VoteApp.Shared.Constants.Application;
 using Microsoft.AspNetCore.SignalR;
 using System.Threading.Tasks;
-using VoteApp.Application.Interfaces.Chat;
 
 namespace VoteApp.Server.Hubs
 {
@@ -21,11 +19,6 @@ namespace VoteApp.Server.Hubs
         public async Task OnChangeRolePermissions(string userId, string roleId)
         {
             await Clients.All.SendAsync(ApplicationConstants.SignalR.LogoutUsersByRole, userId, roleId);
-        }
-
-        public async Task SendMessageAsync(ChatHistory<IChatUser> chatHistory, string userName)
-        {
-            await Clients.All.SendAsync(ApplicationConstants.SignalR.ReceiveMessage, chatHistory, userName);
         }
 
         public async Task ChatNotificationAsync(string message, string receiverUserId, string senderUserId)

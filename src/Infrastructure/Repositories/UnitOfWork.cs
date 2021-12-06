@@ -2,7 +2,6 @@
 using VoteApp.Application.Interfaces.Services;
 using VoteApp.Domain.Contracts;
 using VoteApp.Infrastructure.Contexts;
-using LazyCache;
 using System;
 using System.Collections;
 using System.Linq;
@@ -17,13 +16,11 @@ namespace VoteApp.Infrastructure.Repositories
         private readonly BlazorHeroContext _dbContext;
         private bool disposed;
         private Hashtable _repositories;
-        private readonly IAppCache _cache;
 
-        public UnitOfWork(BlazorHeroContext dbContext, ICurrentUserService currentUserService, IAppCache cache)
+        public UnitOfWork(BlazorHeroContext dbContext, ICurrentUserService currentUserService)
         {
             _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
             _currentUserService = currentUserService;
-            _cache = cache;
         }
 
         public IRepositoryAsync<TEntity, TId> Repository<TEntity>() where TEntity : AuditableEntity<TId>
@@ -48,16 +45,6 @@ namespace VoteApp.Infrastructure.Repositories
         public async Task<int> Commit(CancellationToken cancellationToken)
         {
             return await _dbContext.SaveChangesAsync(cancellationToken);
-        }
-
-        public async Task<int> CommitAndRemoveCache(CancellationToken cancellationToken, params string[] cacheKeys)
-        {
-            var result =  await _dbContext.SaveChangesAsync(cancellationToken);
-            foreach (var cacheKey in cacheKeys)
-            {
-                _cache.Remove(cacheKey);
-            }
-            return result;
         }
 
         public Task Rollback()

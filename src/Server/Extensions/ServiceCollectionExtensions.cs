@@ -222,10 +222,8 @@ namespace VoteApp.Server.Extensions
             services.AddTransient<IRoleService, RoleService>();
             services.AddTransient<IAccountService, AccountService>();
             services.AddTransient<IUserService, UserService>();
-            services.AddTransient<IChatService, ChatService>();
-            services.AddTransient<IUploadService, UploadService>();
             services.AddTransient<IAuditService, AuditService>();
-            services.AddScoped<IExcelService, ExcelService>();
+            services.AddTransient<IUploadService, UploadService>();
             return services;
         }
 

@@ -1,5 +1,5 @@
 ﻿using System;
-using VoteApp.Domain.Entities.Vote;
+using VoteApp.Domain.Entities;
 
 namespace VoteApp.Application.Features.Polls.Queries.GetById
 {
@@ -14,6 +14,6 @@ namespace VoteApp.Application.Features.Polls.Queries.GetById
         public string Question { get; set; }
         public string GreenAnswer { get; set; }
         public string RedAnswer { get; set; }
-        public Domain.Entities.Vote.VoteCount VoteCount { get; set; }
+        public VoteCount VoteCount { get; set; }
     }
 }

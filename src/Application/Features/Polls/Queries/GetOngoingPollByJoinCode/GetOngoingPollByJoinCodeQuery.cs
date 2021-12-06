@@ -7,7 +7,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
-using VoteApp.Domain.Entities.Vote;
+using VoteApp.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace VoteApp.Application.Features.Polls.Queries.GetByJoinCode

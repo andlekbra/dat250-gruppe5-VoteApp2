@@ -3,10 +3,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using VoteApp.Application.Features.Polls.Queries.GetByJoinCode;
-using VoteApp.Domain.Entities.Vote;
+using VoteApp.Domain.Entities;
 using VoteApp.Application.Features.Polls.Commands.Vote;
 
-using VoteApp.Application.Features.VoteCount.Queries.GetByPollJoinCode;
+using VoteApp.Application.Features.VoteCounts.Queries.GetByPollJoinCode;
 
 namespace VoteApp.Server.Controllers.v1.Vote
 {

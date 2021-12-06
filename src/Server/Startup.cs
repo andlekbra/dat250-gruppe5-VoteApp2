@@ -11,12 +11,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using System.IO;
-using VoteApp.Server.Filters;
 using VoteApp.Server.Managers.Preferences;
 using Microsoft.Extensions.Localization;
-using VoteApp.Application.Interfaces.Services;
-using VoteApp.Infrastructure.Services.Rabbit;
-using VoteApp.Infrastructure.Services.OnStartStopNotification;
 
 namespace VoteApp.Server
 {
@@ -51,15 +47,12 @@ namespace VoteApp.Server
             services.AddApplicationLayer();
             services.AddApplicationServices();
             services.AddRepositories();
-            services.AddExtendedAttributesUnitOfWork();
             services.AddSharedInfrastructure(_configuration);
             services.RegisterSwagger();
             services.AddInfrastructureMappings();
             services.AddHangfire(x => x.UseSqlServerStorage(_configuration.GetConnectionString("DefaultConnection")));
             services.AddHangfireServer();
             services.AddControllers().AddValidators();
-            services.AddExtendedAttributesValidators();
-            services.AddExtendedAttributesHandlers();
             services.AddRazorPages();
             services.AddApiVersioning(config =>
             {
@@ -68,8 +61,6 @@ namespace VoteApp.Server
                 config.ReportApiVersions = true;
             });
             services.AddLazyCache();
-            services.AddTransient<IPollStartNotificationService, OnStartStopComposite>();
-            services.AddTransient<IPollStopNotificationService, OnStartStopComposite>();
 
         }
 
@@ -89,20 +80,16 @@ namespace VoteApp.Server
             app.UseMiddleware<ErrorHandlerMiddleware>();
             app.UseBlazorFrameworkFiles();
             app.UseStaticFiles();
-            app.UseStaticFiles(new StaticFileOptions
-            {
-                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"Files")),
-                RequestPath = new PathString("/Files")
-            });
+            //app.UseStaticFiles(new StaticFileOptions
+            //{
+            //    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"Files")),
+            //    RequestPath = new PathString("/Files")
+            //});
             //app.UseRequestLocalizationByCulture();
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
-            app.UseHangfireDashboard("/jobs", new DashboardOptions
-            {
-                DashboardTitle = localizer["BlazorHero Jobs"],
-                Authorization = new[] { new HangfireAuthorizationFilter() }
-            });
+            
 
            
             app.UseEndpoints();

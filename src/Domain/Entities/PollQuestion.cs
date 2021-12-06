@@ -1,11 +1,13 @@
-﻿namespace VoteApp.Application.Features.PollQuestions.Queries.GetAll
+﻿using VoteApp.Domain.Contracts;
+
+namespace VoteApp.Domain.Entities
 {
-    public class GetAllPollQuestionsResponse
-    {
-        public int Id { get; set; }
+    public class PollQuestion : AuditableEntity<int>
+    { 
         public string Title { get; set; }
         public string Question { get; set; }
         public string RedAnswer { get; set; }
         public string GreenAnswer { get; set; }
+
     }
 }

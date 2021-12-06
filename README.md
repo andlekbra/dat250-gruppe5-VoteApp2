@@ -1,9 +1,9 @@
-#VoteApp DAT250
+# VoteApp DAT250
 
 This project is created as an assignment in the subject DAT250 on HVL.
 The project is based on a template, "BlazorHero". Information below relates to the template
 
-#Template
+# Template
 
 <!-- PROJECT SHIELDS -->
 

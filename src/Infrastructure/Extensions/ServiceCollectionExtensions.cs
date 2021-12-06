@@ -13,6 +13,9 @@ using VoteApp.Application.Serialization.Options;
 using VoteApp.Infrastructure.Services.Storage.Provider;
 using VoteApp.Application.Serialization.Serializers;
 using MediatR;
+using VoteApp.Infrastructure.Services.Dweet;
+using VoteApp.Application.Interfaces.Services;
+using VoteApp.Infrastructure.Services.Rabbit;
 
 namespace VoteApp.Infrastructure.Extensions
 {
@@ -22,6 +25,8 @@ namespace VoteApp.Infrastructure.Extensions
         {
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddMediatR(Assembly.GetExecutingAssembly());
+            services.AddSingleton<IDweetService, DweetService>();
+            services.AddSingleton<IMessageService, RabbitService>();
         }
 
         public static IServiceCollection AddRepositories(this IServiceCollection services)

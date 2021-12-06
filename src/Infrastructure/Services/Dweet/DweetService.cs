@@ -7,6 +7,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
+using VoteApp.Application.Interfaces.Services;
 using VoteApp.Application.Notifications;
 
 namespace VoteApp.Infrastructure.Services.Dweet
@@ -15,7 +16,7 @@ namespace VoteApp.Infrastructure.Services.Dweet
     /// <summary>
     /// Taken from https://github.com/TobiasRoeddiger/DweetSharp
     /// </summary>
-    public class DweetService : INotificationHandler<PollStartedNotification>, INotificationHandler<PollStoppedNotification>
+    public class DweetService : IDweetService
     {
         private static DweetSharpHttpClient _dweetIOClient = new DweetSharpHttpClient();
 
@@ -24,14 +25,9 @@ namespace VoteApp.Infrastructure.Services.Dweet
         /// </summary>
         private const string dweetThing = "FeedbackAppDat250";
 
-        public Task Handle(PollStartedNotification notification, CancellationToken cancellationToken)
+        public Task Dweet(string JSONcontent)
         {
-            return DweetFor(dweetThing, JsonSerializer.Serialize(notification));
-        }
-
-        public Task Handle(PollStoppedNotification notification, CancellationToken cancellationToken)
-        {
-            return DweetFor(dweetThing, JsonSerializer.Serialize(notification));
+            return DweetFor(dweetThing, JsonSerializer.Serialize(JSONcontent));
         }
 
         public static async Task<bool> DweetFor(string thing, string JSONcontent, string key = null)

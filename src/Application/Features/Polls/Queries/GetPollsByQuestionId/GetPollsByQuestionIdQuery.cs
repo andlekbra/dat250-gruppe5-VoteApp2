@@ -39,7 +39,7 @@ namespace VoteApp.Application.Features.Polls.Queries.GetAllPollsByQuestionId
 
             private bool PollQuestionExists(int PollQuestionId)
             {
-                return !_unitOfWork.Repository<Poll>().Entities.Where(poll => poll.Question.Id == PollQuestionId).Any();
+                return _unitOfWork.Repository<Poll>().Entities.Where(poll => poll.Question.Id == PollQuestionId).Any();
             }
 
             private async Task<List<GetPollsByQuestionIdResponse>> ReadPollsAndMapToResponseObject(int PollQuestionId)
